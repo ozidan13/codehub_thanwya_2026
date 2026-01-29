@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Fundamentals - Lecture 1</title>
+    <meta name="description" content="Chapter 1: The Mobile World, Information Technology, & Your Life.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            green: '#10B981',
+                            blue: '#3B82F6',
+                            purple: '#8B5CF6',
+                            red: '#ef4444',
+                            amber: '#f59e0b'
+                        },
+                        dark: {
+                            bg: '#020617',
+                            card: '#0F172A',
+                            border: '#1E293B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        arabic: ['Cairo', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #E2E8F0;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 20%);
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .glass-header {
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Utilities */
+        .arabic-text {
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            line-height: 1.6;
+        }
+
+        .egyptian-expl {
+            background: rgba(251, 191, 36, 0.05);
+            /* Amber tint */
+            border-right: 3px solid #fbbf24;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            color: #fbbf24;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+        }
+
+        .egyptian-expl i {
+            margin-top: 0.2rem;
+        }
+
+        /* Quiz Styles */
+        .answer-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s ease;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 0.5rem;
+        }
+
+        .answer-container.show {
+            max-height: 200px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* Table */
+        .custom-table tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.3);
+        }
+
+        .custom-table td,
+        .custom-table th {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .custom-table th {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            color: #94A3B8;
+        }
+
+        /* Lists */
+        ul.custom-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul.custom-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        ul.custom-list li::before {
+            content: "•";
+            color: #3B82F6;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-header">
+        <div class="container mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-8 h-8 rounded bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/20">
+                    IT</div>
+                <span class="font-bold text-lg tracking-wide text-slate-200">Lecture<span
+                        class="text-blue-500">01</span></span>
+            </div>
+            <div class="hidden lg:flex gap-8 text-sm font-medium text-slate-400">
+                <a href="#hero" class="hover:text-blue-400 transition">Intro</a>
+                <a href="#education" class="hover:text-blue-400 transition">Areas</a>
+                <a href="#pervasive" class="hover:text-blue-400 transition">Pervasive IT</a>
+                <a href="#unit1b" class="hover:text-blue-400 transition">Basics</a>
+                <a href="#future" class="hover:text-blue-400 transition">Future</a>
+                <a href="#webdev" class="hover:text-green-400 transition text-green-400/70">Web Dev</a>
+                <a href="#exam"
+                    class="px-5 py-2 rounded-full bg-blue-600/10 text-blue-400 border border-blue-500/20 hover:bg-blue-600 hover:text-white transition">Quiz</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-24">
+
+        <!-- Hero Section -->
+        <header id="hero" class="relative pb-20 px-6">
+            <div class="container mx-auto text-center relative z-10" data-aos="fade-up">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-xs font-mono text-blue-400 mb-6">
+                    <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                    CHAPTER 1
+                </div>
+
+                <div class="mb-4">
+                    <h1 class="text-5xl md:text-7xl font-black mb-2 tracking-tight leading-1 text-white">
+                        Introduction to <br> <span class="text-gradient">Information Technology</span>
+                    </h1>
+                    <h2 class="text-2xl md:text-4xl font-bold font-arabic text-slate-300 mt-2">
+                        The Future Now
+                    </h2>
+                </div>
+
+                <div class="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
+                    <p>UNIT 1A: The Mobile World, Information Technology, & Your Life</p>
+                    <p>UNIT 1B: The Basics of Information Technology</p>
+                </div>
+
+                <!-- Animated IT Concept -->
+                <div class="max-w-md mx-auto h-32 relative">
+                    <svg viewBox="0 0 400 100" class="w-full h-full">
+                        <path d="M50,50 Q200,10 350,50" fill="none" stroke="#3B82F6" stroke-width="2"
+                            stroke-dasharray="10,10">
+                            <animate attributeName="stroke-dashoffset" from="200" to="0" dur="3s"
+                                repeatCount="indefinite" />
+                        </path>
+                        <circle cx="50" cy="50" r="10" fill="#10B981" class="animate-pulse" />
+                        <circle cx="350" cy="50" r="10" fill="#8B5CF6" class="animate-pulse" />
+                        <text x="50" y="80" text-anchor="middle" fill="#94A3B8" font-size="12">Data</text>
+                        <text x="350" y="80" text-anchor="middle" fill="#94A3B8" font-size="12">Info</text>
+                        <rect x="180" y="30" width="40" height="40" rx="5" fill="#1E293B" stroke="#60A5FA" />
+                        <text x="200" y="55" text-anchor="middle" fill="#fff" font-size="10">IT</text>
+                    </svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- UNIT 1A Intro -->
+        <section class="py-12 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-6xl">
+                <!-- Core Concepts -->
+                <div class="glass-card p-8 rounded-2xl border-l-4 border-l-blue-500 mb-8" data-aos="fade-right">
+                    <h2 class="text-2xl font-bold text-white mb-4">Core Concepts</h2>
+                    <ul class="custom-list text-slate-300 space-y-2">
+                        <li>As the result of developments in information technology, <em>smartphones</em> and <em>tablet
+                                computers</em> are changing nearly everything we do.</li>
+                        <li><em>Information technology</em> refers to any technology that helps produce, manipulate,
+                            store, communicate, and/or disseminate information.</li>
+                    </ul>
+                    <div class="egyptian-expl">
+                        <i class="far fa-lightbulb text-lg"></i>
+                        <div>
+                            <strong>بالبساطة كده:</strong>
+                            الـ IT هو أي تكنولوجيا بنستخدمها عشان نطلع معلومة، نخزنها، أو نبعتها لحد تاني. زي الموبايل
+                            واللابتوب اللي غيروا كل حياتنا.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two Parts -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-left">
+                    <h3 class="text-xl font-bold text-white mb-6">Two Parts of IT</h3>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-slate-800/50 p-6 rounded-xl relative overflow-hidden group">
+                            <div
+                                class="absolute right-0 top-0 opacity-10 group-hover:opacity-20 transition transform group-hover:scale-110">
+                                <svg width="100" height="100" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-blue-400 mb-2">1. Computer Technology</h4>
+                            <p class="text-sm text-slate-300">A <em>computer</em> is a programmable, multiuse machine
+                                that accepts data—raw facts and figures—and processes, or manipulates it into
+                                information we can use.</p>
+                            <div class="egyptian-expl">
+                                <i class="fas fa-check"></i>
+                                <span>الكمبيوتر: آلة بنديها بيانات (أرقام وحقائق) وهي "تطبخها" وتطلعلنا معلومة
+                                    مفيدة.</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-800/50 p-6 rounded-xl relative overflow-hidden group">
+                            <div
+                                class="absolute right-0 top-0 opacity-10 group-hover:opacity-20 transition transform group-hover:scale-110">
+                                <svg width="100" height="100" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-purple-400 mb-2">2. Communications Technology</h4>
+                            <p class="text-sm text-slate-300"><em>Communications technology</em> (Telecom), consists of
+                                electromagnetic devices and systems for communicating over any distance.</p>
+                            <div class="egyptian-expl">
+                                <i class="fas fa-check"></i>
+                                <span>الاتصالات: الأجهزة اللي بتخلينا نكلم بعض ونبعت داتا لأي مكان في العالم، زي النت
+                                    والموبايلات.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section id="education" class="py-20 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
+                    <i class="fas fa-graduation-cap text-green-500"></i> Education
+                </h2>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Column 1 -->
+                    <div class="glass-card p-6 rounded-xl h-full" data-aos="fade-up">
+                        <!-- Education SVG -->
+                        <div class="mb-4 flex justify-center">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#10B981"
+                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="animate-float">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            </svg>
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white mb-2">Interactive & Individualized Learning</h3>
+
+                        <h4 class="text-green-400 font-bold text-sm uppercase mb-2">IT Uses in Education</h4>
+                        <ul class="custom-list text-sm text-slate-300 mb-4">
+                            <li>Personalizing students’ education</li>
+                            <li>Automating tedious tasks and managing classes</li>
+                            <li>Reducing instructors’ workload</li>
+                            <li>Graphical presentations (e.g., PowerPoint)</li>
+                        </ul>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-smile-wink"></i>
+                            <span>التعليم بقى أسهل وأمتع.. الكمبيوتر بيساعد المدرس يشرح أحسن، وبيخليك تذاكر بطريقة
+                                تناسبك أنت.</span>
+                        </div>
+
+                        <div class="mt-4 border-t border-red-500/20 pt-4">
+                            <h4 class="text-red-400 font-bold text-sm uppercase mb-2">What is Misuse?</h4>
+                            <ul class="custom-list text-sm text-slate-300">
+                                <li>Texting/Emailing friends during class</li>
+                                <li>Surfing the Internet for entertainment</li>
+                                <li>Do assignments for other classes</li>
+                                <li>Sharing answers</li>
+                            </ul>
+                            <div class="egyptian-expl !border-red-500 !text-red-400 !bg-red-500/5">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>بس خد بالك! متستخدمش التكنولوجيا غلط، زي إنك تلعب عالموبايل في الحصة أو
+                                    تغش.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="glass-card p-6 rounded-xl h-full" data-aos="fade-up" data-aos-delay="100">
+                        <h4 class="text-blue-400 font-bold text-sm uppercase mb-2">Online Learning (Distance Learning)
+                        </h4>
+                        <ul class="custom-list text-sm text-slate-300 mb-4">
+                            <li>Check accreditation (not all online schools are accredited).</li>
+                            <li>Online courses are less expensive.</li>
+                            <li>Useful to students in rural areas.</li>
+                        </ul>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-laptop-house"></i>
+                            <span>التعليم عن بعد: تذاكر وتأخد شهادة وأنت في بيتك، وده أرخص ومفيد جداً للناس اللي ساكنة
+                                بعيد.</span>
+                        </div>
+
+                        <div class="bg-slate-800/80 p-4 rounded-lg border border-slate-700 mt-6">
+                            <h4 class="text-white font-bold mb-1">Advanced Tools</h4>
+                            <p class="text-sm text-slate-400"><em>Tutoring, simulation</em>, and <em>avatars</em>.</p>
+                            <div class="h-2 w-full bg-slate-700 rounded-full mt-2 overflow-hidden">
+                                <div class="h-full bg-blue-500 w-2/3 animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Health -->
+        <section class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
+                    <i class="fas fa-heartbeat text-red-500 animate-pulse"></i> Health: High-Tech for Wellness
+                </h2>
+
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                    <!-- Health SVG BG -->
+                    <svg class="absolute right-0 top-1/2 -translate-y-1/2 opacity-5 w-64 h-64" viewBox="0 0 24 24"
+                        fill="none" stroke="#ef4444" stroke-width="0.5">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+
+                    <ul class="custom-list text-slate-300 space-y-4 relative z-10">
+                        <li><strong>Telemedicine:</strong> Medical care via telecommunications lets doctors treat
+                            patients from far away.</li>
+                        <li><strong>3D Computer models:</strong> allow accurate cancer location inside a brain; X-rays,
+                            MRIs.</li>
+                        <li><strong>Robots:</strong> Automatic devices allowing precise microsurgery.</li>
+                        <li>Electronic health records.</li>
+                    </ul>
+                    <div class="egyptian-expl relative z-10">
+                        <i class="fas fa-user-md"></i>
+                        <span>الطب اتطور جداً: الدكتور ممكن يعالج مريض في بلد تانية (عن بعد)، والروبوتات بتعمل عمليات
+                            دقيقة جداً ميعرفش الإنسان يعملها بإيده.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Money & Business -->
+        <section class="py-20 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
+                    <i class="fas fa-money-bill-wave text-amber-500"></i> Money & Business
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glass-card p-6 rounded-xl" data-aos="flip-left">
+                        <!-- Money SVG -->
+                        <div class="flex justify-center mb-4 text-amber-500 text-5xl">
+                            <i class="fab fa-bitcoin animate-float"></i>
+                        </div>
+                        <h4 class="font-bold text-amber-400 mb-2">Virtual Money & Cashless Society</h4>
+                        <ul class="custom-list text-sm text-slate-300">
+                            <li>Cash-value cards & E-wallets (PayPal).</li>
+                            <li>Electronic payroll deposit.</li>
+                            <li>Online bill paying.</li>
+                            <li>Micropayments.</li>
+                        </ul>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-wallet"></i>
+                            <span>معدش لازم تشيل كاش في جيبك! موبايلك بقى محفظتك، تدفع فواتير وتحول فلوس بضغطة
+                                زرار.</span>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl flex flex-col justify-center" data-aos="flip-right">
+                        <ul class="custom-list text-slate-300 space-y-4">
+                            <li>Smartphones are used for "showrooming" and shopping.</li>
+                            <li>Technology can also be used to telecommute (e-work) and to start businesses.</li>
+                        </ul>
+                        <div class="egyptian-expl mt-auto">
+                            <i class="fas fa-store"></i>
+                            <span>ممكن تتفرج على المنتج في المحل وتشتريه أونلاين أرخص (Showrooming)، وممكن تشتغل وتفتح
+                                مشروع وأنت في بيتك.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Government -->
+        <section class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
+                    <i class="fas fa-landmark text-blue-500"></i> Government
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="glass-card p-6 rounded-xl">
+                        <h4 class="text-green-400 font-bold mb-4">Benefits</h4>
+                        <ul class="custom-list text-slate-300 space-y-2">
+                            <li>Help governments improve services (police databases).</li>
+                            <li>Online voting.</li>
+                            <li>Easier fund raising.</li>
+                        </ul>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-vote-yea"></i>
+                            <span>الحكومة بقت أذكى: خدمات إلكترونية سريعة، قواعد بيانات للشرطة، وتصويت في الانتخابات
+                                أونلاين.</span>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl border border-red-500/30">
+                        <h4 class="text-red-400 font-bold mb-4">Challenges (BUT)</h4>
+                        <ul class="custom-list text-slate-300 space-y-2">
+                            <li>Gerrymandering: Redrawing voting districts for partisan advantage.</li>
+                            <li>Voting machine problems.</li>
+                            <li>Invasion of privacy.</li>
+                        </ul>
+                        <div class="egyptian-expl !border-red-500 !text-red-400 !bg-red-500/5">
+                            <i class="fas fa-user-secret"></i>
+                            <span>بس فيه مشاكل: ممكن يحصل تلاعب في تقسيم الدوائر الانتخابية، واختراق لخصوصيتك
+                                وبياناتك.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Jobs & Personal Life -->
+        <section class="py-20 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Jobs -->
+                    <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i
+                                class="fas fa-briefcase text-teal-400"></i> Jobs & Careers</h2>
+
+                        <div class="mb-4">
+                            <svg class="w-full h-20" viewBox="0 0 300 60">
+                                <rect x="10" y="20" width="40" height="20" fill="#2dd4bf" rx="4" />
+                                <line x1="50" y1="30" x2="100" y2="30" stroke="#555" stroke-width="2"
+                                    stroke-dasharray="4" />
+                                <rect x="100" y="10" width="80" height="40" fill="#0f766e" rx="4" />
+                                <line x1="180" y1="30" x2="230" y2="30" stroke="#555" stroke-width="2"
+                                    stroke-dasharray="4" />
+                                <circle cx="250" cy="30" r="15" fill="#facc15" />
+                                <text x="30" y="34" font-size="10" fill="#000" text-anchor="middle">Skill</text>
+                                <text x="140" y="34" font-size="10" fill="#fff" text-anchor="middle">Resume/Blog</text>
+                                <text x="250" y="34" font-size="10" fill="#000" text-anchor="middle">Job</text>
+                            </svg>
+                        </div>
+
+                        <ul class="custom-list text-slate-300 text-sm mb-6">
+                            <li>IT helps start businesses and find jobs (Resumes/Blogs).</li>
+                            <li class="text-red-400 font-bold">WARNING: Internet postings live forever!</li>
+                        </ul>
+
+                        <h4 class="font-bold text-white mb-2">Basic Computer Skills Needed:</h4>
+                        <ul class="custom-list text-xs text-slate-400">
+                            <li>Keyboarding, Email, Word, Spreadsheet, Database.</li>
+                            <li>Understanding file sizes & system components.</li>
+                        </ul>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-file-alt"></i>
+                            <span>عشان تشتغل لازم يكون عندك مهارات كمبيوتر (ورد، إكسيل، إيميل). وممكن تدور على شغل وتكتب
+                                الـ CV أونلاين.. بس خلي بالك من اللي بتكتبه عالنت لأنه مبيتمسحش!</span>
+                        </div>
+                    </div>
+
+                    <!-- Personal Life -->
+                    <div class="glass-card p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="200">
+                        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i
+                                class="fas fa-user text-pink-400"></i> Your Personal Life</h2>
+                        <ul class="custom-list text-slate-300 text-sm space-y-4">
+                            <li>
+                                <strong>Online relationship sites:</strong> electronic forums to meet compatible
+                                companions.
+                            </li>
+                            <li class="italic text-slate-400">
+                                “Digital is embedded into the fiber of every aspect of our culture.”
+                            </li>
+                        </ul>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-heart"></i>
+                            <span>حتى حياتنا الشخصية اتأثرت! مواقع التعارف والسوشيال ميديا بقيت جزء أساسي من يومنا
+                                وعلاقاتنا.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1.2 Pervasive -->
+        <section id="pervasive" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-3xl font-bold text-white mb-12">1.2 Information Technology Is Pervasive</h2>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Phone -->
+                    <div class="glass-card p-6 rounded-xl text-center group">
+                        <i class="fas fa-mobile-alt text-4xl text-blue-400 mb-4 group-hover:scale-125 transition"></i>
+                        <h3 class="text-xl font-bold text-white mb-2">The Phone Grows Up</h3>
+                        <p class="text-xs text-slate-400 text-left mb-2">1973: First Call. Today: Calls, Web, Media,
+                            Maps, Pay.</p>
+                        <div class="egyptian-expl">
+                            <span>الموبايل زمان كان للكلام بس، دلوقتي هو كمبيوتر كامل في جيبك (نت، صور، خرائط، ودفع
+                                فلوس).</span>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="glass-card p-6 rounded-xl text-center group">
+                        <i class="fas fa-envelope text-4xl text-green-400 mb-4 group-hover:scale-125 transition"></i>
+                        <h3 class="text-xl font-bold text-white mb-2">Email & Texting</h3>
+                        <p class="text-xs text-slate-400 text-left mb-2">1981 Intro. Texting is replacing email for
+                            personal use.</p>
+                        <div class="egyptian-expl">
+                            <span>البريد الإلكتروني للشركات والشغل الرسمي، والرسايل (شات) بينا وبين صحابنا.</span>
+                        </div>
+                    </div>
+
+                    <!-- Cyberspace -->
+                    <div class="glass-card p-6 rounded-xl text-center group">
+                        <i class="fas fa-globe text-4xl text-purple-400 mb-4 group-hover:scale-125 transition"></i>
+                        <h3 class="text-xl font-bold text-white mb-2">Cyberspace</h3>
+                        <p class="text-xs text-slate-400 text-left mb-2">The whole wired/wireless world of
+                            communications.</p>
+                        <div class="egyptian-expl">
+                            <span>الفضاء الإلكتروني: هو العالم الافتراضي اللي بيجمع كل الاتصالات والإنترنت.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Net vs Web -->
+                <div
+                    class="mt-12 glass-card p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center bg-gradient-to-r from-slate-900 to-blue-900/20">
+                    <div class="flex-1">
+                        <h4 class="text-white font-bold mb-2">The Internet ("The Net")</h4>
+                        <p class="text-sm text-slate-400">The physical network connecting networks.</p>
+                    </div>
+                    <div class="text-2xl text-slate-600 font-bold">&larr; VS &rarr;</div>
+                    <div class="flex-1">
+                        <h4 class="text-white font-bold mb-2">The World Wide Web ("The Web")</h4>
+                        <p class="text-sm text-slate-400">Multimedia documents (pages) on the network.</p>
+                    </div>
+                </div>
+                <div class="egyptian-expl max-w-2xl mx-auto">
+                    <i class="fas fa-network-wired"></i>
+                    <span>النت (Internet) هو السلك والشبكة نفسها، أما الويب (Web) هو الصفحات والمواقع اللي بتفتحها
+                        عليه.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- UNIT 1B Basics -->
+        <section id="unit1b" class="py-20 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <div class="mb-12">
+                    <span
+                        class="inline-block py-1 px-3 rounded bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-mono mb-2">UNIT
+                        1B</span>
+                    <h2 class="text-3xl font-bold text-white">The Basics of Information Technology</h2>
+                </div>
+
+                <!-- Microcomputers -->
+                <div class="mb-16">
+                    <h3 class="text-xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Types of Computers</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="glass-card p-4 rounded text-center">Desktop PC</div>
+                        <div class="glass-card p-4 rounded text-center">Laptop</div>
+                        <div class="glass-card p-4 rounded text-center">Tablet</div>
+                        <div class="glass-card p-4 rounded text-center">Micro-controller</div>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-microchip"></i>
+                        <span>الكمبيوتر أنواع: المكتبي، المحمول، التابلت.. وحتى "المتحكمات الدقيقة" الموجودة جوه عربيتك
+                            والتلاجة والميكرويف بتعتبر كمبيوتر صغير!</span>
+                    </div>
+                </div>
+
+                <!-- How Computers Work -->
+                <div class="mb-16">
+                    <h3 class="text-xl font-bold text-white mb-6 border-b border-slate-700 pb-2">How Computers Work</h3>
+
+                    <!-- Interactive SVG for Input/Process/Output -->
+                    <div
+                        class="glass-card p-6 rounded-2xl bg-black/40 mb-4 relative overflow-hidden shadow-2xl shadow-blue-900/20">
+                        <svg viewBox="0 0 800 200" class="w-full h-auto rounded-xl">
+                            <defs>
+                                <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="9" refY="3"
+                                    orient="auto">
+                                    <path d="M0,0 L0,6 L9,3 z" fill="#64748b" />
+                                </marker>
+                            </defs>
+                            <g transform="translate(50, 30)">
+                                <rect width="150" height="100" rx="10" fill="#1e293b" stroke="#10B981"
+                                    stroke-width="2" />
+                                <text x="75" y="55" text-anchor="middle" fill="#10B981" font-weight="bold">INPUT</text>
+                            </g>
+                            <line x1="210" y1="80" x2="290" y2="80" stroke="#64748b" stroke-width="2"
+                                marker-end="url(#arrowHead)">
+                                <animate attributeName="stroke-dasharray" from="0,20" to="20,0" dur="1s"
+                                    repeatCount="indefinite" />
+                            </line>
+                            <g transform="translate(300, 30)">
+                                <rect width="150" height="100" rx="10" fill="#1e293b" stroke="#3B82F6"
+                                    stroke-width="2" />
+                                <text x="75" y="55" text-anchor="middle" fill="#3B82F6"
+                                    font-weight="bold">PROCESS</text>
+                            </g>
+                            <line x1="460" y1="80" x2="540" y2="80" stroke="#64748b" stroke-width="2"
+                                marker-end="url(#arrowHead)">
+                                <animate attributeName="stroke-dasharray" from="0,20" to="20,0" dur="1s"
+                                    repeatCount="indefinite" />
+                            </line>
+                            <g transform="translate(550, 30)">
+                                <rect width="150" height="100" rx="10" fill="#1e293b" stroke="#F59E0B"
+                                    stroke-width="2" />
+                                <text x="75" y="55" text-anchor="middle" fill="#F59E0B" font-weight="bold">OUTPUT</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-cogs"></i>
+                        <span>أي عملية كمبيوتر بتمشي في 3 خطوات: إدخال (Input) -> معالجة (Process) -> إخراج (Output). زي
+                            ما بتدخل العجين الفرن (معالجة) عشان يطلع عيش (إخراج).</span>
+                    </div>
+                </div>
+
+                <!-- Customizing Desktop -->
+                <div class="mb-16">
+                    <h3 class="text-xl font-bold text-white mb-6">Hardware Components</h3>
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div class="glass-card p-6 rounded-xl">
+                            <h4 class="font-bold text-white mb-2">System Unit</h4>
+                            <ul class="custom-list text-slate-300 text-sm">
+                                <li><strong>CPU:</strong> The Brain.</li>
+                                <li><strong>RAM:</strong> Temporary Memory.</li>
+                                <li><strong>Motherboard:</strong> The spine connecting everything.</li>
+                            </ul>
+                            <div class="egyptian-expl">
+                                <span>جوه الكيسة: المعالج (المخ)، الرامات (الذاكرة المؤقتة)، والمذربورد (اللوحة الأم)
+                                    اللي بتوصلهم ببعض.</span>
+                            </div>
+                        </div>
+                        <div class="glass-card p-6 rounded-xl">
+                            <h4 class="font-bold text-white mb-2">Peripherals</h4>
+                            <p class="text-xs text-slate-400">Input (Keyboard), Output (Screen), Storage (HDD), Comms
+                                (Modem).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Storage Units -->
+                <div class="mb-16">
+                    <h3 class="text-xl font-bold text-white mb-6">Storage Capacity</h3>
+
+                    <!-- Animated Storage Bar -->
+                    <div class="mb-6 bg-slate-800 rounded-full h-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 w-full animate-float"
+                            style="width: 100%"></div>
+                        <div
+                            class="absolute inset-0 flex justify-between px-4 items-center text-[8px] font-bold text-white">
+                            <span>Byte</span><span>KB</span><span>MB</span><span>GB</span><span>TB</span><span>PB</span>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left custom-table text-sm text-slate-300">
+                            <thead class="bg-slate-800">
+                                <tr>
+                                    <th>Term</th>
+                                    <th>Approximate Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-white font-bold">Byte</td>
+                                    <td>1 character</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-purple-300 font-bold">Kilobyte (KB)</td>
+                                    <td>1000 chars</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-purple-300 font-bold">Megabyte (MB)</td>
+                                    <td>1 Million</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-purple-300 font-bold">Gigabyte (GB)</td>
+                                    <td>1 Billion</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-purple-300 font-bold">Terabyte (TB)</td>
+                                    <td>1 Trillion</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-hdd"></i>
+                        <span>زي ما بنقيس الوزن بالكيلو، بنقيس البيانات بالبايت. كل ما الرقم يكبر بنغير الاسم (كيلو،
+                            ميجا، جيجا، تيرا...).</span>
+                    </div>
+                </div>
+
+                <!-- Software -->
+                <div class="mb-16">
+                    <h3 class="text-xl font-bold text-white mb-6">Software</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="glass-card p-6 rounded-xl border-t-4 border-t-blue-500">
+                            <h4 class="font-bold text-white mb-2">1. System Software (OS)</h4>
+                            <p class="text-sm text-slate-300">Operating System (Windows, Linux).</p>
+                            <div class="egyptian-expl">
+                                <span>نظام التشغيل: ده الأساس اللي بيشغل الجهاز، زي الويندوز. من غيره الجهاز ميفهمش
+                                    حاجة.</span>
+                            </div>
+                        </div>
+                        <div class="glass-card p-6 rounded-xl border-t-4 border-t-pink-500">
+                            <h4 class="font-bold text-white mb-2">2. Application Software</h4>
+                            <p class="text-sm text-slate-300">Specific tasks (Word, Games).</p>
+                            <div class="egyptian-expl">
+                                <span>التطبيقات: البرامج اللي بتسطبها عشان تعمل حاجة معينة، زي الألعاب والأوفيس.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future -->
+        <section id="future" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-3xl font-bold text-white mb-8 text-center">1.6 Where Is IT Headed?</h2>
+
+                <div class="grid md:grid-cols-2 gap-12 mb-12">
+                    <div class="text-center">
+                        <h3 class="text-lg font-bold text-blue-400 mb-4">3 Directions</h3>
+                        <div class="flex justify-center gap-2">
+                            <span class="p-2 bg-slate-800 rounded">Miniaturization</span>
+                            <span class="p-2 bg-slate-800 rounded">Speed</span>
+                            <span class="p-2 bg-slate-800 rounded">Affordability</span>
+                        </div>
+                        <div class="egyptian-expl justify-center mt-2">
+                            <span>الأجهزة بتصغر، بتبقى أسرع، وأرخص.</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-lg font-bold text-purple-400 mb-4">Communications</h3>
+                        <div class="flex justify-center gap-2">
+                            <span class="p-2 bg-slate-800 rounded">Connectivity</span>
+                            <span class="p-2 bg-slate-800 rounded">Interactivity</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl">
+                    <h3 class="text-xl font-bold text-white mb-6 text-center">Convergence (يلتقيان)</h3>
+
+                    <div class="grid md:grid-cols-2 gap-8 border-t border-slate-700 pt-8">
+                        <div>
+                            <strong class="text-white block mb-2">Cloud Computing</strong>
+                            <p class="text-sm text-slate-300">Store on Internet servers, not local PC.</p>
+                            <div class="egyptian-expl">
+                                <i class="fas fa-cloud"></i>
+                                <span>الحوسبة السحابية: ملفاتك وبرامجك مرفوعة عالنت (السحابة) مش على جهازك، فتقدر تفتحها
+                                    من أي مكان.</span>
+                            </div>
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-2">Artificial Intelligence (AI)</strong>
+                            <p class="text-sm text-slate-300">Machines emulating human qualities (learning).</p>
+                            <div class="egyptian-expl">
+                                <i class="fas fa-robot"></i>
+                                <span>الذكاء الاصطناعي: الكمبيوتر بيتعلم ويفكر زي الإنسان (زي الروبوتات و
+                                    ChatGPT).</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Web Development Basics Section -->
+        <section id="webdev" class="py-20 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <div class="mb-12 text-center">
+                    <span
+                        class="inline-block py-1 px-3 rounded bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-mono mb-2">WEB
+                        DEVELOPMENT</span>
+                    <h2 class="text-4xl font-bold text-white mb-4">Web Development Basics</h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto">Learn the fundamental building blocks of the web: HTML
+                        for structure, CSS for style, and JavaScript for interactivity.</p>
+                    <div class="egyptian-expl justify-center max-w-2xl mx-auto mt-4">
+                        <i class="fas fa-code"></i>
+                        <span>هنتعلم أساسيات الويب: HTML للهيكل، CSS للشكل، وJavaScript للتفاعل.</span>
+                    </div>
+                </div>
+
+                <!-- HTML Section -->
+                <div class="mb-16" data-aos="fade-up">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div
+                            class="w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-orange-500/20">
+                            <i class="fab fa-html5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">HTML - HyperText Markup Language</h3>
+                            <p class="text-slate-400 text-sm">The skeleton of every web page</p>
+                        </div>
+                    </div>
+
+                    <!-- What is HTML -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-orange-400 mb-4"><i
+                                class="fas fa-question-circle mr-2"></i>What is HTML?</h4>
+                        <p class="text-slate-300 mb-4">HTML (HyperText Markup Language) is the standard language used to
+                            create and structure content on the web. It uses "tags" to define elements like headings,
+                            paragraphs, images, and links.</p>
+                        <ul class="custom-list text-slate-300 space-y-2">
+                            <li><strong>HyperText:</strong> Text with links to other text (web pages).</li>
+                            <li><strong>Markup:</strong> Using tags to "mark up" content and give it meaning.</li>
+                            <li><strong>Language:</strong> A set of rules the browser understands.</li>
+                        </ul>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>الـ HTML ده زي الهيكل العظمي للصفحة. من غيره مفيش صفحة ويب. أنت بتكتب "تاجات" (علامات)
+                                والبراوزر بيفهمها ويعرضها.</span>
+                        </div>
+                    </div>
+
+                    <!-- Basic HTML Structure -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-orange-400 mb-4"><i class="fas fa-sitemap mr-2"></i>Basic HTML
+                            Structure</h4>
+                        <p class="text-slate-300 mb-4">Every HTML document follows this basic structure:</p>
+
+                        <div
+                            class="bg-slate-900 rounded-xl p-6 font-mono text-sm overflow-x-auto border border-slate-700">
+                            <pre class="text-slate-300"><code><span class="text-purple-400">&lt;!DOCTYPE html&gt;</span>
+<span class="text-blue-400">&lt;html</span> <span class="text-green-400">lang</span>=<span class="text-amber-400">"en"</span><span class="text-blue-400">&gt;</span>
+  <span class="text-blue-400">&lt;head&gt;</span>
+    <span class="text-blue-400">&lt;meta</span> <span class="text-green-400">charset</span>=<span class="text-amber-400">"UTF-8"</span><span class="text-blue-400">&gt;</span>
+    <span class="text-blue-400">&lt;title&gt;</span>My First Page<span class="text-blue-400">&lt;/title&gt;</span>
+  <span class="text-blue-400">&lt;/head&gt;</span>
+  <span class="text-blue-400">&lt;body&gt;</span>
+    <span class="text-slate-500">&lt;!-- Your content goes here --&gt;</span>
+    <span class="text-blue-400">&lt;h1&gt;</span>Hello World!<span class="text-blue-400">&lt;/h1&gt;</span>
+  <span class="text-blue-400">&lt;/body&gt;</span>
+<span class="text-blue-400">&lt;/html&gt;</span></code></pre>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-4 mt-6">
+                            <div class="bg-slate-800/50 p-4 rounded-lg">
+                                <h5 class="text-white font-bold mb-2"><code
+                                        class="text-purple-400">&lt;!DOCTYPE html&gt;</code></h5>
+                                <p class="text-xs text-slate-400">Tells the browser this is HTML5.</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg">
+                                <h5 class="text-white font-bold mb-2"><code class="text-blue-400">&lt;html&gt;</code>
+                                </h5>
+                                <p class="text-xs text-slate-400">The root element of the page.</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg">
+                                <h5 class="text-white font-bold mb-2"><code class="text-blue-400">&lt;head&gt;</code>
+                                </h5>
+                                <p class="text-xs text-slate-400">Contains meta info (title, links, styles).</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg">
+                                <h5 class="text-white font-bold mb-2"><code class="text-blue-400">&lt;body&gt;</code>
+                                </h5>
+                                <p class="text-xs text-slate-400">Contains the visible content.</p>
+                            </div>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-check"></i>
+                            <span>فكر فيها كده: الـ head ده زي المعلومات اللي في بطاقتك الشخصية (اسم، معلومات)، والـ
+                                body
+                                هو أنت نفسك (اللي الناس بتشوفه).</span>
+                        </div>
+                    </div>
+
+                    <!-- Common HTML Tags -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-orange-400 mb-4"><i class="fas fa-tags mr-2"></i>Common HTML
+                            Tags</h4>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full custom-table text-sm">
+                                <thead class="bg-slate-800">
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>Purpose</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-slate-300">
+                                    <tr>
+                                        <td class="font-mono text-blue-400">&lt;h1&gt; - &lt;h6&gt;</td>
+                                        <td>Headings (h1 = biggest)</td>
+                                        <td><code>&lt;h1&gt;Main Title&lt;/h1&gt;</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono text-blue-400">&lt;p&gt;</td>
+                                        <td>Paragraph</td>
+                                        <td><code>&lt;p&gt;Some text...&lt;/p&gt;</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono text-blue-400">&lt;a&gt;</td>
+                                        <td>Link</td>
+                                        <td><code>&lt;a href="url"&gt;Click&lt;/a&gt;</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono text-blue-400">&lt;img&gt;</td>
+                                        <td>Image</td>
+                                        <td><code>&lt;img src="photo.jpg" alt="desc"&gt;</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono text-blue-400">&lt;ul&gt; / &lt;ol&gt;</td>
+                                        <td>Lists (unordered/ordered)</td>
+                                        <td><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono text-blue-400">&lt;div&gt;</td>
+                                        <td>Container/Division</td>
+                                        <td><code>&lt;div&gt;...content...&lt;/div&gt;</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono text-blue-400">&lt;span&gt;</td>
+                                        <td>Inline container</td>
+                                        <td><code>&lt;span&gt;text&lt;/span&gt;</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-tags"></i>
+                            <span>كل tag ليه وظيفة: h1 للعناوين الكبيرة، p للفقرات، a للروابط، img للصور. زي ما في
+                                العربية القيادة والفرامل والبنزين، كل حاجة ليها دور!</span>
+                        </div>
+                    </div>
+
+                    <!-- Semantic HTML -->
+                    <div class="glass-card p-8 rounded-2xl">
+                        <h4 class="text-xl font-bold text-orange-400 mb-4"><i
+                                class="fas fa-puzzle-piece mr-2"></i>Semantic HTML</h4>
+                        <p class="text-slate-300 mb-4">Semantic tags describe the <strong>meaning</strong> of content,
+                            not just how it looks. This helps search engines and screen readers understand your page.
+                        </p>
+
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="bg-slate-800/50 p-4 rounded-lg text-center">
+                                <code class="text-green-400">&lt;header&gt;</code>
+                                <p class="text-xs text-slate-400 mt-1">Top of page/section</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg text-center">
+                                <code class="text-green-400">&lt;nav&gt;</code>
+                                <p class="text-xs text-slate-400 mt-1">Navigation links</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg text-center">
+                                <code class="text-green-400">&lt;main&gt;</code>
+                                <p class="text-xs text-slate-400 mt-1">Main content</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg text-center">
+                                <code class="text-green-400">&lt;section&gt;</code>
+                                <p class="text-xs text-slate-400 mt-1">A section of content</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg text-center">
+                                <code class="text-green-400">&lt;article&gt;</code>
+                                <p class="text-xs text-slate-400 mt-1">Independent content</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg text-center">
+                                <code class="text-green-400">&lt;footer&gt;</code>
+                                <p class="text-xs text-slate-400 mt-1">Bottom of page/section</p>
+                            </div>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-brain"></i>
+                            <span>الـ Semantic HTML يعني تستخدم tags معبرة. بدل ما تحط كل حاجة في div، استخدم header
+                                للهيدر
+                                و nav للقايمة و footer للفوتر. ده بيساعد جوجل يفهم صفحتك أحسن!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CSS Section -->
+                <div class="mb-16" data-aos="fade-up">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div
+                            class="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-blue-500/20">
+                            <i class="fab fa-css3-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">CSS - Cascading Style Sheets</h3>
+                            <p class="text-slate-400 text-sm">The styling and beauty of web pages</p>
+                        </div>
+                    </div>
+
+                    <!-- What is CSS -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-blue-400 mb-4"><i class="fas fa-paint-brush mr-2"></i>What is
+                            CSS?</h4>
+                        <p class="text-slate-300 mb-4">CSS (Cascading Style Sheets) is the language used to style and
+                            layout HTML content. It controls colors, fonts, spacing, positioning, and animations.</p>
+                        <ul class="custom-list text-slate-300 space-y-2">
+                            <li><strong>Cascading:</strong> Styles can override each other in a specific order.</li>
+                            <li><strong>Style:</strong> Controls appearance (colors, sizes, fonts).</li>
+                            <li><strong>Sheets:</strong> Can be written in separate files.</li>
+                        </ul>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-tshirt"></i>
+                            <span>لو الـ HTML هو الهيكل العظمي، الـ CSS هو الهدوم والميكاب! بتخلي صفحتك حلوة ومرتبة
+                                ومتنسقة.</span>
+                        </div>
+                    </div>
+
+                    <!-- Ways to Include CSS -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-blue-400 mb-4"><i class="fas fa-plug mr-2"></i>Ways to Include
+                            CSS</h4>
+
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <!-- Inline -->
+                            <div class="bg-slate-800/50 p-4 rounded-xl border-l-4 border-l-red-500">
+                                <h5 class="text-red-400 font-bold mb-2">1. Inline CSS</h5>
+                                <p class="text-xs text-slate-400 mb-3">Inside the element's style attribute.</p>
+                                <div class="bg-slate-900 p-3 rounded font-mono text-xs overflow-x-auto">
+                                    <code><span class="text-blue-400">&lt;p</span> <span class="text-green-400">style</span>=<span class="text-amber-400">"color: red;"</span><span class="text-blue-400">&gt;</span>Text<span class="text-blue-400">&lt;/p&gt;</span></code>
+                                </div>
+                                <p class="text-xs text-red-400 mt-2"><i class="fas fa-exclamation-triangle"></i> Not
+                                    recommended for large projects</p>
+                            </div>
+
+                            <!-- Internal -->
+                            <div class="bg-slate-800/50 p-4 rounded-xl border-l-4 border-l-amber-500">
+                                <h5 class="text-amber-400 font-bold mb-2">2. Internal CSS</h5>
+                                <p class="text-xs text-slate-400 mb-3">Inside &lt;style&gt; in the head.</p>
+                                <div class="bg-slate-900 p-3 rounded font-mono text-xs overflow-x-auto">
+                                    <code><span class="text-blue-400">&lt;style&gt;</span>
+  <span class="text-green-400">p</span> { <span class="text-purple-400">color</span>: <span class="text-amber-400">red</span>; }
+<span class="text-blue-400">&lt;/style&gt;</span></code>
+                                </div>
+                                <p class="text-xs text-amber-400 mt-2"><i class="fas fa-check"></i> Good for single
+                                    pages</p>
+                            </div>
+
+                            <!-- External -->
+                            <div class="bg-slate-800/50 p-4 rounded-xl border-l-4 border-l-green-500">
+                                <h5 class="text-green-400 font-bold mb-2">3. External CSS</h5>
+                                <p class="text-xs text-slate-400 mb-3">Separate .css file linked.</p>
+                                <div class="bg-slate-900 p-3 rounded font-mono text-xs overflow-x-auto">
+                                    <code><span class="text-blue-400">&lt;link</span> <span class="text-green-400">rel</span>=<span class="text-amber-400">"stylesheet"</span> <span class="text-green-400">href</span>=<span class="text-amber-400">"style.css"</span><span class="text-blue-400">&gt;</span></code>
+                                </div>
+                                <p class="text-xs text-green-400 mt-2"><i class="fas fa-star"></i> Best practice!</p>
+                            </div>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-file-code"></i>
+                            <span>الأفضل دايماً تفصل الـ CSS في ملف لوحده (External)! ده بيخلي الكود منظم وسهل تعدل
+                                عليه.
+                                فكر فيها كده: كل حاجة في مكانها.</span>
+                        </div>
+                    </div>
+
+                    <!-- CSS Selectors -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-blue-400 mb-4"><i class="fas fa-crosshairs mr-2"></i>CSS
+                            Selectors</h4>
+                        <p class="text-slate-300 mb-4">Selectors tell CSS <strong>which elements</strong> to style:</p>
+
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-slate-800/50 p-4 rounded-xl">
+                                <h5 class="text-white font-bold mb-2">Element Selector</h5>
+                                <div class="bg-slate-900 p-3 rounded font-mono text-sm">
+                                    <code><span class="text-green-400">p</span> { <span class="text-purple-400">color</span>: <span class="text-amber-400">blue</span>; }</code>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-2">Selects all &lt;p&gt; elements</p>
+                            </div>
+
+                            <div class="bg-slate-800/50 p-4 rounded-xl">
+                                <h5 class="text-white font-bold mb-2">Class Selector</h5>
+                                <div class="bg-slate-900 p-3 rounded font-mono text-sm">
+                                    <code><span class="text-green-400">.highlight</span> { <span class="text-purple-400">color</span>: <span class="text-amber-400">red</span>; }</code>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-2">Selects elements with class="highlight"</p>
+                            </div>
+
+                            <div class="bg-slate-800/50 p-4 rounded-xl">
+                                <h5 class="text-white font-bold mb-2">ID Selector</h5>
+                                <div class="bg-slate-900 p-3 rounded font-mono text-sm">
+                                    <code><span class="text-green-400">#header</span> { <span class="text-purple-400">color</span>: <span class="text-amber-400">green</span>; }</code>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-2">Selects element with id="header"</p>
+                            </div>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-bullseye"></i>
+                            <span>الـ Selector ده بيقول للـ CSS "روح لون ده" أو "كبر ده". ممكن تختار بالاسم (element)،
+                                أو
+                                بالكلاس (.)، أو بالـ ID (#). الفرق: الكلاس ممكن يتكرر، لكن الـ ID لازم يكون فريد!</span>
+                        </div>
+                    </div>
+
+                    <!-- Common CSS Properties -->
+                    <div class="glass-card p-8 rounded-2xl">
+                        <h4 class="text-xl font-bold text-blue-400 mb-4"><i class="fas fa-sliders-h mr-2"></i>Common CSS
+                            Properties</h4>
+
+                        <div
+                            class="bg-slate-900 rounded-xl p-6 font-mono text-sm overflow-x-auto border border-slate-700 mb-6">
+                            <pre class="text-slate-300"><code><span class="text-green-400">.card</span> {
+  <span class="text-slate-500">/* Colors */</span>
+  <span class="text-purple-400">color</span>: <span class="text-amber-400">#ffffff</span>;              <span class="text-slate-500">/* Text color */</span>
+  <span class="text-purple-400">background-color</span>: <span class="text-amber-400">#1e293b</span>;   <span class="text-slate-500">/* Background */</span>
+  
+  <span class="text-slate-500">/* Typography */</span>
+  <span class="text-purple-400">font-size</span>: <span class="text-amber-400">16px</span>;            <span class="text-slate-500">/* Text size */</span>
+  <span class="text-purple-400">font-family</span>: <span class="text-amber-400">Arial, sans-serif</span>;
+  <span class="text-purple-400">font-weight</span>: <span class="text-amber-400">bold</span>;          <span class="text-slate-500">/* Bold text */</span>
+  
+  <span class="text-slate-500">/* Box Model */</span>
+  <span class="text-purple-400">margin</span>: <span class="text-amber-400">20px</span>;               <span class="text-slate-500">/* Space outside */</span>
+  <span class="text-purple-400">padding</span>: <span class="text-amber-400">15px</span>;              <span class="text-slate-500">/* Space inside */</span>
+  <span class="text-purple-400">border</span>: <span class="text-amber-400">1px solid #3b82f6</span>; <span class="text-slate-500">/* Border */</span>
+  <span class="text-purple-400">border-radius</span>: <span class="text-amber-400">10px</span>;        <span class="text-slate-500">/* Rounded corners */</span>
+}</code></pre>
+                        </div>
+
+                        <!-- Visual Box Model -->
+                        <div class="bg-slate-800/30 p-6 rounded-xl">
+                            <h5 class="text-white font-bold mb-4 text-center">The Box Model</h5>
+                            <div class="flex justify-center">
+                                <svg viewBox="0 0 300 200" class="w-full max-w-md">
+                                    <!-- Margin -->
+                                    <rect x="10" y="10" width="280" height="180" fill="#f59e0b" fill-opacity="0.2"
+                                        stroke="#f59e0b" rx="8" />
+                                    <text x="150" y="25" text-anchor="middle" fill="#f59e0b"
+                                        font-size="10">MARGIN</text>
+
+                                    <!-- Border -->
+                                    <rect x="40" y="35" width="220" height="130" fill="#3b82f6" fill-opacity="0.3"
+                                        stroke="#3b82f6" stroke-width="3" rx="6" />
+                                    <text x="150" y="50" text-anchor="middle" fill="#3b82f6"
+                                        font-size="10">BORDER</text>
+
+                                    <!-- Padding -->
+                                    <rect x="60" y="60" width="180" height="80" fill="#10b981" fill-opacity="0.2"
+                                        stroke="#10b981" rx="4" />
+                                    <text x="150" y="75" text-anchor="middle" fill="#10b981"
+                                        font-size="10">PADDING</text>
+
+                                    <!-- Content -->
+                                    <rect x="85" y="85" width="130" height="40" fill="#8b5cf6" rx="4" />
+                                    <text x="150" y="110" text-anchor="middle" fill="white"
+                                        font-size="12">CONTENT</text>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-box"></i>
+                            <span>الـ Box Model ده أهم مفهوم في CSS! كل عنصر عبارة عن صندوق: المحتوى جواه، حواليه
+                                padding
+                                (مسافة داخلية)، بعدين border (الإطار)، وبرا margin (مسافة خارجية). زي البرتقالة: اللب،
+                                القشرة
+                                البيضا، القشرة البرتقالي، والهوا حواليها!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JavaScript Section -->
+                <div data-aos="fade-up">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div
+                            class="w-16 h-16 rounded-xl bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-black text-2xl font-bold shadow-lg shadow-yellow-500/20">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">JavaScript - The Programming Language of the Web
+                            </h3>
+                            <p class="text-slate-400 text-sm">Adding interactivity and dynamic behavior</p>
+                        </div>
+                    </div>
+
+                    <!-- What is JavaScript -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-yellow-400 mb-4"><i class="fas fa-bolt mr-2"></i>What is
+                            JavaScript?</h4>
+                        <p class="text-slate-300 mb-4">JavaScript (JS) is a programming language that runs in the
+                            browser.
+                            It makes web pages interactive by responding to user actions, updating content dynamically,
+                            and communicating with servers.</p>
+                        <ul class="custom-list text-slate-300 space-y-2">
+                            <li><strong>Handle clicks and events:</strong> React when users click, type, or scroll.</li>
+                            <li><strong>Change content:</strong> Update the page without reloading.</li>
+                            <li><strong>Validate forms:</strong> Check user input before sending.</li>
+                            <li><strong>Animations:</strong> Create smooth visual effects.</li>
+                        </ul>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-magic"></i>
+                            <span>الـ JavaScript ده اللي بيخلي الصفحة "حية"! لما تضغط على زرار ويحصل حاجة، أو لما الصفحة
+                                تتغير من غير ما ترفرش، ده كله JavaScript. بدونه الصفحة هتبقى ثابتة زي الصورة.</span>
+                        </div>
+                    </div>
+
+                    <!-- Variables and Data Types -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-yellow-400 mb-4"><i class="fas fa-database mr-2"></i>Variables
+                            and Data Types</h4>
+                        <p class="text-slate-300 mb-4">Variables are containers for storing data values:</p>
+
+                        <div
+                            class="bg-slate-900 rounded-xl p-6 font-mono text-sm overflow-x-auto border border-slate-700 mb-6">
+                            <pre class="text-slate-300"><code><span class="text-slate-500">// Declaring variables</span>
+<span class="text-purple-400">let</span> <span class="text-blue-400">name</span> = <span class="text-green-400">"Ahmed"</span>;        <span class="text-slate-500">// String (نص)</span>
+<span class="text-purple-400">let</span> <span class="text-blue-400">age</span> = <span class="text-amber-400">20</span>;               <span class="text-slate-500">// Number (رقم)</span>
+<span class="text-purple-400">let</span> <span class="text-blue-400">isStudent</span> = <span class="text-purple-400">true</span>;       <span class="text-slate-500">// Boolean (صح/غلط)</span>
+<span class="text-purple-400">const</span> <span class="text-blue-400">PI</span> = <span class="text-amber-400">3.14</span>;            <span class="text-slate-500">// Constant (ثابت - مش بيتغير)</span>
+
+<span class="text-slate-500">// Array (قائمة)</span>
+<span class="text-purple-400">let</span> <span class="text-blue-400">colors</span> = [<span class="text-green-400">"red"</span>, <span class="text-green-400">"green"</span>, <span class="text-green-400">"blue"</span>];
+
+<span class="text-slate-500">// Object (كائن - بيانات مترابطة)</span>
+<span class="text-purple-400">let</span> <span class="text-blue-400">student</span> = {
+  <span class="text-blue-400">name</span>: <span class="text-green-400">"Mohamed"</span>,
+  <span class="text-blue-400">grade</span>: <span class="text-amber-400">95</span>,
+  <span class="text-blue-400">passed</span>: <span class="text-purple-400">true</span>
+};</code></pre>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="bg-slate-800/50 p-4 rounded-lg">
+                                <code class="text-purple-400 font-bold">let</code>
+                                <p class="text-xs text-slate-400 mt-1">Variable that can change</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg">
+                                <code class="text-purple-400 font-bold">const</code>
+                                <p class="text-xs text-slate-400 mt-1">Constant - cannot change</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-lg">
+                                <code class="text-purple-400 font-bold">var</code>
+                                <p class="text-xs text-slate-400 mt-1">Old way (avoid using)</p>
+                            </div>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-box-open"></i>
+                            <span>المتغير (variable) ده زي العلبة اللي بتحط فيها حاجة. let يعني العلبة دي ممكن تغير اللي
+                                جواها، const يعني مينفعش تتغير. والـ Object ده زي الملف اللي فيه بيانات مترابطة (اسم،
+                                عمر، درجات...).</span>
+                        </div>
+                    </div>
+
+                    <!-- Functions -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-yellow-400 mb-4"><i class="fas fa-cog mr-2"></i>Functions</h4>
+                        <p class="text-slate-300 mb-4">Functions are reusable blocks of code that perform a specific
+                            task:</p>
+
+                        <div
+                            class="bg-slate-900 rounded-xl p-6 font-mono text-sm overflow-x-auto border border-slate-700 mb-6">
+                            <pre
+                                class="text-slate-300"><code><span class="text-slate-500">// Defining a function</span>
+<span class="text-purple-400">function</span> <span class="text-blue-400">greet</span>(<span class="text-orange-400">name</span>) {
+  <span class="text-purple-400">return</span> <span class="text-green-400">"Hello, "</span> + <span class="text-orange-400">name</span> + <span class="text-green-400">"!"</span>;
+}
+
+<span class="text-slate-500">// Calling the function</span>
+<span class="text-purple-400">let</span> <span class="text-blue-400">message</span> = <span class="text-blue-400">greet</span>(<span class="text-green-400">"Sara"</span>);  <span class="text-slate-500">// "Hello, Sara!"</span>
+
+<span class="text-slate-500">// Arrow function (الطريقة الحديثة)</span>
+<span class="text-purple-400">const</span> <span class="text-blue-400">add</span> = (<span class="text-orange-400">a</span>, <span class="text-orange-400">b</span>) => <span class="text-orange-400">a</span> + <span class="text-orange-400">b</span>;
+
+<span class="text-blue-400">console</span>.<span class="text-blue-400">log</span>(<span class="text-blue-400">add</span>(<span class="text-amber-400">5</span>, <span class="text-amber-400">3</span>));       <span class="text-slate-500">// 8</span></code></pre>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-recycle"></i>
+                            <span>الـ Function زي الماكينة: بتديها حاجة (input)، بتعمل شغلها، وبترجعلك النتيجة (output).
+                                بدل ما تكرر نفس الكود 100 مرة، اكتبه مرة واحدة في function واستخدمه!</span>
+                        </div>
+                    </div>
+
+                    <!-- DOM Manipulation -->
+                    <div class="glass-card p-8 rounded-2xl mb-6">
+                        <h4 class="text-xl font-bold text-yellow-400 mb-4"><i class="fas fa-edit mr-2"></i>DOM
+                            Manipulation</h4>
+                        <p class="text-slate-300 mb-4">The DOM (Document Object Model) lets JavaScript access and change
+                            HTML elements:</p>
+
+                        <div
+                            class="bg-slate-900 rounded-xl p-6 font-mono text-sm overflow-x-auto border border-slate-700 mb-6">
+                            <pre
+                                class="text-slate-300"><code><span class="text-slate-500">// Select an element by ID</span>
+<span class="text-purple-400">let</span> <span class="text-blue-400">title</span> = <span class="text-blue-400">document</span>.<span class="text-blue-400">getElementById</span>(<span class="text-green-400">"main-title"</span>);
+
+<span class="text-slate-500">// Change its content</span>
+<span class="text-blue-400">title</span>.<span class="text-blue-400">textContent</span> = <span class="text-green-400">"New Title!"</span>;
+
+<span class="text-slate-500">// Change its style</span>
+<span class="text-blue-400">title</span>.<span class="text-blue-400">style</span>.<span class="text-blue-400">color</span> = <span class="text-green-400">"red"</span>;
+
+<span class="text-slate-500">// Add a class</span>
+<span class="text-blue-400">title</span>.<span class="text-blue-400">classList</span>.<span class="text-blue-400">add</span>(<span class="text-green-400">"highlighted"</span>);
+
+<span class="text-slate-500">// Select by class (returns multiple elements)</span>
+<span class="text-purple-400">let</span> <span class="text-blue-400">cards</span> = <span class="text-blue-400">document</span>.<span class="text-blue-400">querySelectorAll</span>(<span class="text-green-400">".card"</span>);</code></pre>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-hand-pointer"></i>
+                            <span>الـ DOM ده الطريقة اللي JavaScript بيتكلم بيها مع HTML. تخيل إن الصفحة شجرة، وكل عنصر
+                                فيها ورقة. JavaScript بيقدر يمسك أي ورقة ويغيرها!</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Example -->
+                    <div class="glass-card p-8 rounded-2xl border-2 border-yellow-500/30">
+                        <h4 class="text-xl font-bold text-yellow-400 mb-4"><i
+                                class="fas fa-play-circle mr-2"></i>Interactive Example - Try It!</h4>
+                        <p class="text-slate-300 mb-6">Click the button to see JavaScript in action:</p>
+
+                        <div class="bg-slate-900 p-6 rounded-xl mb-6" id="js-demo-area">
+                            <p id="demo-text" class="text-2xl font-bold text-white mb-4 transition-all duration-300">
+                                Hello, World! 👋</p>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="changeText()"
+                                    class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black font-bold rounded-lg transition">
+                                    <i class="fas fa-exchange-alt mr-2"></i>Change Text
+                                </button>
+                                <button onclick="changeColor()"
+                                    class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition">
+                                    <i class="fas fa-palette mr-2"></i>Change Color
+                                </button>
+                                <button onclick="toggleSize()"
+                                    class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white font-bold rounded-lg transition">
+                                    <i class="fas fa-text-height mr-2"></i>Toggle Size
+                                </button>
+                                <button onclick="resetDemo()"
+                                    class="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg transition">
+                                    <i class="fas fa-undo mr-2"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-4 rounded-xl">
+                            <h5 class="text-white font-bold mb-2">Code Behind:</h5>
+                            <div class="bg-slate-900 p-4 rounded font-mono text-xs overflow-x-auto">
+                                <pre class="text-slate-300"><code><span class="text-purple-400">function</span> <span class="text-blue-400">changeText</span>() {
+  <span class="text-purple-400">const</span> <span class="text-blue-400">texts</span> = [<span class="text-green-400">"Hello!"</span>, <span class="text-green-400">"مرحباً!"</span>, <span class="text-green-400">"Hola!"</span>, <span class="text-green-400">"Bonjour!"</span>];
+  <span class="text-purple-400">const</span> <span class="text-blue-400">random</span> = <span class="text-blue-400">Math</span>.<span class="text-blue-400">floor</span>(<span class="text-blue-400">Math</span>.<span class="text-blue-400">random</span>() * <span class="text-blue-400">texts</span>.<span class="text-blue-400">length</span>);
+  <span class="text-blue-400">document</span>.<span class="text-blue-400">getElementById</span>(<span class="text-green-400">"demo-text"</span>).<span class="text-blue-400">textContent</span> = <span class="text-blue-400">texts</span>[<span class="text-blue-400">random</span>];
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-hands"></i>
+                            <span>جرب بنفسك! كل زرار بيعمل حاجة مختلفة. ده بالظبط اللي JavaScript بيعمله: يخلي الصفحة
+                                تستجيب لأوامرك.</span>
+                        </div>
+                    </div>
+
+                    <!-- Events -->
+                    <div class="glass-card p-8 rounded-2xl mt-6">
+                        <h4 class="text-xl font-bold text-yellow-400 mb-4"><i
+                                class="fas fa-hand-point-up mr-2"></i>Events</h4>
+                        <p class="text-slate-300 mb-4">Events are actions that happen in the browser (clicks, key
+                            presses, etc.):</p>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-slate-800/50 p-4 rounded-xl">
+                                <h5 class="text-white font-bold mb-2">Common Events</h5>
+                                <ul class="text-sm text-slate-300 space-y-1">
+                                    <li><code class="text-blue-400">onclick</code> - When clicked</li>
+                                    <li><code class="text-blue-400">onmouseover</code> - Mouse hover</li>
+                                    <li><code class="text-blue-400">onkeyup</code> - Key released</li>
+                                    <li><code class="text-blue-400">onsubmit</code> - Form submitted</li>
+                                    <li><code class="text-blue-400">onload</code> - Page loaded</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl font-mono text-sm">
+                                <pre class="text-slate-300"><code><span class="text-slate-500">// Event listener</span>
+<span class="text-blue-400">button</span>.<span class="text-blue-400">addEventListener</span>(<span class="text-green-400">"click"</span>, () => {
+  <span class="text-blue-400">alert</span>(<span class="text-green-400">"Button clicked!"</span>);
+});</code></pre>
+                            </div>
+                        </div>
+                        <div class="egyptian-expl">
+                            <i class="fas fa-ear-listen"></i>
+                            <span>الـ Event ده "الحدث" اللي بيحصل. JavaScript بيسمع (listen) للأحداث دي وبينفذ كود لما
+                                تحصل. زي لما حد يدق الباب وأنت تفتحله!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="mt-16 grid md:grid-cols-3 gap-6" data-aos="fade-up">
+                    <div class="glass-card p-6 rounded-xl text-center border-t-4 border-t-orange-500">
+                        <i class="fab fa-html5 text-4xl text-orange-500 mb-4"></i>
+                        <h4 class="text-white font-bold mb-2">HTML</h4>
+                        <p class="text-sm text-slate-400">Structure & Content</p>
+                        <p class="text-xs text-orange-400 mt-2 font-arabic">الهيكل والمحتوى</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl text-center border-t-4 border-t-blue-500">
+                        <i class="fab fa-css3-alt text-4xl text-blue-500 mb-4"></i>
+                        <h4 class="text-white font-bold mb-2">CSS</h4>
+                        <p class="text-sm text-slate-400">Style & Layout</p>
+                        <p class="text-xs text-blue-400 mt-2 font-arabic">الشكل والتنسيق</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl text-center border-t-4 border-t-yellow-500">
+                        <i class="fab fa-js-square text-4xl text-yellow-500 mb-4"></i>
+                        <h4 class="text-white font-bold mb-2">JavaScript</h4>
+                        <p class="text-sm text-slate-400">Behavior & Interactivity</p>
+                        <p class="text-xs text-yellow-400 mt-2 font-arabic">السلوك والتفاعل</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exam Section -->
+        <section id="exam" class="py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl"></div>
+            <div class="container mx-auto max-w-5xl relative z-10">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <span
+                        class="inline-block py-1 px-3 rounded bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-4">ASSESSMENT</span>
+                    <h2 class="text-4xl font-bold text-white">Knowledge Check</h2>
+                    <p class="text-slate-400 mt-2">Test your understanding of Lecture 1.</p>
+                </div>
+                <div id="quiz-grid" class="grid md:grid-cols-2 gap-6">
+                    <!-- JS Injected -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-slate-800 bg-black/50 text-center">
+        <p class="text-slate-500 font-medium">Fundamental of IT - Lecture 1</p>
+    </footer>
+
+    <script>
+        // AOS
+        AOS.init({ duration: 800, once: true });
+
+        // Quiz Data generated from Lecture 1
+        const questions = [
+            { text: "What defines Information Technology?", ans: 0, expl: "Technology that helps produce, manipulate, store, communicate, and disseminate information.", opts: ["Producing, storing, and communicating info", "Only repairing computers", "Playing video games", "Selling phones"] },
+            { text: "Which is a part of IT?", ans: 2, expl: "Computers and Communications are the two main parts.", opts: ["Computer Technology only", "Communications only", "Both Computer & Communications", "None of above"] },
+            { text: "What is a Computer?", ans: 1, expl: "A programmable, multiuse machine that processes data into information.", opts: ["A calculator", "Programmable machine processing data", "Television", "Typewriter"] },
+            { text: "What is Telemedicine?", ans: 0, expl: "Medical care via telecommunications.", opts: ["Medical care via telecom", "A website for medicine", "A robot doctor", "Hospital software"] },
+            { text: "What is 'Virtual Money'?", ans: 3, expl: "Created/simulated by computer (e.g., electronic wallets).", opts: ["Monopoly money", "Printed cash", "Coins", "Cash-value cards & electronic wallets"] },
+            { text: "Which is an overuse/misuse of IT in education?", ans: 1, expl: "Texting friends during class is a misuse.", opts: ["Using PowerPoint", "Texting during class", "Online learning", "Simulations"] },
+            { text: "What does 'Cyberspace' encompass?", ans: 2, expl: "Not just the internet, but the whole wired/wireless world.", opts: ["Only the internet", "Only outer space", "The whole wired/wireless communications world", "Virtual Reality games"] },
+            { text: "What is the Internet?", ans: 0, expl: "Worldwide network connecting smaller networks.", opts: ["Worldwide network of networks", "Google", "A single supercomputer", "The World Wide Web"] },
+            { text: "What is a Server?", ans: 1, expl: "Central computer holding data/programs for clients.", opts: ["A waiter", "Central computer supplying services to clients", "A personal laptop", "A wifi router"] },
+            { text: "What is the function of Input hardware?", ans: 3, expl: "What goes into the computer system.", opts: ["Processing data", " storing data", "Showing results", "Entering data into the system"] },
+            { text: "RAM stands for?", ans: 0, expl: "Random Access Memory (Primary storage).", opts: ["Random Access Memory", "Read Access Memory", "Run All Memory", "Real Action Mode"] },
+            { text: "Which storage is temporary (volatile)?", ans: 1, expl: "RAM is temporary; it clears when power is off.", opts: ["Hard Drive", "RAM", "DVD", "Flash Memory"] },
+            { text: "How much is 1 Kilobyte?", ans: 2, expl: "1024 characters (bytes).", opts: ["1000 characters", "8 characters", "1024 characters", "1 million characters"] },
+            { text: "What is System Software?", ans: 0, expl: "Software capable of performing essential operating tasks (e.g. OS).", opts: ["OS & essential utilities", "Games", "Word Processors", "The Internet"] },
+            { text: "What is Artificial Intelligence (AI)?", ans: 3, expl: "Machines emulating human qualities like learning/reasoning.", opts: ["A robot", "A fast computer", "The internet", "Machines emulating human qualities"] }
+        ];
+
+        // Render Quiz
+        const grid = document.getElementById('quiz-grid');
+        questions.forEach((q, i) => {
+            const card = document.createElement('div');
+            card.className = "glass-card p-6 rounded-xl hover:bg-slate-800/80 group transition flex flex-col";
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-sm font-mono text-blue-500">Q${i + 1}</span>
+                </div>
+                <p class="text-lg font-semibold text-white mb-6">${q.text}</p>
+                <div class="grid gap-2 mb-4 text-sm text-slate-300">
+                    ${q.opts.map((opt, optIdx) => `
+                        <div onclick="checkAnswer(this, ${optIdx}, ${q.ans})" 
+                             class="p-3 rounded bg-slate-900/50 border border-slate-700 hover:bg-slate-800 transition cursor-pointer answer-opt">
+                            ${String.fromCharCode(65 + optIdx)}) ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="mt-auto">
+                    <button onclick="this.nextElementSibling.classList.toggle('show')" class="text-xs flex items-center gap-2 text-slate-500 hover:text-emerald-400 font-bold uppercase tracking-wider transition cursor-pointer mt-2">
+                        <i class="fas fa-eye"></i> Show Answer
+                    </button>
+                    <div class="answer-container">
+                        <p class="text-emerald-400 font-bold mb-1">Correct: ${String.fromCharCode(65 + q.ans)}</p>
+                        <p class="text-xs text-slate-300">${q.expl}</p>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        function checkAnswer(el, selected, correct) {
+            const parent = el.parentElement;
+            Array.from(parent.children).forEach(child => {
+                child.classList.remove('bg-emerald-500/20', 'border-emerald-500', 'bg-red-500/20', 'border-red-500');
+                child.classList.add('bg-slate-900/50', 'border-slate-700');
+            });
+            if (selected === correct) {
+                el.classList.remove('bg-slate-900/50', 'border-slate-700');
+                el.classList.add('bg-emerald-500/20', 'border-emerald-500');
+            } else {
+                el.classList.remove('bg-slate-900/50', 'border-slate-700');
+                el.classList.add('bg-red-500/20', 'border-red-500');
+            }
+        }
+
+        // Web Dev Demo Functions
+        function changeText() {
+            const texts = ["Hello, World! 👋", "مرحباً بالعالم! 🌍", "¡Hola Mundo! 🎉", "Bonjour le Monde! 🇫🇷", "Welcome to JavaScript! 🚀", "أهلاً بيك في الويب! 💻"];
+            const random = Math.floor(Math.random() * texts.length);
+            document.getElementById("demo-text").textContent = texts[random];
+        }
+
+        function changeColor() {
+            const colors = ["#ef4444", "#22c55e", "#3b82f6", "#a855f7", "#f59e0b", "#ec4899", "#14b8a6"];
+            const random = Math.floor(Math.random() * colors.length);
+            document.getElementById("demo-text").style.color = colors[random];
+        }
+
+        function toggleSize() {
+            const el = document.getElementById("demo-text");
+            if (el.classList.contains("text-4xl")) {
+                el.classList.remove("text-4xl");
+                el.classList.add("text-2xl");
+            } else {
+                el.classList.remove("text-2xl");
+                el.classList.add("text-4xl");
+            }
+        }
+
+        function resetDemo() {
+            const el = document.getElementById("demo-text");
+            el.textContent = "Hello, World! 👋";
+            el.style.color = "#ffffff";
+            el.classList.remove("text-4xl");
+            el.classList.add("text-2xl");
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Fundamentals - Course Portal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 35%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: #3b82f6;
+        }
+
+        /* Lecture Grid */
+        .lectures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .lecture-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lecture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .lecture-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+        }
+
+        .lecture-card:hover::before {
+            opacity: 1;
+        }
+
+        .lecture-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .lecture-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 0.5rem;
+        }
+
+        .lecture-desc {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .lecture-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .lecture-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 10px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .lecture-link:hover {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .lecture-link.script {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #a78bfa;
+        }
+
+        .lecture-link.script:hover {
+            background: #8b5cf6;
+            color: white;
+            border-color: #8b5cf6;
+        }
+
+        /* Coming Soon Card */
+        .lecture-card.coming-soon {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .lecture-card.coming-soon:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .coming-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 20px;
+            color: #fbbf24;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                padding: 2rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">IT</div>
+            </div>
+            <h1>IT Fundamentals</h1>
+            <p class="subtitle">A comprehensive course covering the essentials of Information Technology - from basics
+                to advanced concepts.</p>
+        </header>
+
+        <main>
+            <h2 class="section-title"><i class="fas fa-book-open"></i> Course Lectures</h2>
+
+            <div class="lectures-grid">
+                <!-- Lecture 01 -->
+                <div class="lecture-card">
+                    <div class="lecture-number">01</div>
+                    <div class="lecture-title">Introduction to IT</div>
+                    <div class="lecture-desc">The Mobile World, Information Technology & Your Life. Learn the basics of
+                        IT, its impact on education, health, business, and more.</div>
+                    <div class="lecture-links">
+                        <a href="lect01.html" class="lecture-link">
+                            <i class="fas fa-presentation"></i> Presentation
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Lecture 02 - Coming Soon -->
+                <div class="lecture-card coming-soon">
+                    <div class="lecture-number">02</div>
+                    <div class="lecture-title">Lecture 2</div>
+                    <div class="lecture-desc">Content coming soon...</div>
+                    <span class="coming-badge">Coming Soon</span>
+                </div>
+
+                <!-- Lecture 03 - Coming Soon -->
+                <div class="lecture-card coming-soon">
+                    <div class="lecture-number">03</div>
+                    <div class="lecture-title">Lecture 3</div>
+                    <div class="lecture-desc">Content coming soon...</div>
+                    <span class="coming-badge">Coming Soon</span>
+                </div>
+
+                <!-- Lecture 04 - Coming Soon -->
+                <div class="lecture-card coming-soon">
+                    <div class="lecture-number">04</div>
+                    <div class="lecture-title">Lecture 4</div>
+                    <div class="lecture-desc">Content coming soon...</div>
+                    <span class="coming-badge">Coming Soon</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>IT Fundamentals Course &copy; 2026</p>
+    </footer>
+</body>
+
+</html>

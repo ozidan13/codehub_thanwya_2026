@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script - Lecture 01: IT Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            color: #e0e0e0;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(100, 150, 255, 0.5);
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: rgba(100, 150, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(100, 150, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #64b5f6;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: "🎬";
+        }
+
+        .script-text {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: #f5f5f5;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border-right: 4px solid #7c4dff;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #ffc107;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            border-right: 3px solid #ffc107;
+        }
+
+        .note::before {
+            content: "📌 ملاحظة: ";
+            font-weight: bold;
+        }
+
+        .english {
+            direction: ltr;
+            text-align: left;
+            font-family: 'Segoe UI', sans-serif;
+            color: #b3e5fc;
+        }
+
+        .highlight {
+            color: #69f0ae;
+            font-weight: 600;
+        }
+
+        .pause {
+            color: #ff8a65;
+            font-size: 0.85rem;
+            display: block;
+            margin: 0.5rem 0;
+        }
+
+        a.back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(100, 150, 255, 0.2);
+            border: 1px solid rgba(100, 150, 255, 0.4);
+            border-radius: 8px;
+            color: #64b5f6;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        a.back-btn:hover {
+            background: rgba(100, 150, 255, 0.4);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← رجوع للصفحة الرئيسية</a>
+        <h1>📜 سكريبت الشرح - المحاضرة الأولى</h1>
+
+        <!-- Opening -->
+        <div class="section">
+            <div class="section-title">المقدمة والترحيب</div>
+            <div class="script-text">
+                السلام عليكم ورحمة الله وبركاته، أهلاً وسهلاً بيكم في المحاضرة الأولى من مادة <span
+                    class="highlight">أساسيات تكنولوجيا المعلومات</span>.
+                <span class="pause">[وقفة قصيرة]</span>
+                النهارده هنتكلم عن الـ <span class="english">Chapter 1</span> واللي بيتناول موضوعين أساسيين:
+                <br>الأول: <span class="english">The Mobile World, Information Technology, and Your Life</span>
+                <br>والتاني: <span class="english">The Basics of Information Technology</span>
+            </div>
+        </div>
+
+        <!-- What is IT -->
+        <div class="section">
+            <div class="section-title">تعريف تكنولوجيا المعلومات</div>
+            <div class="script-text">
+                طيب، يعني إيه <span class="highlight">Information Technology</span> أو الـ IT؟
+                <span class="pause">[وقفة]</span>
+                الـ IT ببساطة هي أي تكنولوجيا بتساعدنا إننا ننتج معلومة، نعدّل عليها، نخزّنها، ونبعتها لأي حد تاني.
+                <br><br>
+                يعني لما أنت بتستخدم الموبايل بتاعك عشان تبعت رسالة، أو تاخد صورة وتحفظها، أو حتى تسمع موسيقى - ده كله
+                يعتبر استخدام لتكنولوجيا المعلومات.
+                <span class="pause">[وقفة]</span>
+                والموبايلات والأجهزة اللوحية دي غيّرت تقريباً كل حاجة في حياتنا.
+            </div>
+        </div>
+
+        <!-- Two Parts of IT -->
+        <div class="section">
+            <div class="section-title">الجزئين الأساسيين للـ IT</div>
+            <div class="script-text">
+                الـ IT بيتقسم لجزئين أساسيين:
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">أولاً: Computer Technology</span> - تكنولوجيا الكمبيوتر
+                <br>
+                الكمبيوتر هو آلة قابلة للبرمجة ومتعددة الاستخدامات. بنديها بيانات خام (أرقام وحقائق) وهي بتعالجها
+                وتحولها لمعلومات مفيدة.
+                <br><br>
+                <span class="highlight">ثانياً: Communications Technology</span> - تكنولوجيا الاتصالات
+                <br>
+                دي الأجهزة والأنظمة اللي بتخلينا نتواصل مع بعض على أي مسافة. زي الموبايلات والإنترنت.
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="section">
+            <div class="section-title">الـ IT في التعليم</div>
+            <div class="script-text">
+                طيب الـ IT بتأثر في التعليم إزاي؟
+                <span class="pause">[وقفة]</span>
+                - بتساعد في تخصيص التعليم لكل طالب حسب مستواه
+                <br>- بتسهّل المهام الروتينية على المدرسين
+                <br>- الـ Presentations زي PowerPoint بتخلي الشرح أسهل وأوضح
+                <span class="pause">[وقفة]</span>
+                وكمان فيه <span class="highlight">التعليم عن بُعد أو Online Learning</span>:
+                <br>- أرخص من التعليم التقليدي
+                <br>- مفيد جداً للطلاب اللي ساكنين في أماكن بعيدة
+                <br>- بس لازم تتأكد إن المدرسة معتمدة <span class="english">(Accredited)</span>
+            </div>
+            <div class="note">
+                خلي بالك من سوء استخدام التكنولوجيا في التعليم زي التشات أثناء الحصة أو الغش!
+            </div>
+        </div>
+
+        <!-- Health -->
+        <div class="section">
+            <div class="section-title">الـ IT في الصحة والطب</div>
+            <div class="script-text">
+                في مجال الصحة، الـ IT عملت ثورة حقيقية:
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">Telemedicine</span> أو الطب عن بُعد: الدكتور يقدر يعالج مريض في بلد تانية خالص
+                من خلال الاتصالات.
+                <br><br>
+                <span class="highlight">النماذج ثلاثية الأبعاد:</span> بتساعد الأطباء يحددوا مكان الورم في المخ بدقة
+                شديدة.
+                <br><br>
+                <span class="highlight">الروبوتات:</span> بتعمل عمليات جراحية دقيقة جداً ميقدرش الإنسان يعملها بإيده.
+                <br><br>
+                وكمان <span class="highlight">السجلات الصحية الإلكترونية</span> اللي بتخلي كل بياناتك الطبية محفوظة
+                ومتاحة لأي دكتور يحتاجها.
+            </div>
+        </div>
+
+        <!-- Money & Business -->
+        <div class="section">
+            <div class="section-title">الـ IT في الفلوس والبيزنس</div>
+            <div class="script-text">
+                دلوقتي معدش لازم تشيل كاش في جيبك!
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">Virtual Money</span> أو الفلوس الافتراضية:
+                <br>- الكروت محفوظة القيمة <span class="english">(Cash-value cards)</span>
+                <br>- المحافظ الإلكترونية زي <span class="english">PayPal</span>
+                <br>- تحويل المرتبات إلكترونياً
+                <br>- دفع الفواتير أونلاين
+                <span class="pause">[وقفة]</span>
+                وكمان <span class="highlight">Showrooming</span>: يعني تروح المحل تتفرج على المنتج، وبعدين ترجع البيت
+                تشتريه أونلاين بسعر أرخص!
+                <br><br>
+                والـ <span class="highlight">Telecommuting</span>: يعني تشتغل من البيت عادي من غير ما تروح المكتب.
+            </div>
+        </div>
+
+        <!-- Government -->
+        <div class="section">
+            <div class="section-title">الـ IT في الحكومة</div>
+            <div class="script-text">
+                الحكومات كمان بتستفيد من الـ IT:
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">الفوائد:</span>
+                <br>- تحسين الخدمات (زي قواعد بيانات الشرطة)
+                <br>- التصويت أونلاين في الانتخابات
+                <br>- تسهيل جمع التبرعات
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">بس فيه تحديات:</span>
+                <br>- <span class="english">Gerrymandering</span>: وده التلاعب في تقسيم الدوائر الانتخابية
+                <br>- مشاكل في أجهزة التصويت
+                <br>- انتهاك الخصوصية
+            </div>
+        </div>
+
+        <!-- Jobs & Career -->
+        <div class="section">
+            <div class="section-title">الـ IT في العمل والوظائف</div>
+            <div class="script-text">
+                الـ IT بتساعدك تلاقي شغل وتبدأ مشروعك الخاص:
+                <span class="pause">[وقفة]</span>
+                - تقدر تعمل <span class="english">Resume</span> أو <span class="english">Blog</span> يعرض مهاراتك
+                <br>- تقدر تتقدم على وظائف أونلاين
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">تحذير مهم:</span> أي حاجة بتكتبها على الإنترنت بتفضل موجودة للأبد! فخلي بالك من
+                اللي بتنشره.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">المهارات الأساسية المطلوبة:</span>
+                <br>- الكتابة على الكيبورد
+                <br>- استخدام الإيميل
+                <br>- برامج الـ Word والـ Excel
+                <br>- فهم أحجام الملفات ومكونات الأنظمة
+            </div>
+        </div>
+
+        <!-- Personal Life -->
+        <div class="section">
+            <div class="section-title">الـ IT في حياتنا الشخصية</div>
+            <div class="script-text">
+                حتى حياتنا الشخصية اتأثرت بالتكنولوجيا:
+                <span class="pause">[وقفة]</span>
+                - مواقع التعارف والعلاقات أونلاين
+                <br>- السوشيال ميديا بقت جزء أساسي من يومنا
+                <br><br>
+                زي ما بيقولوا: <span class="english">"Digital is embedded into the fiber of every aspect of our
+                    culture"</span>
+                <br>يعني الديجيتال دخل في كل تفاصيل حياتنا وثقافتنا.
+            </div>
+        </div>
+
+        <!-- Pervasive IT -->
+        <div class="section">
+            <div class="section-title">1.2 - الـ IT في كل مكان</div>
+            <div class="script-text">
+                <span class="highlight">تطور الموبايل:</span>
+                <br>أول مكالمة موبايل كانت سنة 1973. دلوقتي الموبايل بيعمل كل حاجة - مكالمات، إنترنت، صور، خرائط، ودفع
+                فلوس!
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">الإيميل والرسائل:</span>
+                <br>الإيميل ظهر سنة 1981. دلوقتي الرسائل النصية بتحل محل الإيميل في الاستخدام الشخصي.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">Cyberspace أو الفضاء الإلكتروني:</span>
+                <br>ده العالم الافتراضي اللي بيجمع كل الاتصالات السلكية واللاسلكية.
+            </div>
+        </div>
+
+        <!-- Internet vs Web -->
+        <div class="section">
+            <div class="section-title">الفرق بين الإنترنت والويب</div>
+            <div class="script-text">
+                فيه ناس كتير بتخلط بينهم، بس هما مختلفين:
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">الإنترنت (The Internet/The Net):</span>
+                <br>هي الشبكة الفعلية - الأسلاك والأجهزة اللي بتربط الشبكات ببعض حول العالم.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">الويب (World Wide Web):</span>
+                <br>ده المحتوى - الصفحات والمواقع اللي بنفتحها على الشبكة دي.
+                <br><br>
+                يعني الإنترنت هي الطريق، والويب هي العربيات اللي ماشية عليه!
+            </div>
+        </div>
+
+        <!-- UNIT 1B - Basics -->
+        <div class="section">
+            <div class="section-title">UNIT 1B - أساسيات الـ IT</div>
+            <div class="script-text">
+                دلوقتي ننتقل للجزء التاني من المحاضرة: <span class="highlight">أساسيات تكنولوجيا المعلومات</span>
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">أنواع الكمبيوترات:</span>
+                <br>- كمبيوتر مكتبي <span class="english">(Desktop)</span>
+                <br>- لابتوب <span class="english">(Laptop)</span>
+                <br>- تابلت <span class="english">(Tablet)</span>
+                <br>- متحكمات دقيقة <span class="english">(Microcontrollers)</span> - ودي موجودة في العربيات والتلاجات
+                والأجهزة الذكية
+            </div>
+        </div>
+
+        <!-- How Computers Work -->
+        <div class="section">
+            <div class="section-title">إزاي الكمبيوتر بيشتغل</div>
+            <div class="script-text">
+                أي عملية كمبيوتر بتمشي في <span class="highlight">3 خطوات أساسية</span>:
+                <span class="pause">[وقفة]</span>
+                1. <span class="english">Input (إدخال)</span> - بندخّل البيانات
+                <br>2. <span class="english">Process (معالجة)</span> - الكمبيوتر بيعالج البيانات دي
+                <br>3. <span class="english">Output (إخراج)</span> - بيطلعلنا النتيجة
+                <span class="pause">[وقفة]</span>
+                زي ما بتدخّل العجين الفرن، الفرن بيعالجه، ويطلعلك عيش!
+            </div>
+        </div>
+
+        <!-- Hardware -->
+        <div class="section">
+            <div class="section-title">مكونات الهاردوير</div>
+            <div class="script-text">
+                <span class="highlight">الـ System Unit (الوحدة الرئيسية):</span>
+                <span class="pause">[وقفة]</span>
+                - <span class="english">CPU</span>: المعالج - ده مخ الكمبيوتر
+                <br>- <span class="english">RAM</span>: الذاكرة المؤقتة - بتحفظ البيانات أثناء الشغل بس
+                <br>- <span class="english">Motherboard</span>: اللوحة الأم - ودي بتربط كل المكونات ببعض
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">الـ Peripherals (الملحقات):</span>
+                <br>- أجهزة إدخال زي الكيبورد والماوس
+                <br>- أجهزة إخراج زي الشاشة والسماعات
+                <br>- أجهزة تخزين زي الهارد
+                <br>- أجهزة اتصالات زي المودم
+            </div>
+        </div>
+
+        <!-- Storage -->
+        <div class="section">
+            <div class="section-title">وحدات التخزين</div>
+            <div class="script-text">
+                زي ما بنقيس الوزن بالكيلو، بنقيس البيانات بالـ <span class="highlight">Byte</span>:
+                <span class="pause">[وقفة]</span>
+                - <span class="english">Byte</span> = حرف واحد
+                <br>- <span class="english">Kilobyte (KB)</span> = حوالي 1000 حرف
+                <br>- <span class="english">Megabyte (MB)</span> = مليون حرف
+                <br>- <span class="english">Gigabyte (GB)</span> = مليار حرف
+                <br>- <span class="english">Terabyte (TB)</span> = تريليون حرف
+                <span class="pause">[وقفة]</span>
+                كل ما الرقم يكبر بنغير الاسم. وده مهم تفهمه عشان تعرف حجم الملفات والأجهزة.
+            </div>
+        </div>
+
+        <!-- Software -->
+        <div class="section">
+            <div class="section-title">السوفتوير (البرمجيات)</div>
+            <div class="script-text">
+                السوفتوير نوعين:
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">1. System Software (برامج النظام):</span>
+                <br>ده نظام التشغيل زي Windows أو Linux. من غيره الجهاز ميفهمش حاجة.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">2. Application Software (التطبيقات):</span>
+                <br>دي البرامج اللي بتسطبها عشان تعمل حاجة معينة، زي Word والألعاب.
+            </div>
+        </div>
+
+        <!-- Future of IT -->
+        <div class="section">
+            <div class="section-title">مستقبل الـ IT</div>
+            <div class="script-text">
+                الـ IT رايحة فين؟
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">3 اتجاهات رئيسية:</span>
+                <br>1. <span class="english">Miniaturization</span> - الأجهزة بتصغر في الحجم
+                <br>2. <span class="english">Speed</span> - بتبقى أسرع
+                <br>3. <span class="english">Affordability</span> - بتبقى أرخص
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">Cloud Computing (الحوسبة السحابية):</span>
+                <br>ملفاتك وبرامجك مرفوعة على الإنترنت مش على جهازك، فتقدر تفتحها من أي مكان.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">Artificial Intelligence (الذكاء الاصطناعي):</span>
+                <br>الآلات بتتعلم وتفكر زي الإنسان. زي ChatGPT والروبوتات الذكية.
+            </div>
+        </div>
+
+        <!-- Web Development Basics Intro -->
+        <div class="section">
+            <div class="section-title">أساسيات تطوير الويب - مقدمة</div>
+            <div class="script-text">
+                دلوقتي هندخل في جزء مهم جداً: <span class="highlight">أساسيات تطوير الويب</span>
+                <span class="pause">[وقفة]</span>
+                أي صفحة ويب في الدنيا بتتكون من 3 حاجات أساسية:
+                <br>1. <span class="english">HTML</span> - للهيكل والمحتوى
+                <br>2. <span class="english">CSS</span> - للشكل والتنسيق
+                <br>3. <span class="english">JavaScript</span> - للتفاعل والحركة
+                <span class="pause">[وقفة]</span>
+                فكر فيهم كده: الـ HTML هو الهيكل العظمي، الـ CSS هو الهدوم والميكاب، والـ JavaScript هو اللي بيخلي الجسم
+                يتحرك ويتفاعل!
+            </div>
+        </div>
+
+        <!-- HTML Section -->
+        <div class="section">
+            <div class="section-title">HTML - لغة ترميز النص الفائق</div>
+            <div class="script-text">
+                نبدأ بالـ <span class="highlight">HTML</span> أو <span class="english">HyperText Markup Language</span>
+                <span class="pause">[وقفة]</span>
+                الـ HTML هي اللغة المعيارية اللي بنستخدمها عشان نعمل ونرتب المحتوى على الويب. بتستخدم حاجة اسمها <span
+                    class="english">Tags</span> أو علامات عشان تحدد العناصر زي العناوين والفقرات والصور والروابط.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">معنى الاختصار:</span>
+                <br>- <span class="english">HyperText</span>: نص فيه روابط لنصوص تانية
+                <br>- <span class="english">Markup</span>: استخدام علامات لتحديد المحتوى
+                <br>- <span class="english">Language</span>: مجموعة قواعد المتصفح بيفهمها
+            </div>
+        </div>
+
+        <!-- HTML Structure -->
+        <div class="section">
+            <div class="section-title">هيكل صفحة HTML الأساسي</div>
+            <div class="script-text">
+                أي صفحة HTML بتبدأ بالهيكل ده:
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">أولاً:</span> <span class="english">&lt;!DOCTYPE html&gt;</span> - ده بيقول
+                للمتصفح إنه ده HTML5
+                <br><span class="highlight">ثانياً:</span> <span class="english">&lt;html&gt;</span> - ده العنصر الجذري
+                للصفحة
+                <br><span class="highlight">ثالثاً:</span> <span class="english">&lt;head&gt;</span> - فيه المعلومات زي
+                العنوان والروابط
+                <br><span class="highlight">رابعاً:</span> <span class="english">&lt;body&gt;</span> - وده فيه المحتوى
+                اللي الناس بتشوفه
+                <span class="pause">[وقفة]</span>
+                فكر فيها كده: الـ head زي المعلومات اللي في بطاقتك الشخصية، والـ body هو أنت نفسك اللي الناس بتشوفه.
+            </div>
+        </div>
+
+        <!-- Common HTML Tags -->
+        <div class="section">
+            <div class="section-title">أهم علامات HTML</div>
+            <div class="script-text">
+                كل <span class="english">Tag</span> ليه وظيفة معينة:
+                <span class="pause">[وقفة]</span>
+                - <span class="english">&lt;h1&gt;</span> لحد <span class="english">&lt;h6&gt;</span>: للعناوين - h1
+                الأكبر
+                <br>- <span class="english">&lt;p&gt;</span>: للفقرات
+                <br>- <span class="english">&lt;a&gt;</span>: للروابط
+                <br>- <span class="english">&lt;img&gt;</span>: للصور
+                <br>- <span class="english">&lt;ul&gt;</span> و <span class="english">&lt;ol&gt;</span>: للقوائم
+                <br>- <span class="english">&lt;div&gt;</span>: كحاوية لتجميع العناصر
+                <span class="pause">[وقفة]</span>
+                زي ما في العربية فيه دريكسيون وفرامل وبنزين، كل عنصر في HTML ليه دور محدد.
+            </div>
+        </div>
+
+        <!-- Semantic HTML -->
+        <div class="section">
+            <div class="section-title">Semantic HTML - العلامات المعبّرة</div>
+            <div class="script-text">
+                الـ <span class="highlight">Semantic HTML</span> يعني تستخدم علامات ليها معنى واضح:
+                <span class="pause">[وقفة]</span>
+                - <span class="english">&lt;header&gt;</span>: لرأس الصفحة
+                <br>- <span class="english">&lt;nav&gt;</span>: للقائمة
+                <br>- <span class="english">&lt;main&gt;</span>: للمحتوى الرئيسي
+                <br>- <span class="english">&lt;section&gt;</span>: لقسم من المحتوى
+                <br>- <span class="english">&lt;article&gt;</span>: لمحتوى مستقل
+                <br>- <span class="english">&lt;footer&gt;</span>: لذيل الصفحة
+                <span class="pause">[وقفة]</span>
+                ليه ده مهم؟ لأن جوجل ومحركات البحث بتفهم صفحتك أحسن، وكمان برامج قراءة الشاشة للمكفوفين.
+            </div>
+        </div>
+
+        <!-- CSS Intro -->
+        <div class="section">
+            <div class="section-title">CSS - صفحات الأنماط المتتالية</div>
+            <div class="script-text">
+                دلوقتي ننتقل للـ <span class="highlight">CSS</span> أو <span class="english">Cascading Style
+                    Sheets</span>
+                <span class="pause">[وقفة]</span>
+                الـ CSS هي اللغة اللي بنستخدمها عشان نعمل ستايل ونرتب المحتوى. بتتحكم في الألوان، الخطوط، المسافات،
+                والتوزيع.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">معنى الاختصار:</span>
+                <br>- <span class="english">Cascading</span>: الأنماط بتتراكب فوق بعض بترتيب معين
+                <br>- <span class="english">Style</span>: بتتحكم في الشكل
+                <br>- <span class="english">Sheets</span>: ممكن تكون في ملفات منفصلة
+                <span class="pause">[وقفة]</span>
+                لو الـ HTML هو الهيكل العظمي، الـ CSS هو الهدوم والميكاب!
+            </div>
+        </div>
+
+        <!-- Ways to Include CSS -->
+        <div class="section">
+            <div class="section-title">طرق إضافة CSS</div>
+            <div class="script-text">
+                فيه 3 طرق لإضافة CSS للصفحة:
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">1. Inline CSS:</span>
+                <br>جوه العنصر نفسه في الـ <span class="english">style attribute</span>. مش ممتازة للمشاريع الكبيرة.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">2. Internal CSS:</span>
+                <br>جوه تاج <span class="english">&lt;style&gt;</span> في الـ head. كويسة لصفحة واحدة.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">3. External CSS:</span>
+                <br>في ملف منفصل بامتداد <span class="english">.css</span>. ودي الطريقة الأفضل!
+                <span class="pause">[وقفة]</span>
+                خلي الـ CSS دايماً في ملف لوحده. فكر فيها كده: كل حاجة في مكانها = كود نضيف ومنظم.
+            </div>
+        </div>
+
+        <!-- CSS Selectors -->
+        <div class="section">
+            <div class="section-title">CSS Selectors - المحددات</div>
+            <div class="script-text">
+                الـ <span class="highlight">Selector</span> ده بيقول للـ CSS "أنهي عناصر تطبق عليها الستايل":
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">1. Element Selector:</span>
+                <br>بالاسم مباشرة. مثال: <span class="english">p { color: blue; }</span> - كل الفقرات هتبقى زرقاء
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">2. Class Selector:</span>
+                <br>بنقطة قبل الاسم. مثال: <span class="english">.highlight { color: red; }</span>
+                <br>وممكن تستخدم نفس الكلاس في أكتر من عنصر.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">3. ID Selector:</span>
+                <br>بهاش #. مثال: <span class="english">#header { color: green; }</span>
+                <br>الـ ID لازم يكون فريد - مينفعش يتكرر في الصفحة.
+            </div>
+        </div>
+
+        <!-- Box Model -->
+        <div class="section">
+            <div class="section-title">Box Model - نموذج الصندوق</div>
+            <div class="script-text">
+                من أهم المفاهيم في CSS: <span class="highlight">Box Model</span>
+                <span class="pause">[وقفة]</span>
+                كل عنصر في الصفحة عبارة عن صندوق بيتكون من:
+                <br>1. <span class="english">Content</span>: المحتوى نفسه
+                <br>2. <span class="english">Padding</span>: مسافة داخلية (بين المحتوى والإطار)
+                <br>3. <span class="english">Border</span>: الإطار
+                <br>4. <span class="english">Margin</span>: مسافة خارجية (بين العنصر والعناصر اللي حواليه)
+                <span class="pause">[وقفة]</span>
+                فكر فيها زي البرتقانة: اللب (المحتوى)، القشرة البيضا (padding)، القشرة البرتقالي (border)، والهوا
+                حواليها (margin).
+            </div>
+        </div>
+
+        <!-- JavaScript Intro -->
+        <div class="section">
+            <div class="section-title">JavaScript - لغة البرمجة للويب</div>
+            <div class="script-text">
+                أخيراً وصلنا للـ <span class="highlight">JavaScript</span>، لغة البرمجة بتاعة الويب!
+                <span class="pause">[وقفة]</span>
+                الـ JavaScript هي اللي بتخلي الصفحة "حية". بتشتغل في المتصفح وبتخلي الصفحة:
+                <br>- تستجيب لأفعال المستخدم (ضغطة زرار، كتابة)
+                <br>- تغير المحتوى من غير ما ترفرش
+                <br>- تتحقق من البيانات قبل إرسالها
+                <br>- تعمل أنيميشن وحركات
+                <span class="pause">[وقفة]</span>
+                من غير JavaScript، الصفحة هتبقى ثابتة زي الصورة. مفيش تفاعل!
+            </div>
+        </div>
+
+        <!-- Variables -->
+        <div class="section">
+            <div class="section-title">المتغيرات وأنواع البيانات</div>
+            <div class="script-text">
+                الـ <span class="highlight">Variable</span> أو المتغير ده زي العلبة اللي بتحط فيها قيمة:
+                <span class="pause">[وقفة]</span>
+                <span class="english">let name = "Ahmed";</span> - ده نص (String)
+                <br><span class="english">let age = 20;</span> - ده رقم (Number)
+                <br><span class="english">let isStudent = true;</span> - ده صح/غلط (Boolean)
+                <br><span class="english">const PI = 3.14;</span> - ده ثابت (Constant)
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">الفرق بين let و const:</span>
+                <br>- <span class="english">let</span>: ممكن تغير قيمتها بعدين
+                <br>- <span class="english">const</span>: مينفعش تتغير خالص
+                <span class="pause">[وقفة]</span>
+                وفيه كمان <span class="english">Array</span> (قائمة) و <span class="english">Object</span> (كائن بيجمع
+                بيانات مترابطة).
+            </div>
+        </div>
+
+        <!-- Functions -->
+        <div class="section">
+            <div class="section-title">الدوال (Functions)</div>
+            <div class="script-text">
+                الـ <span class="highlight">Function</span> هي كود بنكتبه مرة ونستخدمه كتير:
+                <span class="pause">[وقفة]</span>
+                <span class="english">function greet(name) {</span>
+                <br><span class="english"> return "Hello, " + name + "!";</span>
+                <br><span class="english">}</span>
+                <span class="pause">[وقفة]</span>
+                فكر فيها زي الماكينة: بتديها حاجة (input)، بتعمل شغلها، وبترجعلك النتيجة (output).
+                <span class="pause">[وقفة]</span>
+                بدل ما تكرر نفس الكود 100 مرة، اكتبه مرة واحدة في function واستخدمه!
+                <span class="pause">[وقفة]</span>
+                وفيه طريقة حديثة اسمها <span class="english">Arrow Function</span>:
+                <br><span class="english">const add = (a, b) => a + b;</span>
+            </div>
+        </div>
+
+        <!-- DOM -->
+        <div class="section">
+            <div class="section-title">DOM - التعامل مع عناصر الصفحة</div>
+            <div class="script-text">
+                الـ <span class="highlight">DOM</span> أو <span class="english">Document Object Model</span> هو الطريقة
+                اللي JavaScript بيتكلم بيها مع HTML:
+                <span class="pause">[وقفة]</span>
+                تخيل إن الصفحة شجرة، وكل عنصر فيها ورقة. JavaScript بيقدر يمسك أي ورقة ويغيرها!
+                <span class="pause">[وقفة]</span>
+                <span class="english">document.getElementById("title")</span> - بيجيب عنصر بالـ ID
+                <br><span class="english">element.textContent = "New Text"</span> - بيغير المحتوى
+                <br><span class="english">element.style.color = "red"</span> - بيغير اللون
+                <br><span class="english">element.classList.add("active")</span> - بيضيف كلاس
+                <span class="pause">[وقفة]</span>
+                ده بالظبط اللي بيحصل لما تضغط على زرار والصفحة تتغير!
+            </div>
+        </div>
+
+        <!-- Events -->
+        <div class="section">
+            <div class="section-title">الأحداث (Events)</div>
+            <div class="script-text">
+                الـ <span class="highlight">Event</span> ده "الحدث" اللي بيحصل في المتصفح:
+                <span class="pause">[وقفة]</span>
+                - <span class="english">onclick</span>: لما حد يضغط
+                <br>- <span class="english">onmouseover</span>: لما الماوس يعدي على العنصر
+                <br>- <span class="english">onkeyup</span>: لما حد يكتب ويرفع إيده
+                <br>- <span class="english">onsubmit</span>: لما يبعت فورم
+                <br>- <span class="english">onload</span>: لما الصفحة تحمّل
+                <span class="pause">[وقفة]</span>
+                JavaScript بيسمع (listen) للأحداث دي وبينفذ كود لما تحصل.
+                <br>زي لما حد يدق الباب وأنت تفتحله!
+            </div>
+        </div>
+
+        <!-- Web Dev Summary -->
+        <div class="section">
+            <div class="section-title">ملخص أساسيات الويب</div>
+            <div class="script-text">
+                خلينا نلخص اللي اتعلمناه:
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">HTML:</span> الهيكل والمحتوى - العظام
+                <br><span class="highlight">CSS:</span> الشكل والتنسيق - الهدوم والميكاب
+                <br><span class="highlight">JavaScript:</span> السلوك والتفاعل - الحياة والحركة
+                <span class="pause">[وقفة]</span>
+                التلاتة دول بيشتغلوا مع بعض عشان يعملوا أي صفحة ويب تشوفها على الإنترنت.
+                <br>وده أساس أي career في تطوير الويب!
+            </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="section">
+            <div class="section-title">الخاتمة</div>
+            <div class="script-text">
+                كده إحنا خلصنا المحاضرة الأولى.
+                <span class="pause">[وقفة]</span>
+                اتكلمنا عن:
+                <br>- تعريف تكنولوجيا المعلومات وأجزائها
+                <br>- تأثير الـ IT على التعليم والصحة والفلوس والحكومة والشغل
+                <br>- أساسيات الكمبيوتر: الهاردوير والسوفتوير ووحدات التخزين
+                <br>- مستقبل الـ IT وإيه اللي جاي
+                <br>- <span class="highlight">أساسيات تطوير الويب: HTML, CSS, JavaScript</span>
+                <span class="pause">[وقفة]</span>
+                في الكويز الموجود في الـ Presentation، تقدر تختبر نفسك وتشوف فهمت قد إيه.
+                <br><br>
+                شكراً لمتابعتكم، وإلى اللقاء في المحاضرة الجاية إن شاء الله.
+                <br>السلام عليكم ورحمة الله وبركاته.
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
