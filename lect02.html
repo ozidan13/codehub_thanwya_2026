@@ -1,0 +1,2181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML In-Depth — المحاضرة التانية</title>
+    <meta name="description"
+        content="محاضرة HTML شاملة ومفصلة — من الألف للياء. شرح بالعامية المصرية مع أمثلة عملية حقيقية.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: { green: '#10B981', blue: '#3B82F6', purple: '#8B5CF6', red: '#ef4444', amber: '#f59e0b', orange: '#f97316' },
+                        dark: { bg: '#020617', card: '#0F172A', border: '#1E293B' }
+                    },
+                    fontFamily: { sans: ['Cairo', 'Inter', 'sans-serif'], arabic: ['Cairo', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    animation: { 'float': 'float 3s ease-in-out infinite', 'spin-slow': 'spin 8s linear infinite' },
+                    keyframes: { float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } } }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #E2E8F0;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.05) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 20%);
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(249, 115, 22, 0.3);
+            box-shadow: 0 10px 40px -10px rgba(249, 115, 22, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .glass-header {
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Egyptian Explanation Block */
+        .egyptian-expl {
+            background: rgba(251, 191, 36, 0.05);
+            border-right: 3px solid #fbbf24;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            color: #fbbf24;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            line-height: 1.8;
+        }
+
+        .egyptian-expl i {
+            margin-top: 0.2rem;
+        }
+
+        /* Warning Explanation */
+        .warning-expl {
+            background: rgba(239, 68, 68, 0.05);
+            border-right: 3px solid #ef4444;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            color: #ef4444;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            line-height: 1.8;
+        }
+
+        /* Tip Explanation */
+        .tip-expl {
+            background: rgba(16, 185, 129, 0.05);
+            border-right: 3px solid #10B981;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            color: #10B981;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            line-height: 1.8;
+        }
+
+        /* Code Block Container — ALWAYS LTR */
+        .code-block {
+            direction: ltr;
+            text-align: left;
+            background: #0d1117;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            background: #161b22;
+            border-bottom: 1px solid #1e293b;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #8b949e;
+        }
+
+        .code-block-header .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 6px;
+        }
+
+        .code-block pre {
+            padding: 1.25rem;
+            margin: 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+
+        /* Syntax highlighting classes */
+        .syn-tag {
+            color: #7ee787;
+        }
+
+        .syn-attr {
+            color: #79c0ff;
+        }
+
+        .syn-val {
+            color: #ffa657;
+        }
+
+        .syn-comment {
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        .syn-keyword {
+            color: #ff7b72;
+        }
+
+        .syn-string {
+            color: #a5d6ff;
+        }
+
+        .syn-text {
+            color: #c9d1d9;
+        }
+
+        /* Quiz */
+        .answer-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s ease;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 0.5rem;
+        }
+
+        .answer-container.show {
+            max-height: 200px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* Table */
+        .custom-table {
+            direction: ltr;
+            text-align: left;
+        }
+
+        .custom-table.rtl-table {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .custom-table tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.3);
+        }
+
+        .custom-table td,
+        .custom-table th {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .custom-table th {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            color: #94A3B8;
+        }
+
+        /* Lists */
+        ul.custom-list {
+            list-style: none;
+            padding-right: 0;
+        }
+
+        ul.custom-list li {
+            position: relative;
+            padding-right: 1.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+
+        ul.custom-list li::before {
+            content: "•";
+            color: #f97316;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-right: -1em;
+        }
+
+        /* Section divider */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.3), transparent);
+            margin: 3rem 0;
+        }
+
+        /* Scroll progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            z-index: 100;
+            transition: width 0.1s;
+        }
+
+        /* ═══════ Browser Window Preview Mockup ═══════ */
+        .browser-preview {
+            direction: ltr;
+            text-align: left;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            margin: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .browser-preview-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+        }
+
+        .browser-preview-bar .dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .browser-preview-bar .dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .browser-preview-bar .url-bar {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .browser-preview-bar .url-bar i {
+            font-size: 0.6rem;
+            color: #22c55e;
+        }
+
+        .browser-preview-body {
+            background: #ffffff;
+            padding: 20px 24px;
+            min-height: 60px;
+            color: #1e293b;
+            font-family: 'Inter', 'Cairo', sans-serif;
+        }
+
+        .browser-preview-body h1,
+        .browser-preview-body h2,
+        .browser-preview-body h3,
+        .browser-preview-body h4,
+        .browser-preview-body h5,
+        .browser-preview-body h6 {
+            color: #0f172a;
+            margin: 0.3em 0;
+            font-family: 'Inter', 'Cairo', serif;
+        }
+
+        .browser-preview-body h1 {
+            font-size: 2em;
+        }
+
+        .browser-preview-body h2 {
+            font-size: 1.5em;
+        }
+
+        .browser-preview-body h3 {
+            font-size: 1.17em;
+        }
+
+        .browser-preview-body h4 {
+            font-size: 1em;
+        }
+
+        .browser-preview-body h5 {
+            font-size: 0.83em;
+        }
+
+        .browser-preview-body h6 {
+            font-size: 0.67em;
+        }
+
+        .browser-preview-body p {
+            color: #334155;
+            margin: 0.5em 0;
+            line-height: 1.5;
+        }
+
+        .browser-preview-body a {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        .browser-preview-body blockquote {
+            border-left: 3px solid #94a3b8;
+            padding: 0.5em 1em;
+            margin: 0.5em 0;
+            color: #475569;
+            font-style: italic;
+        }
+
+        .browser-preview-body ul,
+        .browser-preview-body ol {
+            padding-left: 1.5em;
+            margin: 0.5em 0;
+            color: #334155;
+        }
+
+        .browser-preview-body li {
+            margin: 0.25em 0;
+        }
+
+        .browser-preview-body table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.5em 0;
+        }
+
+        .browser-preview-body th,
+        .browser-preview-body td {
+            border: 1px solid #cbd5e1;
+            padding: 6px 10px;
+            text-align: left;
+            font-size: 0.85em;
+        }
+
+        .browser-preview-body th {
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .browser-preview-body img {
+            max-width: 100%;
+            border-radius: 4px;
+        }
+
+        .browser-preview-body .form-demo label {
+            display: block;
+            margin: 6px 0 2px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .browser-preview-body .form-demo input,
+        .browser-preview-body .form-demo select,
+        .browser-preview-body .form-demo textarea {
+            display: block;
+            width: 100%;
+            padding: 5px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-size: 0.8em;
+            background: #f8fafc;
+        }
+
+        .browser-preview-body .form-demo button {
+            background: #2563eb;
+            color: #fff;
+            padding: 6px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-top: 4px;
+        }
+
+        .browser-preview-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.08);
+            border-top: 1px solid #334155;
+            font-size: 0.75rem;
+            color: #10b981;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <!-- Reading Progress Bar -->
+    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-header">
+        <div class="container mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-8 h-8 rounded bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white font-bold shadow-lg shadow-orange-500/20">
+                    <i class="fab fa-html5 text-sm"></i>
+                </div>
+                <span class="font-bold text-lg tracking-wide text-slate-200">المحاضرة<span
+                        class="text-orange-500">02</span></span>
+            </div>
+            <div class="hidden lg:flex gap-6 text-sm font-medium text-slate-400" dir="ltr">
+                <a href="#hero" class="hover:text-orange-400 transition">Intro</a>
+                <a href="#basics" class="hover:text-orange-400 transition">Basics</a>
+                <a href="#elements" class="hover:text-orange-400 transition">Elements</a>
+                <a href="#attributes" class="hover:text-orange-400 transition">Attributes</a>
+                <a href="#text" class="hover:text-orange-400 transition">Text</a>
+                <a href="#links-images" class="hover:text-orange-400 transition">Links & Media</a>
+                <a href="#forms" class="hover:text-orange-400 transition">Forms</a>
+                <a href="#semantic" class="hover:text-orange-400 transition">Semantic</a>
+                <a href="#a11y" class="hover:text-orange-400 transition">A11y</a>
+                <a href="#quiz"
+                    class="px-4 py-2 rounded-full bg-orange-600/10 text-orange-400 border border-orange-500/20 hover:bg-orange-600 hover:text-white transition">Quiz</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-24">
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- HERO SECTION                                                       -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <header id="hero" class="relative pb-20 px-6">
+            <div class="container mx-auto text-center relative z-10" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-xs font-mono text-orange-400 mb-6"
+                    dir="ltr">
+                    <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                    LECTURE 02
+                </div>
+
+                <div class="mb-4">
+                    <h1 class="text-5xl md:text-7xl font-black mb-2 tracking-tight leading-tight text-white">
+                        <span class="text-gradient">HTML</span> من الألف للياء
+                    </h1>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-400 mt-3">
+                        HyperText Markup Language — الدليل الشامل
+                    </h2>
+                </div>
+
+                <div class="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
+                    <p>محاضرة تفصيلية تغطي كل حاجة محتاج تعرفها عن HTML — من أول إنشاء أول صفحة ويب لحد Semantic HTML و
+                        Accessibility و SEO.</p>
+                </div>
+
+                <!-- Animated HTML Concept SVG -->
+                <div class="max-w-lg mx-auto h-36 relative" dir="ltr">
+                    <svg viewBox="0 0 500 120" class="w-full h-full">
+                        <text x="250" y="65" text-anchor="middle" fill="#f97316" font-size="48" font-weight="bold"
+                            font-family="JetBrains Mono, monospace" opacity="0.15">&lt;/&gt;</text>
+                        <rect x="50" y="30" width="100" height="60" rx="8" fill="#1e293b" stroke="#f97316"
+                            stroke-width="1.5" />
+                        <text x="100" y="65" text-anchor="middle" fill="#f97316" font-size="12"
+                            font-weight="bold">Structure</text>
+                        <line x1="155" y1="60" x2="195" y2="60" stroke="#475569" stroke-width="2" stroke-dasharray="4">
+                            <animate attributeName="stroke-dashoffset" from="20" to="0" dur="1.5s"
+                                repeatCount="indefinite" />
+                        </line>
+                        <rect x="200" y="30" width="100" height="60" rx="8" fill="#1e293b" stroke="#3b82f6"
+                            stroke-width="1.5" />
+                        <text x="250" y="65" text-anchor="middle" fill="#3b82f6" font-size="12"
+                            font-weight="bold">Meaning</text>
+                        <line x1="305" y1="60" x2="345" y2="60" stroke="#475569" stroke-width="2" stroke-dasharray="4">
+                            <animate attributeName="stroke-dashoffset" from="20" to="0" dur="1.5s"
+                                repeatCount="indefinite" />
+                        </line>
+                        <rect x="350" y="30" width="100" height="60" rx="8" fill="#1e293b" stroke="#10b981"
+                            stroke-width="1.5" />
+                        <text x="400" y="65" text-anchor="middle" fill="#10b981" font-size="12"
+                            font-weight="bold">Accessibility</text>
+                    </svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 1: ليه HTML مهمة                                           -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section class="py-12 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="glass-card p-8 rounded-2xl border-r-4 border-r-orange-500 mb-8" data-aos="fade-right">
+                    <h2 class="text-2xl font-bold text-white mb-4"><i
+                            class="fas fa-question-circle text-orange-400 ml-2"></i>ليه HTML مهمة أصلاً؟</h2>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        HTML هي <strong class="text-white">اللغة الأساسية</strong> اللي كل صفحة ويب في العالم مبنية
+                        بيها. مفيش موقع واحد على الإنترنت — لا فيسبوك، ولا جوجل، ولا يوتيوب — إلا وبيستخدم HTML.
+                    </p>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        لما بتفتح أي صفحة ويب، الـ browser بتاعك (زي Chrome أو Firefox) بياخد ملف HTML من الـ server
+                        وبيحوله لـ visual page قدامك. الملف ده بيقول للـ browser: "هنا عنوان، وهنا فقرة، وده لينك، ودي
+                        صورة." يعني HTML هي اللغة اللي بتوصف <em>هيكل</em> و<em>محتوى</em> الصفحة.
+                    </p>
+                    <div class="egyptian-expl">
+                        <i class="far fa-lightbulb text-lg"></i>
+                        <div>
+                            <strong>فكر فيها كده:</strong>
+                            لو الموقع عمارة، HTML هي الخرسانة والطوب — الهيكل اللي كل حاجة بتتبني عليه. CSS هي الدهان
+                            والديكور، و JavaScript هي الكهربا والأجهزة اللي بتخلي كل حاجة تتحرك وتشتغل. من غير HTML مفيش
+                            عمارة أصلاً.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How the Browser Works -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-left">
+                    <h3 class="text-xl font-bold text-white mb-6"><i class="fas fa-globe text-blue-400 ml-2"></i>إزاي
+                        الـ Browser بيشتغل؟</h3>
+                    <div class="grid md:grid-cols-4 gap-4 mb-4" dir="ltr">
+                        <div class="bg-slate-800/50 p-4 rounded-xl text-center">
+                            <i class="fas fa-user text-2xl text-green-400 mb-2"></i>
+                            <p class="text-xs text-slate-400">1. User types URL</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-xl text-center">
+                            <i class="fas fa-server text-2xl text-blue-400 mb-2"></i>
+                            <p class="text-xs text-slate-400">2. Server sends HTML</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-xl text-center">
+                            <i class="fas fa-cogs text-2xl text-purple-400 mb-2"></i>
+                            <p class="text-xs text-slate-400">3. Browser parses HTML</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-xl text-center">
+                            <i class="fas fa-desktop text-2xl text-orange-400 mb-2"></i>
+                            <p class="text-xs text-slate-400">4. Page rendered</p>
+                        </div>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-route"></i>
+                        <div>
+                            لما بتكتب عنوان موقع في الـ browser، الموضوع بيمشي كده: الـ browser بيروح للـ server ويقوله
+                            "عايز الصفحة دي"، الـ server بيبعتله ملف HTML، الـ browser بيقراه سطر سطر وبيحوله للشكل اللي
+                            بتشوفه. العملية دي بتحصل في ملي ثانية!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 2: أساسيات HTML — الهيكل الأساسي                           -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="basics" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-orange-500/20">
+                        01</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">الهيكل الأساسي لملف HTML</h2>
+                        <p class="text-slate-400 text-sm">The Essential HTML Document Structure</p>
+                    </div>
+                </div>
+
+                <!-- DOCTYPE and basic structure -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4"><i class="fas fa-file-code ml-2"></i>أول ملف HTML
+                    </h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        أي ملف HTML لازم يبدأ بـ <code class="text-orange-400 bg-slate-800 px-2 py-0.5 rounded"
+                            dir="ltr">&lt;!DOCTYPE html&gt;</code> — ده مش tag عادي، ده تعليمات للـ browser إن الملف ده
+                        مكتوب بـ HTML5 (آخر إصدار). بعد كده بييجي هيكل ثابت كل ملف HTML بيتبعه:
+                    </p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div>
+                            <span>index.html</span>
+                        </div>
+                        <pre><code><span class="syn-comment">&lt;!-- ده أول سطر في أي ملف HTML --&gt;</span>
+<span class="syn-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="syn-tag">&lt;html</span> <span class="syn-attr">lang</span>=<span class="syn-val">"ar"</span> <span class="syn-attr">dir</span>=<span class="syn-val">"rtl"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-tag">&lt;head&gt;</span>
+    <span class="syn-comment">&lt;!-- معلومات عن الصفحة (مش بتظهر للمستخدم) --&gt;</span>
+    <span class="syn-tag">&lt;meta</span> <span class="syn-attr">charset</span>=<span class="syn-val">"UTF-8"</span><span class="syn-tag">&gt;</span>
+    <span class="syn-tag">&lt;meta</span> <span class="syn-attr">name</span>=<span class="syn-val">"viewport"</span> <span class="syn-attr">content</span>=<span class="syn-val">"width=device-width, initial-scale=1.0"</span><span class="syn-tag">&gt;</span>
+    <span class="syn-tag">&lt;title&gt;</span><span class="syn-text">أول صفحة ويب</span><span class="syn-tag">&lt;/title&gt;</span>
+  <span class="syn-tag">&lt;/head&gt;</span>
+
+  <span class="syn-tag">&lt;body&gt;</span>
+    <span class="syn-comment">&lt;!-- المحتوى اللي هيظهر في الصفحة --&gt;</span>
+    <span class="syn-tag">&lt;h1&gt;</span><span class="syn-text">أهلاً بيك في أول صفحة!</span><span class="syn-tag">&lt;/h1&gt;</span>
+    <span class="syn-tag">&lt;p&gt;</span><span class="syn-text">دي أول فقرة في صفحتي.</span><span class="syn-tag">&lt;/p&gt;</span>
+  <span class="syn-tag">&lt;/body&gt;</span>
+
+<span class="syn-tag">&lt;/html&gt;</span></code></pre>
+                    </div>
+
+                    <!-- Browser Preview -->
+                    <div class="browser-preview mt-4">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> file:///index.html</div>
+                        </div>
+                        <div class="browser-preview-body" dir="rtl" style="text-align:right">
+                            <h1 style="font-size:2em;margin:0.3em 0;font-weight:bold">أهلاً بيك في أول صفحة!</h1>
+                            <p style="margin:0.5em 0">دي أول فقرة في صفحتي.</p>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> النتيجة في الـ Browser</div>
+                    </div>
+
+                    <!-- Explanation of each part -->
+                    <div class="grid md:grid-cols-2 gap-4 mt-6">
+                        <div class="bg-slate-800/50 p-4 rounded-lg border-r-2 border-orange-500">
+                            <h5 class="text-white font-bold mb-1"><code class="text-orange-400"
+                                    dir="ltr">&lt;!DOCTYPE html&gt;</code></h5>
+                            <p class="text-sm text-slate-400">بيقول للـ browser: "أنا ملف HTML5". لازم يكون أول سطر.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg border-r-2 border-blue-500">
+                            <h5 class="text-white font-bold mb-1"><code class="text-blue-400"
+                                    dir="ltr">&lt;html lang="ar"&gt;</code></h5>
+                            <p class="text-sm text-slate-400">الـ root element — كل حاجة تانية جواه. الـ <code
+                                    class="text-green-400">lang</code> بيحدد لغة الصفحة.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg border-r-2 border-purple-500">
+                            <h5 class="text-white font-bold mb-1"><code class="text-purple-400"
+                                    dir="ltr">&lt;head&gt;</code></h5>
+                            <p class="text-sm text-slate-400">فيه metadata — معلومات <strong>مش</strong> بتظهر في الصفحة
+                                (العنوان، الوصف، CSS links).</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg border-r-2 border-green-500">
+                            <h5 class="text-white font-bold mb-1"><code class="text-green-400"
+                                    dir="ltr">&lt;body&gt;</code></h5>
+                            <p class="text-sm text-slate-400">كل حاجة المستخدم بيشوفها — العناوين، الفقرات، الصور،
+                                اللينكات — كلها جوا الـ body.</p>
+                        </div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <strong>كده ببساطة:</strong> الـ <code dir="ltr">&lt;head&gt;</code> زي بطاقة الهوية بتاعتك
+                            — معلومات عنك بس الناس مش بتشوفها أول ما تقابلك. الـ <code dir="ltr">&lt;body&gt;</code> هو
+                            أنت نفسك — اللي الناس بتشوفه وبتتعامل معاه.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meta Tags Deep Dive -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4"><i class="fas fa-tags ml-2"></i>الـ Meta Tags
+                        المهمة</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        الـ meta tags دي معلومات إضافية بتحطها جوا الـ <code class="text-purple-400"
+                            dir="ltr">&lt;head&gt;</code>. مهمة جداً للـ SEO (ظهور موقعك في جوجل) وللـ responsive design
+                        (إن الموقع يظهر كويس على الموبايل).
+                    </p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div>
+                            <span>meta-tags.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;head&gt;</span>
+  <span class="syn-comment">&lt;!-- ❶ الترميز: عشان الحروف العربية تظهر صح --&gt;</span>
+  <span class="syn-tag">&lt;meta</span> <span class="syn-attr">charset</span>=<span class="syn-val">"UTF-8"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❷ الـ Viewport: عشان الموقع يظهر كويس على الموبايل --&gt;</span>
+  <span class="syn-tag">&lt;meta</span> <span class="syn-attr">name</span>=<span class="syn-val">"viewport"</span>
+        <span class="syn-attr">content</span>=<span class="syn-val">"width=device-width, initial-scale=1.0"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❸ وصف الصفحة: بيظهر في نتائج جوجل --&gt;</span>
+  <span class="syn-tag">&lt;meta</span> <span class="syn-attr">name</span>=<span class="syn-val">"description"</span>
+        <span class="syn-attr">content</span>=<span class="syn-val">"تعلم HTML من الصفر — دروس بالعربي"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❹ الأيقونة اللي بتظهر في الـ Tab --&gt;</span>
+  <span class="syn-tag">&lt;link</span> <span class="syn-attr">rel</span>=<span class="syn-val">"icon"</span> <span class="syn-attr">href</span>=<span class="syn-val">"favicon.ico"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❺ Open Graph: لما حد يشير الموقع على فيسبوك --&gt;</span>
+  <span class="syn-tag">&lt;meta</span> <span class="syn-attr">property</span>=<span class="syn-val">"og:title"</span> <span class="syn-attr">content</span>=<span class="syn-val">"تعلم HTML"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;meta</span> <span class="syn-attr">property</span>=<span class="syn-val">"og:image"</span> <span class="syn-attr">content</span>=<span class="syn-val">"preview.jpg"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-tag">&lt;title&gt;</span><span class="syn-text">تعلم HTML</span><span class="syn-tag">&lt;/title&gt;</span>
+<span class="syn-tag">&lt;/head&gt;</span></code></pre>
+                    </div>
+                    <div class="tip-expl">
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <strong>نصيحة مهمة:</strong> لو أنت بتعمل موقع بالعربي، لازم تحط <code
+                                dir="ltr">charset="UTF-8"</code> عشان الحروف العربية تظهر صح ومتبوظش. ولو نسيت الـ
+                            viewport، موقعك هيبان صغير أوي على الموبايل.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 3: العناصر والتاجات                                        -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="elements" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-orange-500/20">
+                        02</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">العناصر والتاجات</h2>
+                        <p class="text-slate-400 text-sm">HTML Elements, Tags & Nesting Rules</p>
+                    </div>
+                </div>
+
+                <!-- What is an Element -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">يعني إيه Element؟</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        الـ <strong class="text-white">Element</strong> هو الوحدة الأساسية في HTML. كل element بيتكون من
+                        3 حاجات: <strong class="text-green-400">Opening Tag</strong> + <strong
+                            class="text-white">Content</strong> + <strong class="text-red-400">Closing Tag</strong>.
+                    </p>
+
+                    <!-- Visual anatomy of an element -->
+                    <div class="bg-slate-800/50 p-6 rounded-xl mb-4" dir="ltr">
+                        <div class="text-center font-mono text-lg">
+                            <span class="text-green-400">&lt;p</span><span class="text-blue-400">
+                                class="intro"</span><span class="text-green-400">&gt;</span><span
+                                class="text-white">Hello World</span><span class="text-red-400">&lt;/p&gt;</span>
+                        </div>
+                        <div class="flex justify-center gap-8 mt-3 text-xs text-slate-500">
+                            <span>↑ Opening Tag</span>
+                            <span>↑ Attribute</span>
+                            <span>↑ Content</span>
+                            <span>↑ Closing Tag</span>
+                        </div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <div>
+                            فكر في الـ element زي ساندويتش: العيشة الفوقانية هي الـ opening tag، الحشو هو الـ content،
+                            والعيشة التحتانية هي الـ closing tag. بعض الـ tags زي <code dir="ltr">&lt;img&gt;</code>
+                            مبيحتاجوش closing tag — دول اسمهم <strong>self-closing</strong> أو <strong>void
+                                elements</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Block vs Inline -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">Block vs Inline Elements</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-slate-800/50 p-6 rounded-xl border-t-2 border-blue-500">
+                            <h4 class="font-bold text-blue-400 mb-3"><i class="fas fa-square ml-2"></i>Block Elements
+                            </h4>
+                            <p class="text-sm text-slate-300 mb-3">بياخد الـ width كله وبيبدأ في سطر جديد. زي الصناديق
+                                الكبيرة اللي كل واحد فوق التاني.</p>
+                            <div class="code-block">
+                                <div class="code-block-header"><span>block-elements.html</span></div>
+                                <pre><code><span class="syn-comment">&lt;!-- كل دي block elements --&gt;</span>
+<span class="syn-tag">&lt;div&gt;</span>...<span class="syn-tag">&lt;/div&gt;</span>
+<span class="syn-tag">&lt;p&gt;</span>...<span class="syn-tag">&lt;/p&gt;</span>
+<span class="syn-tag">&lt;h1&gt;</span>...<span class="syn-tag">&lt;/h1&gt;</span>
+<span class="syn-tag">&lt;section&gt;</span>...<span class="syn-tag">&lt;/section&gt;</span>
+<span class="syn-tag">&lt;ul&gt;</span>...<span class="syn-tag">&lt;/ul&gt;</span></code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-slate-800/50 p-6 rounded-xl border-t-2 border-green-500">
+                            <h4 class="font-bold text-green-400 mb-3"><i class="fas fa-grip-lines ml-2"></i>Inline
+                                Elements</h4>
+                            <p class="text-sm text-slate-300 mb-3">بياخد مساحة المحتوى بتاعه بس ومش بيعمل سطر جديد.
+                                بيكون جوا الـ block element.</p>
+                            <div class="code-block">
+                                <div class="code-block-header"><span>inline-elements.html</span></div>
+                                <pre><code><span class="syn-comment">&lt;!-- كل دي inline elements --&gt;</span>
+<span class="syn-tag">&lt;span&gt;</span>...<span class="syn-tag">&lt;/span&gt;</span>
+<span class="syn-tag">&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"#"</span><span class="syn-tag">&gt;</span>...<span class="syn-tag">&lt;/a&gt;</span>
+<span class="syn-tag">&lt;strong&gt;</span>...<span class="syn-tag">&lt;/strong&gt;</span>
+<span class="syn-tag">&lt;em&gt;</span>...<span class="syn-tag">&lt;/em&gt;</span>
+<span class="syn-tag">&lt;img</span> <span class="syn-attr">src</span>=<span class="syn-val">"..."</span><span class="syn-tag">&gt;</span></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="warning-expl">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>خطأ شائع:</strong> متحطش block element جوا inline element! يعني <code
+                                dir="ltr">&lt;span&gt;&lt;div&gt;...&lt;/div&gt;&lt;/span&gt;</code> ده غلط. الـ inline
+                            بيكون جوا الـ block مش العكس.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Void / Self-Closing Elements -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">الـ Void Elements (Self-closing)</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        فيه elements معندهاش content ومش بيحتاجوا closing tag. دول اسمهم <strong class="text-white">void
+                            elements</strong>. أشهرهم:
+                    </p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full custom-table text-sm">
+                            <thead class="bg-slate-800">
+                                <tr>
+                                    <th>Element</th>
+                                    <th>الوظيفة</th>
+                                    <th>مثال</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300">
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;img&gt;</td>
+                                    <td>صورة</td>
+                                    <td dir="ltr"><code>&lt;img src="photo.jpg" alt="وصف"&gt;</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;br&gt;</td>
+                                    <td>سطر جديد</td>
+                                    <td dir="ltr"><code>سطر&lt;br&gt;سطر تاني</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;hr&gt;</td>
+                                    <td>خط فاصل</td>
+                                    <td dir="ltr"><code>&lt;hr&gt;</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;input&gt;</td>
+                                    <td>حقل إدخال</td>
+                                    <td dir="ltr"><code>&lt;input type="text"&gt;</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;meta&gt;</td>
+                                    <td>بيانات وصفية</td>
+                                    <td dir="ltr"><code>&lt;meta charset="UTF-8"&gt;</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;link&gt;</td>
+                                    <td>ربط ملفات</td>
+                                    <td dir="ltr"><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-info-circle"></i>
+                        <div>دول عناصر "مكتفية بذاتها" — مش محتاجة تقفلها. الـ <code dir="ltr">&lt;img&gt;</code> مثلاً
+                            مش منطقي يكون جواها content، هي نفسها المحتوى.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 4: Attributes بالتفصيل                                     -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="attributes" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-orange-500/20">
+                        03</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">الـ Attributes بالتفصيل</h2>
+                        <p class="text-slate-400 text-sm">HTML Attributes — Global, Boolean & Data Attributes</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">يعني إيه Attribute؟</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        الـ <strong class="text-white">Attributes</strong> هي معلومات إضافية بتحطها جوا الـ opening tag
+                        عشان تتحكم في سلوك أو شكل الـ element. كل attribute بيتكون من <strong
+                            class="text-blue-400">name</strong>=<strong class="text-amber-400">"value"</strong>.
+                    </p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>attributes.html</span>
+                        </div>
+                        <pre><code><span class="syn-comment">&lt;!-- href هو الـ attribute اللي بيحدد لينك الصفحة --&gt;</span>
+<span class="syn-tag">&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"https://google.com"</span> <span class="syn-attr">target</span>=<span class="syn-val">"_blank"</span><span class="syn-tag">&gt;</span>اضغط هنا<span class="syn-tag">&lt;/a&gt;</span>
+
+<span class="syn-comment">&lt;!-- src بيحدد مصدر الصورة، و alt بيوصفها --&gt;</span>
+<span class="syn-tag">&lt;img</span> <span class="syn-attr">src</span>=<span class="syn-val">"photo.jpg"</span> <span class="syn-attr">alt</span>=<span class="syn-val">"صورة منظر طبيعي"</span> <span class="syn-attr">width</span>=<span class="syn-val">"600"</span><span class="syn-tag">&gt;</span>
+
+<span class="syn-comment">&lt;!-- id و class: أهم attributes للتعامل مع CSS و JavaScript --&gt;</span>
+<span class="syn-tag">&lt;div</span> <span class="syn-attr">id</span>=<span class="syn-val">"main-content"</span> <span class="syn-attr">class</span>=<span class="syn-val">"container active"</span><span class="syn-tag">&gt;</span>
+  محتوى الصفحة
+<span class="syn-tag">&lt;/div&gt;</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Global Attributes -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-blue-400 mb-4">الـ Global Attributes</h3>
+                    <p class="text-slate-300 mb-4">دول attributes ينفع تستخدمهم مع <strong
+                            class="text-white">أي</strong> HTML element:</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <code class="text-orange-400 text-sm" dir="ltr">id="unique-name"</code>
+                            <p class="text-xs text-slate-400 mt-1">اسم فريد للـ element — مش ينفع يتكرر في نفس الصفحة.
+                                بتستخدمه مع CSS و JavaScript.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <code class="text-orange-400 text-sm" dir="ltr">class="name1 name2"</code>
+                            <p class="text-xs text-slate-400 mt-1">اسم تصنيفي — ينفع يتكرر ويتحط أكتر من class. الأساس
+                                في CSS styling.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <code class="text-orange-400 text-sm" dir="ltr">style="color: red;"</code>
+                            <p class="text-xs text-slate-400 mt-1">Inline CSS — بتحط styling مباشر على الـ element. مش
+                                مستحب في الشغل الحقيقي.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <code class="text-orange-400 text-sm" dir="ltr">title="tooltip text"</code>
+                            <p class="text-xs text-slate-400 mt-1">نص بيظهر لما تحط الماوس فوق الـ element (tooltip).
+                            </p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <code class="text-orange-400 text-sm" dir="ltr">data-*="custom"</code>
+                            <p class="text-xs text-slate-400 mt-1">Custom attributes بتعملها بنفسك لخزن data إضافية.
+                                بتقراها من JavaScript.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <code class="text-orange-400 text-sm" dir="ltr">hidden</code>
+                            <p class="text-xs text-slate-400 mt-1">Boolean attribute — بيخفي الـ element من الصفحة. مش
+                                محتاج قيمة.</p>
+                        </div>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-key"></i>
+                        <div>
+                            <strong>القاعدة الذهبية:</strong> الـ <code>id</code> زي رقم البطاقة — فريد لكل شخص. الـ
+                            <code>class</code> زي اسم المدرسة — ناس كتير ممكن يكونوا نفس المدرسة.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Attributes Real Example -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-green-400 mb-4"><i class="fas fa-database ml-2"></i>الـ Data
+                        Attributes في الشغل الحقيقي</h3>
+                    <p class="text-slate-300 mb-4">الـ <code class="text-orange-400" dir="ltr">data-*</code> attributes
+                        مفيدة جداً لما تيجي تربط HTML بـ JavaScript. مثال حقيقي من e-commerce:</p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>product-card.html</span>
+                        </div>
+                        <pre><code><span class="syn-comment">&lt;!-- كارت منتج في موقع تسوق --&gt;</span>
+<span class="syn-tag">&lt;div</span> <span class="syn-attr">class</span>=<span class="syn-val">"product-card"</span>
+     <span class="syn-attr">data-product-id</span>=<span class="syn-val">"12345"</span>
+     <span class="syn-attr">data-price</span>=<span class="syn-val">"299.99"</span>
+     <span class="syn-attr">data-category</span>=<span class="syn-val">"electronics"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-tag">&lt;h3&gt;</span>Samsung Galaxy S24<span class="syn-tag">&lt;/h3&gt;</span>
+  <span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span>=<span class="syn-val">"add-to-cart"</span><span class="syn-tag">&gt;</span>أضف للسلة<span class="syn-tag">&lt;/button&gt;</span>
+<span class="syn-tag">&lt;/div&gt;</span>
+
+<span class="syn-comment">&lt;!-- في JavaScript بتقرا الـ data كده: --&gt;</span>
+<span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-keyword">const</span> card = document.querySelector(<span class="syn-string">'.product-card'</span>);
+  console.log(card.dataset.productId);  <span class="syn-comment">// "12345"</span>
+  console.log(card.dataset.price);      <span class="syn-comment">// "299.99"</span>
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+                    <div class="tip-expl">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>ده pattern شائع جداً في الشغل الحقيقي. بدل ما تعمل API call كل مرة، بتخزن الـ data في الـ
+                            HTML نفسه وتقراها بـ JavaScript لما تحتاجها.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 5: النصوص والعناوين                                        -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="text" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-orange-500/20">
+                        04</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">النصوص والعناوين</h2>
+                        <p class="text-slate-400 text-sm">Headings, Paragraphs & Text Formatting</p>
+                    </div>
+                </div>
+
+                <!-- Headings h1-h6 -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">العناوين <span dir="ltr"
+                            class="text-slate-400">(h1 — h6)</span></h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        HTML فيها 6 مستويات عناوين من <code class="text-orange-400" dir="ltr">&lt;h1&gt;</code> (الأكبر
+                        والأهم) لحد <code class="text-orange-400" dir="ltr">&lt;h6&gt;</code> (الأصغر). الترتيب ده مش
+                        مجرد حجم خط — ده hierarchy بيوصف هيكل المحتوى.
+                    </p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>headings.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;h1&gt;</span>عنوان الصفحة الرئيسي<span class="syn-tag">&lt;/h1&gt;</span>          <span class="syn-comment">&lt;!-- واحد بس في كل صفحة! --&gt;</span>
+<span class="syn-tag">&lt;h2&gt;</span>عنوان القسم<span class="syn-tag">&lt;/h2&gt;</span>                    <span class="syn-comment">&lt;!-- أقسام رئيسية --&gt;</span>
+<span class="syn-tag">&lt;h3&gt;</span>عنوان فرعي<span class="syn-tag">&lt;/h3&gt;</span>                    <span class="syn-comment">&lt;!-- أقسام فرعية --&gt;</span>
+<span class="syn-tag">&lt;h4&gt;</span>عنوان فرعي أصغر<span class="syn-tag">&lt;/h4&gt;</span>
+<span class="syn-tag">&lt;h5&gt;</span>عنوان صغير<span class="syn-tag">&lt;/h5&gt;</span>
+<span class="syn-tag">&lt;h6&gt;</span>أصغر عنوان<span class="syn-tag">&lt;/h6&gt;</span></code></pre>
+                    </div>
+
+                    <!-- Browser Preview: Headings -->
+                    <div class="browser-preview mt-4">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> file:///headings.html</div>
+                        </div>
+                        <div class="browser-preview-body">
+                            <h1 style="font-size:2em;margin:4px 0">عنوان الصفحة الرئيسي</h1>
+                            <h2 style="font-size:1.5em;margin:4px 0">عنوان القسم</h2>
+                            <h3 style="font-size:1.17em;margin:4px 0">عنوان فرعي</h3>
+                            <h4 style="font-size:1em;margin:4px 0">عنوان فرعي أصغر</h4>
+                            <h5 style="font-size:0.83em;margin:4px 0">عنوان صغير</h5>
+                            <h6 style="font-size:0.67em;margin:4px 0">أصغر عنوان</h6>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> النتيجة في الـ Browser</div>
+                    </div>
+
+                    <div class="warning-expl">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div><strong>قاعدة مهمة للـ SEO:</strong> متستخدمش <code dir="ltr">&lt;h1&gt;</code> أكتر من مرة
+                            في الصفحة. لازم يكون فيه <code dir="ltr">&lt;h1&gt;</code> واحد بس — ده العنوان الرئيسي اللي
+                            جوجل بيقراه أول حاجة.</div>
+                    </div>
+                </div>
+
+                <!-- Text Formatting -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">تنسيق النصوص</h3>
+                    <p class="text-slate-300 mb-4">HTML فيها tags كتير لتنسيق النصوص. كل tag ليه <strong
+                            class="text-white">معنى دلالي</strong> (semantic meaning) مش مجرد شكل:</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full custom-table text-sm">
+                            <thead class="bg-slate-800">
+                                <tr>
+                                    <th>Tag</th>
+                                    <th>الشكل</th>
+                                    <th>المعنى الدلالي</th>
+                                    <th>مثال عملي</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300">
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;strong&gt;</td>
+                                    <td><strong>Bold</strong></td>
+                                    <td>أهمية قوية (مش مجرد bold)</td>
+                                    <td>تحذير: <strong>ممنوع</strong> الدخول</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;em&gt;</td>
+                                    <td><em>Italic</em></td>
+                                    <td>تأكيد / stress</td>
+                                    <td>ده <em>مش</em> اختياري</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;mark&gt;</td>
+                                    <td><mark
+                                            style="background:#fbbf24;color:#000;padding:0 4px;border-radius:3px">Highlight</mark>
+                                    </td>
+                                    <td>نص مميز / highlight</td>
+                                    <td>ابحث عن كلمة <mark
+                                            style="background:#fbbf24;color:#000;padding:0 4px;border-radius:3px">HTML</mark>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;del&gt;</td>
+                                    <td><del>Deleted</del></td>
+                                    <td>نص تم حذفه</td>
+                                    <td>السعر: <del>500</del> 300 جنيه</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;code&gt;</td>
+                                    <td><code style="background:#1e293b;padding:2px 6px;border-radius:4px">Code</code>
+                                    </td>
+                                    <td>كود برمجي</td>
+                                    <td>استخدم <code
+                                            style="background:#1e293b;padding:2px 6px;border-radius:4px">console.log()</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;abbr&gt;</td>
+                                    <td><abbr title="HyperText Markup Language">HTML</abbr></td>
+                                    <td>اختصار مع tooltip</td>
+                                    <td><abbr title="Application Programming Interface">API</abbr></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-orange-400" dir="ltr">&lt;blockquote&gt;</td>
+                                    <td class="text-slate-400 italic border-r-2 border-slate-500 pr-2">Quote</td>
+                                    <td>اقتباس طويل</td>
+                                    <td>اقتباس من مصدر تاني</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>فيه فرق بين <code dir="ltr">&lt;strong&gt;</code> و <code dir="ltr">&lt;b&gt;</code>!
+                            الاتنين شكلهم bold بس <code dir="ltr">&lt;strong&gt;</code> بيقول للـ screen reader "ده كلام
+                            مهم اقراه بتركيز"، لكن <code dir="ltr">&lt;b&gt;</code> مجرد شكل. دايماً استخدم الـ semantic
+                            tag.</div>
+                    </div>
+                </div>
+
+                <!-- Blockquote Real Example -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4"><i class="fas fa-quote-right ml-2"></i>الاقتباسات
+                        في الواقع</h3>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>quotes.html</span>
+                        </div>
+                        <pre><code><span class="syn-comment">&lt;!-- اقتباس طويل من مصدر --&gt;</span>
+<span class="syn-tag">&lt;blockquote</span> <span class="syn-attr">cite</span>=<span class="syn-val">"https://developer.mozilla.org"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;p&gt;</span>HTML is the most basic building block of the Web.<span class="syn-tag">&lt;/p&gt;</span>
+  <span class="syn-tag">&lt;footer&gt;</span>— <span class="syn-tag">&lt;cite&gt;</span>MDN Web Docs<span class="syn-tag">&lt;/cite&gt;</span><span class="syn-tag">&lt;/footer&gt;</span>
+<span class="syn-tag">&lt;/blockquote&gt;</span>
+
+<span class="syn-comment">&lt;!-- اقتباس قصير inline --&gt;</span>
+<span class="syn-tag">&lt;p&gt;</span>كما قال Tim Berners-Lee:
+  <span class="syn-tag">&lt;q&gt;</span>The Web does not just connect machines, it connects people.<span class="syn-tag">&lt;/q&gt;</span>
+<span class="syn-tag">&lt;/p&gt;</span></code></pre>
+                    </div>
+
+                    <!-- Browser Preview: Blockquote -->
+                    <div class="browser-preview mt-4">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> file:///quotes.html</div>
+                        </div>
+                        <div class="browser-preview-body">
+                            <blockquote
+                                style="border-left:3px solid #94a3b8;padding:0.5em 1em;margin:0.5em 0;color:#475569;font-style:italic;background:#f8fafc">
+                                <p style="margin:0">HTML is the most basic building block of the Web.</p>
+                                <footer style="font-size:0.85em;color:#64748b;margin-top:4px">— <cite>MDN Web
+                                        Docs</cite></footer>
+                            </blockquote>
+                            <p style="margin-top:12px;color:#334155">كما قال Tim Berners-Lee: <q
+                                    style="font-style:italic">“The Web does not just connect machines, it connects
+                                    people.”</q></p>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> النتيجة في الـ Browser</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 6: الروابط والصور                                         -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="links-images" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-orange-500/20">
+                        05</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">الروابط والصور والميديا</h2>
+                        <p class="text-slate-400 text-sm">Links, Images, Audio & Video</p>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-blue-400 mb-4"><i class="fas fa-link ml-2"></i>الروابط — الـ
+                        Anchor Tag</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        الـ <code class="text-orange-400" dir="ltr">&lt;a&gt;</code> tag هو اللي بيعمل hyperlinks — وده
+                        <strong class="text-white">أساس الويب</strong> كله. "HyperText" في HTML معناها "نص مرتبط بنصوص
+                        تانية". الـ attribute الأساسي هو <code class="text-blue-400" dir="ltr">href</code> (Hypertext
+                        REFerence).
+                    </p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>links.html</span>
+                        </div>
+                        <pre><code><span class="syn-comment">&lt;!-- ❶ لينك لموقع خارجي --&gt;</span>
+<span class="syn-tag">&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"https://google.com"</span> <span class="syn-attr">target</span>=<span class="syn-val">"_blank"</span> <span class="syn-attr">rel</span>=<span class="syn-val">"noopener"</span><span class="syn-tag">&gt;</span>
+  فتح جوجل في تاب جديد
+<span class="syn-tag">&lt;/a&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❷ لينك لصفحة تانية في نفس الموقع --&gt;</span>
+<span class="syn-tag">&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"about.html"</span><span class="syn-tag">&gt;</span>من نحن<span class="syn-tag">&lt;/a&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❸ لينك لقسم في نفس الصفحة (anchor) --&gt;</span>
+<span class="syn-tag">&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"#contact"</span><span class="syn-tag">&gt;</span>روح لقسم الاتصال<span class="syn-tag">&lt;/a&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❹ لينك لإرسال إيميل --&gt;</span>
+<span class="syn-tag">&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"mailto:info@example.com"</span><span class="syn-tag">&gt;</span>ابعتلنا إيميل<span class="syn-tag">&lt;/a&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❺ لينك لتحميل ملف --&gt;</span>
+<span class="syn-tag">&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"notes.pdf"</span> <span class="syn-attr">download</span><span class="syn-tag">&gt;</span>حمل المذكرة<span class="syn-tag">&lt;/a&gt;</span></code></pre>
+                    </div>
+                    <div class="tip-expl">
+                        <i class="fas fa-shield-alt"></i>
+                        <div><strong>أمان:</strong> لما تفتح لينك خارجي بـ <code dir="ltr">target="_blank"</code>،
+                            دايماً حط <code dir="ltr">rel="noopener"</code> عشان تمنع الصفحة الجديدة إنها تتحكم في صفحتك
+                            (ثغرة أمنية معروفة).</div>
+                    </div>
+
+                    <!-- Browser Preview: Links -->
+                    <div class="browser-preview mt-4">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> file:///links.html</div>
+                        </div>
+                        <div class="browser-preview-body">
+                            <p style="margin:4px 0"><a href="#" style="color:#2563eb;text-decoration:underline">فتح جوجل
+                                    في تاب جديد</a></p>
+                            <p style="margin:4px 0"><a href="#" style="color:#2563eb;text-decoration:underline">من
+                                    نحن</a></p>
+                            <p style="margin:4px 0"><a href="#" style="color:#2563eb;text-decoration:underline">روح لقسم
+                                    الاتصال</a></p>
+                            <p style="margin:4px 0"><a href="#" style="color:#2563eb;text-decoration:underline">ابعتلنا
+                                    إيميل</a></p>
+                            <p style="margin:4px 0"><a href="#" style="color:#2563eb;text-decoration:underline">حمل
+                                    المذكرة</a></p>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> النتيجة في الـ Browser</div>
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-green-400 mb-4"><i class="fas fa-image ml-2"></i>الصور — أكتر من
+                        مجرد <span dir="ltr">&lt;img&gt;</span></h3>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>images.html</span>
+                        </div>
+                        <pre><code><span class="syn-comment">&lt;!-- ❶ الطريقة الأساسية --&gt;</span>
+<span class="syn-tag">&lt;img</span> <span class="syn-attr">src</span>=<span class="syn-val">"photo.jpg"</span>
+     <span class="syn-attr">alt</span>=<span class="syn-val">"وصف دقيق للصورة"</span>
+     <span class="syn-attr">width</span>=<span class="syn-val">"800"</span>
+     <span class="syn-attr">height</span>=<span class="syn-val">"600"</span>
+     <span class="syn-attr">loading</span>=<span class="syn-val">"lazy"</span><span class="syn-tag">&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❷ صورة مع caption --&gt;</span>
+<span class="syn-tag">&lt;figure&gt;</span>
+  <span class="syn-tag">&lt;img</span> <span class="syn-attr">src</span>=<span class="syn-val">"chart.png"</span> <span class="syn-attr">alt</span>=<span class="syn-val">"Sales chart for Q4 2025"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;figcaption&gt;</span>رسم بياني لمبيعات الربع الرابع 2025<span class="syn-tag">&lt;/figcaption&gt;</span>
+<span class="syn-tag">&lt;/figure&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❸ Responsive Image: صور مختلفة لأحجام شاشة مختلفة --&gt;</span>
+<span class="syn-tag">&lt;picture&gt;</span>
+  <span class="syn-tag">&lt;source</span> <span class="syn-attr">media</span>=<span class="syn-val">"(max-width: 768px)"</span> <span class="syn-attr">srcset</span>=<span class="syn-val">"photo-small.jpg"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;source</span> <span class="syn-attr">media</span>=<span class="syn-val">"(max-width: 1200px)"</span> <span class="syn-attr">srcset</span>=<span class="syn-val">"photo-medium.jpg"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;img</span> <span class="syn-attr">src</span>=<span class="syn-val">"photo-large.jpg"</span> <span class="syn-attr">alt</span>=<span class="syn-val">"صورة responsive"</span><span class="syn-tag">&gt;</span>
+<span class="syn-tag">&lt;/picture&gt;</span></code></pre>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-eye"></i>
+                        <div>
+                            <strong>الـ alt مش اختياري!</strong> لو مكتبتش <code dir="ltr">alt</code>، الناس اللي
+                            بتستخدم screen readers مش هتعرف إيه في الصورة. وكمان جوجل بيقرا الـ alt عشان يفهم الصورة.
+                            اكتب وصف دقيق ومفيد مش مجرد "صورة".
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio & Video -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-purple-400 mb-4"><i class="fas fa-video ml-2"></i>الميديا: Audio و
+                        Video</h3>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>media.html</span>
+                        </div>
+                        <pre><code><span class="syn-comment">&lt;!-- ❶ فيديو مع controls --&gt;</span>
+<span class="syn-tag">&lt;video</span> <span class="syn-attr">controls</span> <span class="syn-attr">width</span>=<span class="syn-val">"640"</span> <span class="syn-attr">poster</span>=<span class="syn-val">"thumbnail.jpg"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;source</span> <span class="syn-attr">src</span>=<span class="syn-val">"lecture.mp4"</span> <span class="syn-attr">type</span>=<span class="syn-val">"video/mp4"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;track</span> <span class="syn-attr">src</span>=<span class="syn-val">"subs-ar.vtt"</span> <span class="syn-attr">kind</span>=<span class="syn-val">"subtitles"</span> <span class="syn-attr">srclang</span>=<span class="syn-val">"ar"</span> <span class="syn-attr">label</span>=<span class="syn-val">"عربي"</span><span class="syn-tag">&gt;</span>
+  متصفحك لا يدعم الفيديو.
+<span class="syn-tag">&lt;/video&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❷ صوت --&gt;</span>
+<span class="syn-tag">&lt;audio</span> <span class="syn-attr">controls</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;source</span> <span class="syn-attr">src</span>=<span class="syn-val">"podcast.mp3"</span> <span class="syn-attr">type</span>=<span class="syn-val">"audio/mpeg"</span><span class="syn-tag">&gt;</span>
+<span class="syn-tag">&lt;/audio&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❸ تضمين يوتيوب --&gt;</span>
+<span class="syn-tag">&lt;iframe</span> <span class="syn-attr">width</span>=<span class="syn-val">"560"</span> <span class="syn-attr">height</span>=<span class="syn-val">"315"</span>
+  <span class="syn-attr">src</span>=<span class="syn-val">"https://www.youtube.com/embed/VIDEO_ID"</span>
+  <span class="syn-attr">title</span>=<span class="syn-val">"عنوان الفيديو"</span>
+  <span class="syn-attr">allowfullscreen</span><span class="syn-tag">&gt;</span>
+<span class="syn-tag">&lt;/iframe&gt;</span></code></pre>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-film"></i>
+                        <div>الـ <code dir="ltr">&lt;video&gt;</code> و <code dir="ltr">&lt;audio&gt;</code> من HTML5 —
+                            قبل كده كنا محتاجين Flash عشان نشغل فيديو! الـ <code dir="ltr">poster</code> هي الصورة اللي
+                            بتظهر قبل ما الفيديو يشتغل.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 7: القوائم والجداول                                         -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-orange-500/20">
+                        06</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">القوائم والجداول</h2>
+                        <p class="text-slate-400 text-sm">Lists & Tables — Organizing Data</p>
+                    </div>
+                </div>
+
+                <!-- Lists -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">أنواع القوائم</h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-slate-800/50 p-5 rounded-xl border-t-2 border-orange-500">
+                            <h4 class="font-bold text-orange-400 mb-2" dir="ltr">Unordered List &lt;ul&gt;</h4>
+                            <p class="text-xs text-slate-400 mb-3">قائمة بدون ترتيب — نقط (bullets)</p>
+                            <div class="code-block">
+                                <pre><code><span class="syn-tag">&lt;ul&gt;</span>
+  <span class="syn-tag">&lt;li&gt;</span>HTML<span class="syn-tag">&lt;/li&gt;</span>
+  <span class="syn-tag">&lt;li&gt;</span>CSS<span class="syn-tag">&lt;/li&gt;</span>
+  <span class="syn-tag">&lt;li&gt;</span>JavaScript<span class="syn-tag">&lt;/li&gt;</span>
+<span class="syn-tag">&lt;/ul&gt;</span></code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-slate-800/50 p-5 rounded-xl border-t-2 border-blue-500">
+                            <h4 class="font-bold text-blue-400 mb-2" dir="ltr">Ordered List &lt;ol&gt;</h4>
+                            <p class="text-xs text-slate-400 mb-3">قائمة مرتبة — أرقام</p>
+                            <div class="code-block">
+                                <pre><code><span class="syn-tag">&lt;ol&gt;</span>
+  <span class="syn-tag">&lt;li&gt;</span>افتح VS Code<span class="syn-tag">&lt;/li&gt;</span>
+  <span class="syn-tag">&lt;li&gt;</span>اكتب الكود<span class="syn-tag">&lt;/li&gt;</span>
+  <span class="syn-tag">&lt;li&gt;</span>افتح الملف<span class="syn-tag">&lt;/li&gt;</span>
+<span class="syn-tag">&lt;/ol&gt;</span></code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-slate-800/50 p-5 rounded-xl border-t-2 border-green-500">
+                            <h4 class="font-bold text-green-400 mb-2" dir="ltr">Description List &lt;dl&gt;</h4>
+                            <p class="text-xs text-slate-400 mb-3">قائمة وصفية — مصطلح + تعريف</p>
+                            <div class="code-block">
+                                <pre><code><span class="syn-tag">&lt;dl&gt;</span>
+  <span class="syn-tag">&lt;dt&gt;</span>HTML<span class="syn-tag">&lt;/dt&gt;</span>
+  <span class="syn-tag">&lt;dd&gt;</span>لغة توصيف<span class="syn-tag">&lt;/dd&gt;</span>
+  <span class="syn-tag">&lt;dt&gt;</span>CSS<span class="syn-tag">&lt;/dt&gt;</span>
+  <span class="syn-tag">&lt;dd&gt;</span>لغة تنسيق<span class="syn-tag">&lt;/dd&gt;</span>
+<span class="syn-tag">&lt;/dl&gt;</span></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-list"></i>
+                        <div>استخدم <code dir="ltr">&lt;ul&gt;</code> لما الترتيب مش مهم (زي قائمة مشتريات). استخدم
+                            <code dir="ltr">&lt;ol&gt;</code> لما الترتيب مهم (زي خطوات وصفة أكل). استخدم <code
+                                dir="ltr">&lt;dl&gt;</code> للمصطلحات وتعريفاتها (زي القاموس).
+                        </div>
+                    </div>
+
+                    <!-- Browser Preview: Lists -->
+                    <div class="browser-preview mt-4">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> file:///lists.html</div>
+                        </div>
+                        <div class="browser-preview-body">
+                            <div style="display:flex;gap:32px;flex-wrap:wrap">
+                                <div><strong style="font-size:0.9em">Unordered:</strong>
+                                    <ul style="padding-left:1.5em;margin:6px 0">
+                                        <li>HTML</li>
+                                        <li>CSS</li>
+                                        <li>JavaScript</li>
+                                    </ul>
+                                </div>
+                                <div><strong style="font-size:0.9em">Ordered:</strong>
+                                    <ol style="padding-left:1.5em;margin:6px 0">
+                                        <li>افتح VS Code</li>
+                                        <li>اكتب الكود</li>
+                                        <li>افتح الملف</li>
+                                    </ol>
+                                </div>
+                                <div><strong style="font-size:0.9em">Description:</strong>
+                                    <dl style="margin:6px 0">
+                                        <dt style="font-weight:bold">HTML</dt>
+                                        <dd style="margin-left:1.5em;color:#64748b">لغة توصيف</dd>
+                                        <dt style="font-weight:bold">CSS</dt>
+                                        <dd style="margin-left:1.5em;color:#64748b">لغة تنسيق</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> النتيجة في الـ Browser</div>
+                    </div>
+                </div>
+
+                <!-- Tables -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4"><i class="fas fa-table ml-2"></i>الجداول — Tables
+                    </h3>
+                    <p class="text-slate-300 mb-4">الجداول للبيانات المنظمة — <strong class="text-red-400">مش للـ
+                            layout!</strong> زمان كان الناس بتستخدم tables عشان تعمل layout للصفحة، ده كان غلط كبير.</p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>table.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;table&gt;</span>
+  <span class="syn-tag">&lt;caption&gt;</span>درجات الطلاب — ترم أول 2026<span class="syn-tag">&lt;/caption&gt;</span>
+
+  <span class="syn-tag">&lt;thead&gt;</span>
+    <span class="syn-tag">&lt;tr&gt;</span>
+      <span class="syn-tag">&lt;th</span> <span class="syn-attr">scope</span>=<span class="syn-val">"col"</span><span class="syn-tag">&gt;</span>اسم الطالب<span class="syn-tag">&lt;/th&gt;</span>
+      <span class="syn-tag">&lt;th</span> <span class="syn-attr">scope</span>=<span class="syn-val">"col"</span><span class="syn-tag">&gt;</span>HTML<span class="syn-tag">&lt;/th&gt;</span>
+      <span class="syn-tag">&lt;th</span> <span class="syn-attr">scope</span>=<span class="syn-val">"col"</span><span class="syn-tag">&gt;</span>CSS<span class="syn-tag">&lt;/th&gt;</span>
+      <span class="syn-tag">&lt;th</span> <span class="syn-attr">scope</span>=<span class="syn-val">"col"</span><span class="syn-tag">&gt;</span>المجموع<span class="syn-tag">&lt;/th&gt;</span>
+    <span class="syn-tag">&lt;/tr&gt;</span>
+  <span class="syn-tag">&lt;/thead&gt;</span>
+
+  <span class="syn-tag">&lt;tbody&gt;</span>
+    <span class="syn-tag">&lt;tr&gt;</span>
+      <span class="syn-tag">&lt;td&gt;</span>أحمد<span class="syn-tag">&lt;/td&gt;</span>
+      <span class="syn-tag">&lt;td&gt;</span>95<span class="syn-tag">&lt;/td&gt;</span>
+      <span class="syn-tag">&lt;td&gt;</span>88<span class="syn-tag">&lt;/td&gt;</span>
+      <span class="syn-tag">&lt;td&gt;</span>183<span class="syn-tag">&lt;/td&gt;</span>
+    <span class="syn-tag">&lt;/tr&gt;</span>
+    <span class="syn-tag">&lt;tr&gt;</span>
+      <span class="syn-tag">&lt;td&gt;</span>سارة<span class="syn-tag">&lt;/td&gt;</span>
+      <span class="syn-tag">&lt;td&gt;</span>92<span class="syn-tag">&lt;/td&gt;</span>
+      <span class="syn-tag">&lt;td&gt;</span>97<span class="syn-tag">&lt;/td&gt;</span>
+      <span class="syn-tag">&lt;td&gt;</span>189<span class="syn-tag">&lt;/td&gt;</span>
+    <span class="syn-tag">&lt;/tr&gt;</span>
+  <span class="syn-tag">&lt;/tbody&gt;</span>
+
+  <span class="syn-tag">&lt;tfoot&gt;</span>
+    <span class="syn-tag">&lt;tr&gt;</span>
+      <span class="syn-tag">&lt;td</span> <span class="syn-attr">colspan</span>=<span class="syn-val">"3"</span><span class="syn-tag">&gt;</span>المتوسط<span class="syn-tag">&lt;/td&gt;</span>
+      <span class="syn-tag">&lt;td&gt;</span>186<span class="syn-tag">&lt;/td&gt;</span>
+    <span class="syn-tag">&lt;/tr&gt;</span>
+  <span class="syn-tag">&lt;/tfoot&gt;</span>
+<span class="syn-tag">&lt;/table&gt;</span></code></pre>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <strong>الـ <code dir="ltr">scope</code> مهم جداً!</strong> بيقول للـ screen reader إن الـ
+                            <code dir="ltr">&lt;th&gt;</code> ده عنوان عمود (<code dir="ltr">col</code>) ولا عنوان صف
+                            (<code dir="ltr">row</code>). الـ <code dir="ltr">&lt;caption&gt;</code> بيوصف الجدول كله.
+                            الـ <code dir="ltr">colspan</code> بيدمج خلايا مع بعض.
+                        </div>
+                    </div>
+
+                    <!-- Browser Preview: Table -->
+                    <div class="browser-preview mt-4">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> file:///table.html</div>
+                        </div>
+                        <div class="browser-preview-body">
+                            <table style="border-collapse:collapse;width:100%;text-align:left;font-size:0.9em">
+                                <caption style="caption-side:top;font-weight:bold;margin-bottom:8px">درجات الطلاب — ترم
+                                    أول 2026</caption>
+                                <thead>
+                                    <tr>
+                                        <th style="border:1px solid #cbd5e1;padding:6px 10px;background:#f1f5f9">اسم
+                                            الطالب</th>
+                                        <th style="border:1px solid #cbd5e1;padding:6px 10px;background:#f1f5f9">HTML
+                                        </th>
+                                        <th style="border:1px solid #cbd5e1;padding:6px 10px;background:#f1f5f9">CSS
+                                        </th>
+                                        <th style="border:1px solid #cbd5e1;padding:6px 10px;background:#f1f5f9">المجموع
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border:1px solid #cbd5e1;padding:6px 10px">أحمد</td>
+                                        <td style="border:1px solid #cbd5e1;padding:6px 10px">95</td>
+                                        <td style="border:1px solid #cbd5e1;padding:6px 10px">88</td>
+                                        <td style="border:1px solid #cbd5e1;padding:6px 10px">183</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid #cbd5e1;padding:6px 10px">سارة</td>
+                                        <td style="border:1px solid #cbd5e1;padding:6px 10px">92</td>
+                                        <td style="border:1px solid #cbd5e1;padding:6px 10px">97</td>
+                                        <td style="border:1px solid #cbd5e1;padding:6px 10px">189</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3"
+                                            style="border:1px solid #cbd5e1;padding:6px 10px;font-weight:bold">المتوسط
+                                        </td>
+                                        <td style="border:1px solid #cbd5e1;padding:6px 10px;font-weight:bold">186</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> النتيجة في الـ Browser</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 8: النماذج (Forms)                                          -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="forms" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-orange-500/20">
+                        07</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">النماذج — Forms</h2>
+                        <p class="text-slate-400 text-sm">Building Interactive Forms with HTML5 Validation</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4"><i class="fas fa-wpforms ml-2"></i>ليه الـ Forms
+                        مهمة؟</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        الـ Forms هي الطريقة الأساسية اللي المستخدم بيبعت بيها بيانات للـ server. كل مرة بتسجل في موقع،
+                        بتبحث في جوجل، أو بتكتب تعليق — أنت بتستخدم form. الـ <code class="text-orange-400"
+                            dir="ltr">&lt;form&gt;</code> tag بياخد attributeين أساسيين: <code class="text-blue-400"
+                            dir="ltr">action</code> (الصفحة اللي هتستقبل البيانات) و <code class="text-blue-400"
+                            dir="ltr">method</code> (طريقة الإرسال: GET أو POST).
+                    </p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>registration-form.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;form</span> <span class="syn-attr">action</span>=<span class="syn-val">"/api/register"</span> <span class="syn-attr">method</span>=<span class="syn-val">"POST"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❶ حقل نصي عادي --&gt;</span>
+  <span class="syn-tag">&lt;label</span> <span class="syn-attr">for</span>=<span class="syn-val">"username"</span><span class="syn-tag">&gt;</span>اسم المستخدم:<span class="syn-tag">&lt;/label&gt;</span>
+  <span class="syn-tag">&lt;input</span> <span class="syn-attr">type</span>=<span class="syn-val">"text"</span> <span class="syn-attr">id</span>=<span class="syn-val">"username"</span> <span class="syn-attr">name</span>=<span class="syn-val">"username"</span>
+         <span class="syn-attr">required</span> <span class="syn-attr">minlength</span>=<span class="syn-val">"3"</span> <span class="syn-attr">maxlength</span>=<span class="syn-val">"20"</span>
+         <span class="syn-attr">placeholder</span>=<span class="syn-val">"مثال: ahmed_99"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❷ إيميل — الـ browser هيتحقق تلقائياً --&gt;</span>
+  <span class="syn-tag">&lt;label</span> <span class="syn-attr">for</span>=<span class="syn-val">"email"</span><span class="syn-tag">&gt;</span>البريد الإلكتروني:<span class="syn-tag">&lt;/label&gt;</span>
+  <span class="syn-tag">&lt;input</span> <span class="syn-attr">type</span>=<span class="syn-val">"email"</span> <span class="syn-attr">id</span>=<span class="syn-val">"email"</span> <span class="syn-attr">name</span>=<span class="syn-val">"email"</span> <span class="syn-attr">required</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❸ باسورد --&gt;</span>
+  <span class="syn-tag">&lt;label</span> <span class="syn-attr">for</span>=<span class="syn-val">"pass"</span><span class="syn-tag">&gt;</span>كلمة السر:<span class="syn-tag">&lt;/label&gt;</span>
+  <span class="syn-tag">&lt;input</span> <span class="syn-attr">type</span>=<span class="syn-val">"password"</span> <span class="syn-attr">id</span>=<span class="syn-val">"pass"</span> <span class="syn-attr">name</span>=<span class="syn-val">"password"</span>
+         <span class="syn-attr">required</span> <span class="syn-attr">minlength</span>=<span class="syn-val">"8"</span>
+         <span class="syn-attr">pattern</span>=<span class="syn-val">"(?=.*\d)(?=.*[a-z]).{8,}"</span><span class="syn-tag">&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❹ قائمة منسدلة --&gt;</span>
+  <span class="syn-tag">&lt;label</span> <span class="syn-attr">for</span>=<span class="syn-val">"country"</span><span class="syn-tag">&gt;</span>البلد:<span class="syn-tag">&lt;/label&gt;</span>
+  <span class="syn-tag">&lt;select</span> <span class="syn-attr">id</span>=<span class="syn-val">"country"</span> <span class="syn-attr">name</span>=<span class="syn-val">"country"</span><span class="syn-tag">&gt;</span>
+    <span class="syn-tag">&lt;option</span> <span class="syn-attr">value</span>=<span class="syn-val">""</span><span class="syn-tag">&gt;</span>اختر بلدك<span class="syn-tag">&lt;/option&gt;</span>
+    <span class="syn-tag">&lt;option</span> <span class="syn-attr">value</span>=<span class="syn-val">"eg"</span><span class="syn-tag">&gt;</span>مصر<span class="syn-tag">&lt;/option&gt;</span>
+    <span class="syn-tag">&lt;option</span> <span class="syn-attr">value</span>=<span class="syn-val">"sa"</span><span class="syn-tag">&gt;</span>السعودية<span class="syn-tag">&lt;/option&gt;</span>
+  <span class="syn-tag">&lt;/select&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❺ مربع نص كبير --&gt;</span>
+  <span class="syn-tag">&lt;label</span> <span class="syn-attr">for</span>=<span class="syn-val">"bio"</span><span class="syn-tag">&gt;</span>نبذة عنك:<span class="syn-tag">&lt;/label&gt;</span>
+  <span class="syn-tag">&lt;textarea</span> <span class="syn-attr">id</span>=<span class="syn-val">"bio"</span> <span class="syn-attr">name</span>=<span class="syn-val">"bio"</span> <span class="syn-attr">rows</span>=<span class="syn-val">"4"</span><span class="syn-tag">&gt;&lt;/textarea&gt;</span>
+
+  <span class="syn-comment">&lt;!-- ❻ Checkbox --&gt;</span>
+  <span class="syn-tag">&lt;label&gt;</span>
+    <span class="syn-tag">&lt;input</span> <span class="syn-attr">type</span>=<span class="syn-val">"checkbox"</span> <span class="syn-attr">name</span>=<span class="syn-val">"terms"</span> <span class="syn-attr">required</span><span class="syn-tag">&gt;</span>
+    أوافق على الشروط والأحكام
+  <span class="syn-tag">&lt;/label&gt;</span>
+
+  <span class="syn-tag">&lt;button</span> <span class="syn-attr">type</span>=<span class="syn-val">"submit"</span><span class="syn-tag">&gt;</span>تسجيل<span class="syn-tag">&lt;/button&gt;</span>
+<span class="syn-tag">&lt;/form&gt;</span></code></pre>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-magic"></i>
+                        <div>
+                            <strong>لاحظ:</strong> الـ <code dir="ltr">required</code> و <code dir="ltr">pattern</code>
+                            و <code dir="ltr">minlength</code> دول HTML5 validation — الـ browser بيتحقق منهم تلقائياً
+                            من غير JavaScript! بس متعتمدش عليهم و بس — لازم يكون فيه validation في الـ server كمان
+                            (defense in depth).
+                        </div>
+                    </div>
+
+                    <!-- Browser Preview: Form -->
+                    <div class="browser-preview mt-4">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> localhost/register</div>
+                        </div>
+                        <div class="browser-preview-body">
+                            <div class="form-demo">
+                                <label>اسم المستخدم:</label>
+                                <input type="text" placeholder="مثال: ahmed_99" disabled>
+                                <label>البريد الإلكتروني:</label>
+                                <input type="email" placeholder="example@mail.com" disabled>
+                                <label>كلمة المرور:</label>
+                                <input type="password" value="••••••••" disabled>
+                                <label>العمر:</label>
+                                <input type="number" value="18" disabled style="width:80px">
+                                <label style="display:inline-flex;align-items:center;gap:4px;margin-top:8px">
+                                    <input type="checkbox" checked disabled style="width:auto;display:inline"> أوافق على
+                                    الشروط والأحكام
+                                </label>
+                                <button disabled style="opacity:0.9">تسجيل</button>
+                            </div>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> النتيجة في الـ Browser</div>
+                    </div>
+                </div>
+
+                <!-- Input Types Gallery -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-blue-400 mb-4">أنواع الـ Input في HTML5</h3>
+                    <p class="text-slate-300 mb-4">HTML5 جابت أنواع كتير من inputs. الفايدة إن الموبايل بيغير الـ
+                        keyboard تلقائياً حسب النوع:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">text</code>
+                            <p class="text-xs text-slate-500 mt-1">نص عادي</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">email</code>
+                            <p class="text-xs text-slate-500 mt-1">بريد إلكتروني</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">password</code>
+                            <p class="text-xs text-slate-500 mt-1">كلمة سر</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">number</code>
+                            <p class="text-xs text-slate-500 mt-1">رقم</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">tel</code>
+                            <p class="text-xs text-slate-500 mt-1">تليفون</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">url</code>
+                            <p class="text-xs text-slate-500 mt-1">رابط</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">date</code>
+                            <p class="text-xs text-slate-500 mt-1">تاريخ</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">color</code>
+                            <p class="text-xs text-slate-500 mt-1">لون</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">range</code>
+                            <p class="text-xs text-slate-500 mt-1">شريط تمرير</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">file</code>
+                            <p class="text-xs text-slate-500 mt-1">رفع ملف</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">checkbox</code>
+                            <p class="text-xs text-slate-500 mt-1">اختيار متعدد</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg text-center"><code class="text-orange-400 text-xs"
+                                dir="ltr">radio</code>
+                            <p class="text-xs text-slate-500 mt-1">اختيار واحد</p>
+                        </div>
+                    </div>
+                    <div class="tip-expl">
+                        <i class="fas fa-mobile-alt"></i>
+                        <div>لما تستخدم <code dir="ltr">type="email"</code> على الموبايل، الـ keyboard بيظهر فيه @ و
+                            .com تلقائياً. لو استخدمت <code dir="ltr">type="tel"</code> بيظهر لوحة أرقام. الأنواع دي
+                            بتحسن تجربة المستخدم جداً!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 9: Semantic HTML                                           -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="semantic" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-orange-500/20">
+                        08</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Semantic HTML بالتفصيل</h2>
+                        <p class="text-slate-400 text-sm">Meaningful Markup — Beyond Divs and Spans</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">يعني إيه Semantic؟</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        <strong class="text-white">Semantic HTML</strong> معناها إنك تستخدم tags بتوصف <em>معنى</em>
+                        المحتوى مش مجرد شكله. بدل ما تحط كل حاجة في <code class="text-orange-400"
+                            dir="ltr">&lt;div&gt;</code>، تستخدم tags معبرة زي <code class="text-green-400"
+                            dir="ltr">&lt;nav&gt;</code> للقائمة و <code class="text-green-400"
+                            dir="ltr">&lt;article&gt;</code> للمقال.
+                    </p>
+
+                    <!-- Visual Layout Diagram -->
+                    <div class="bg-slate-800/50 p-6 rounded-xl mb-6" dir="ltr">
+                        <div class="border border-slate-600 rounded-lg overflow-hidden max-w-lg mx-auto">
+                            <div
+                                class="bg-blue-500/20 p-3 text-center text-blue-400 text-sm font-mono border-b border-slate-600">
+                                &lt;header&gt;</div>
+                            <div
+                                class="bg-purple-500/20 p-2 text-center text-purple-400 text-xs font-mono border-b border-slate-600">
+                                &lt;nav&gt;</div>
+                            <div class="flex">
+                                <div class="flex-1 bg-green-500/10 p-4 text-center border-l border-slate-600">
+                                    <span class="text-green-400 text-xs font-mono">&lt;main&gt;</span>
+                                    <div class="mt-2 border border-slate-700 rounded p-2">
+                                        <span class="text-orange-400 text-xs font-mono">&lt;article&gt;</span>
+                                    </div>
+                                    <div class="mt-2 border border-slate-700 rounded p-2">
+                                        <span class="text-orange-400 text-xs font-mono">&lt;section&gt;</span>
+                                    </div>
+                                </div>
+                                <div class="w-1/4 bg-amber-500/10 p-3 text-center">
+                                    <span class="text-amber-400 text-xs font-mono">&lt;aside&gt;</span>
+                                </div>
+                            </div>
+                            <div
+                                class="bg-slate-500/20 p-3 text-center text-slate-400 text-sm font-mono border-t border-slate-600">
+                                &lt;footer&gt;</div>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>semantic-layout.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;body&gt;</span>
+  <span class="syn-tag">&lt;header&gt;</span>
+    <span class="syn-tag">&lt;h1&gt;</span>اسم الموقع<span class="syn-tag">&lt;/h1&gt;</span>
+    <span class="syn-tag">&lt;nav&gt;</span>
+      <span class="syn-tag">&lt;ul&gt;</span>
+        <span class="syn-tag">&lt;li&gt;&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"/"</span><span class="syn-tag">&gt;</span>الرئيسية<span class="syn-tag">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="syn-tag">&lt;li&gt;&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"/about"</span><span class="syn-tag">&gt;</span>من نحن<span class="syn-tag">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="syn-tag">&lt;/ul&gt;</span>
+    <span class="syn-tag">&lt;/nav&gt;</span>
+  <span class="syn-tag">&lt;/header&gt;</span>
+
+  <span class="syn-tag">&lt;main&gt;</span>
+    <span class="syn-tag">&lt;article&gt;</span>
+      <span class="syn-tag">&lt;h2&gt;</span>عنوان المقال<span class="syn-tag">&lt;/h2&gt;</span>
+      <span class="syn-tag">&lt;p&gt;</span>محتوى المقال...<span class="syn-tag">&lt;/p&gt;</span>
+      <span class="syn-tag">&lt;time</span> <span class="syn-attr">datetime</span>=<span class="syn-val">"2026-02-16"</span><span class="syn-tag">&gt;</span>16 فبراير 2026<span class="syn-tag">&lt;/time&gt;</span>
+    <span class="syn-tag">&lt;/article&gt;</span>
+
+    <span class="syn-tag">&lt;section&gt;</span>
+      <span class="syn-tag">&lt;h2&gt;</span>التعليقات<span class="syn-tag">&lt;/h2&gt;</span>
+      <span class="syn-comment">&lt;!-- التعليقات هنا --&gt;</span>
+    <span class="syn-tag">&lt;/section&gt;</span>
+  <span class="syn-tag">&lt;/main&gt;</span>
+
+  <span class="syn-tag">&lt;aside&gt;</span>
+    <span class="syn-tag">&lt;h3&gt;</span>مقالات ذات صلة<span class="syn-tag">&lt;/h3&gt;</span>
+  <span class="syn-tag">&lt;/aside&gt;</span>
+
+  <span class="syn-tag">&lt;footer&gt;</span>
+    <span class="syn-tag">&lt;p&gt;</span>&amp;copy; 2026 جميع الحقوق محفوظة<span class="syn-tag">&lt;/p&gt;</span>
+    <span class="syn-tag">&lt;address&gt;</span>تواصل معنا: info@site.com<span class="syn-tag">&lt;/address&gt;</span>
+  <span class="syn-tag">&lt;/footer&gt;</span>
+<span class="syn-tag">&lt;/body&gt;</span></code></pre>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-brain"></i>
+                        <div>
+                            <strong>ليه دي مهمة؟</strong> ① جوجل بيفهم صفحتك أحسن = SEO أحسن. ② Screen readers بتقدر
+                            تنقل المستخدمين للـ nav أو الـ main مباشرة. ③ الكود بيكون أسهل في القراية والصيانة. الصفحة
+                            اللي كلها <code dir="ltr">&lt;div&gt;</code> زي كتاب من غير فهرس!
+                        </div>
+                    </div>
+
+                    <!-- Browser Preview: Semantic Layout -->
+                    <div class="browser-preview mt-4">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> file:///semantic-layout.html</div>
+                        </div>
+                        <div class="browser-preview-body" style="padding:0;font-size:0.85em">
+                            <!-- Header -->
+                            <div
+                                style="background:#1e40af;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center">
+                                <strong style="color:#fff">اسم الموقع</strong>
+                                <nav style="display:flex;gap:12px"><a href="#"
+                                        style="color:#93c5fd;text-decoration:none">الرئيسية</a><a href="#"
+                                        style="color:#93c5fd;text-decoration:none">من نحن</a></nav>
+                            </div>
+                            <!-- Main + Aside -->
+                            <div style="display:flex;gap:0;min-height:100px">
+                                <div style="flex:3;padding:12px 16px;border-right:1px solid #e2e8f0">
+                                    <h2 style="font-size:1.1em;margin:0 0 6px">عنوان المقال</h2>
+                                    <p style="color:#64748b;font-size:0.85em;margin:0 0 4px">محتوى المقال...</p>
+                                    <small style="color:#94a3b8">16 فبراير 2026</small>
+                                    <hr style="border:none;border-top:1px solid #e2e8f0;margin:8px 0">
+                                    <h3 style="font-size:0.95em;margin:0 0 4px;color:#475569">التعليقات</h3>
+                                    <p style="color:#94a3b8;font-size:0.8em;margin:0">لا توجد تعليقات بعد</p>
+                                </div>
+                                <div style="flex:1;padding:12px;background:#f8fafc">
+                                    <h3 style="font-size:0.9em;margin:0 0 4px;color:#475569">مقالات ذات صلة</h3>
+                                    <p style="color:#94a3b8;font-size:0.75em;margin:0">—</p>
+                                </div>
+                            </div>
+                            <!-- Footer -->
+                            <div
+                                style="background:#f1f5f9;padding:8px 16px;border-top:1px solid #e2e8f0;font-size:0.8em;color:#64748b">
+                                © 2026 جميع الحقوق محفوظة · <span style="color:#3b82f6">info@site.com</span>
+                            </div>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> النتيجة في الـ Browser</div>
+                    </div>
+                </div>
+
+                <!-- details/summary -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-green-400 mb-4"><i class="fas fa-chevron-down ml-2"></i>عناصر
+                        ذكية: details و summary</h3>
+                    <p class="text-slate-300 mb-4">HTML5 فيها elements تفاعلية من غير JavaScript! الـ <code
+                            class="text-green-400" dir="ltr">&lt;details&gt;</code> بيعمل accordion تلقائياً:</p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>details-summary.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;details&gt;</span>
+  <span class="syn-tag">&lt;summary&gt;</span>إيه الفرق بين div و section؟<span class="syn-tag">&lt;/summary&gt;</span>
+  <span class="syn-tag">&lt;p&gt;</span>
+    الـ div مجرد container مالوش معنى.
+    الـ section بيقول "ده قسم مستقل في المحتوى".
+  <span class="syn-tag">&lt;/p&gt;</span>
+<span class="syn-tag">&lt;/details&gt;</span></code></pre>
+                    </div>
+
+                    <!-- Live demo -->
+                    <div class="bg-slate-800/50 p-6 rounded-xl mt-4">
+                        <h5 class="text-white font-bold mb-3"><i
+                                class="fas fa-play-circle text-green-400 ml-2"></i>جربها بنفسك:</h5>
+                        <details class="bg-slate-900/50 p-4 rounded-lg border border-slate-700 mb-2 cursor-pointer">
+                            <summary class="text-orange-400 font-bold">إيه الفرق بين div و section؟</summary>
+                            <p class="text-slate-300 text-sm mt-2">الـ <code dir="ltr">&lt;div&gt;</code> مجرد container
+                                مالوش معنى دلالي. الـ <code dir="ltr">&lt;section&gt;</code> بيقول "ده قسم مستقل ومترابط
+                                في المحتوى".</p>
+                        </details>
+                        <details class="bg-slate-900/50 p-4 rounded-lg border border-slate-700 cursor-pointer">
+                            <summary class="text-orange-400 font-bold">إمتى أستخدم article؟</summary>
+                            <p class="text-slate-300 text-sm mt-2">استخدم <code dir="ltr">&lt;article&gt;</code> لما
+                                المحتوى يكون مستقل ويقدر يتشار لوحده — زي بوست في مدونة أو خبر في جريدة.</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 10: Accessibility                                          -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="a11y" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-orange-500/20">
+                        09</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Accessibility — الوصولية</h2>
+                        <p class="text-slate-400 text-sm">Making the Web Usable for Everyone (a11y)</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">يعني إيه a11y؟</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        <strong class="text-white">Accessibility</strong> (بنختصرها a11y — لأن فيه 11 حرف بين الـ a والـ
+                        y) معناها إن موقعك يكون قابل للاستخدام من <strong>كل</strong> الناس — حتى اللي عندهم إعاقة بصرية
+                        أو حركية. مش بس ده الصح أخلاقياً، ده كمان في كتير من الدول <strong class="text-red-400">مطلوب
+                            قانوناً</strong>.
+                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-slate-800/50 p-5 rounded-xl border-t-2 border-green-500">
+                            <h4 class="text-green-400 font-bold mb-3"><i class="fas fa-check-circle ml-1"></i> أعمل ده ✅
+                            </h4>
+                            <ul class="text-sm text-slate-300 space-y-2">
+                                <li>✅ حط <code class="text-orange-400" dir="ltr">alt</code> لكل صورة مش decorative</li>
+                                <li>✅ استخدم <code class="text-orange-400" dir="ltr">&lt;label&gt;</code> مع كل input
+                                </li>
+                                <li>✅ استخدم semantic tags مش كل حاجة div</li>
+                                <li>✅ خلي الموقع يشتغل بالـ keyboard</li>
+                                <li>✅ حط <code class="text-orange-400" dir="ltr">lang</code> attribute على الـ html</li>
+                                <li>✅ اعمل skip link للمحتوى الرئيسي</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-800/50 p-5 rounded-xl border-t-2 border-red-500">
+                            <h4 class="text-red-400 font-bold mb-3"><i class="fas fa-times-circle ml-1"></i> متعملش كده
+                                ❌</h4>
+                            <ul class="text-sm text-slate-300 space-y-2">
+                                <li>❌ صور من غير <code class="text-orange-400" dir="ltr">alt</code></li>
+                                <li>❌ لينكات بتقول "اضغط هنا" بس</li>
+                                <li>❌ ألوان contrast ضعيف</li>
+                                <li>❌ إزالة الـ focus outline</li>
+                                <li>❌ عناوين الصفحة متكررة أو فاضية</li>
+                                <li>❌ فيديو من غير subtitles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ARIA Roles -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-purple-400 mb-4"><i class="fas fa-universal-access ml-2"></i>ARIA
+                        Attributes</h3>
+                    <p class="text-slate-300 mb-4">لما الـ semantic tags مش كافية، بنستخدم <strong
+                            class="text-white">ARIA</strong> (Accessible Rich Internet Applications) عشان نوصف العناصر
+                        للـ screen readers:</p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>aria-examples.html</span>
+                        </div>
+                        <pre><code><span class="syn-comment">&lt;!-- ❶ Skip Link: أول حاجة في الـ body --&gt;</span>
+<span class="syn-tag">&lt;a</span> <span class="syn-attr">href</span>=<span class="syn-val">"#main-content"</span> <span class="syn-attr">class</span>=<span class="syn-val">"skip-link"</span><span class="syn-tag">&gt;</span>
+  اذهب للمحتوى الرئيسي
+<span class="syn-tag">&lt;/a&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❷ زرار بأيقونة بس (من غير نص) --&gt;</span>
+<span class="syn-tag">&lt;button</span> <span class="syn-attr">aria-label</span>=<span class="syn-val">"إغلاق القائمة"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;i</span> <span class="syn-attr">class</span>=<span class="syn-val">"fas fa-times"</span><span class="syn-tag">&gt;&lt;/i&gt;</span>
+<span class="syn-tag">&lt;/button&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❸ حالة عنصر متغيرة --&gt;</span>
+<span class="syn-tag">&lt;button</span> <span class="syn-attr">aria-expanded</span>=<span class="syn-val">"false"</span><span class="syn-tag">&gt;</span>عرض التفاصيل<span class="syn-tag">&lt;/button&gt;</span>
+<span class="syn-tag">&lt;div</span> <span class="syn-attr">aria-hidden</span>=<span class="syn-val">"true"</span><span class="syn-tag">&gt;</span>محتوى مخفي<span class="syn-tag">&lt;/div&gt;</span>
+
+<span class="syn-comment">&lt;!-- ❹ صورة decorative (مش محتاجة وصف) --&gt;</span>
+<span class="syn-tag">&lt;img</span> <span class="syn-attr">src</span>=<span class="syn-val">"decoration.svg"</span> <span class="syn-attr">alt</span>=<span class="syn-val">""</span> <span class="syn-attr">role</span>=<span class="syn-val">"presentation"</span><span class="syn-tag">&gt;</span></code></pre>
+                    </div>
+                    <div class="egyptian-expl">
+                        <i class="fas fa-heart"></i>
+                        <div>
+                            <strong>القاعدة الأولى في ARIA:</strong> لو تقدر تستخدم semantic HTML tag، <strong>متستخدمش
+                                ARIA</strong>! مثلاً: استخدم <code dir="ltr">&lt;button&gt;</code> بدل <code
+                                dir="ltr">&lt;div role="button"&gt;</code>. الـ semantic tag بيدي accessibility مجاناً.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Mistakes Section -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4"><i class="fas fa-bug ml-2"></i>أخطاء HTML شائعة</h3>
+                    <div class="space-y-4">
+                        <div class="bg-slate-800/50 p-4 rounded-lg border-r-2 border-red-500">
+                            <p class="text-red-400 font-bold text-sm mb-1">❌ نسيان إقفال الـ tags</p>
+                            <code class="text-xs text-slate-400"
+                                dir="ltr">&lt;p&gt;فقرة أولى &lt;p&gt;فقرة تانية      ← غلط! وين الـ &lt;/p&gt;؟</code>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg border-r-2 border-red-500">
+                            <p class="text-red-400 font-bold text-sm mb-1">❌ تداخل خاطئ (Nesting)</p>
+                            <code class="text-xs text-slate-400"
+                                dir="ltr">&lt;strong&gt;&lt;em&gt;نص&lt;/strong&gt;&lt;/em&gt;  ← غلط! لازم تقفل الداخلي الأول</code>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg border-r-2 border-red-500">
+                            <p class="text-red-400 font-bold text-sm mb-1">❌ استخدام &lt;br&gt; للـ spacing</p>
+                            <p class="text-xs text-slate-400">الـ <code dir="ltr">&lt;br&gt;</code> للسطر الجديد مش
+                                للمسافات. استخدم CSS margin/padding.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg border-r-2 border-red-500">
+                            <p class="text-red-400 font-bold text-sm mb-1">❌ استخدام inline styles بكثرة</p>
+                            <p class="text-xs text-slate-400">بدل <code dir="ltr">style="color:red"</code> على كل
+                                element، اعمل CSS class واحد واستخدمه.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- QUIZ SECTION                                                       -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="quiz" class="py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-orange-600/5 rounded-full blur-3xl"></div>
+            <div class="container mx-auto max-w-5xl relative z-10">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <span
+                        class="inline-block py-1 px-3 rounded bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-mono mb-4">ASSESSMENT</span>
+                    <h2 class="text-4xl font-bold text-white">اختبر نفسك — Knowledge Check</h2>
+                    <p class="text-slate-400 mt-2">اختبر فهمك لكل اللي اتعلمته في المحاضرة دي</p>
+                </div>
+                <div id="quiz-grid" class="grid md:grid-cols-2 gap-6">
+                    <!-- JS Injected -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-slate-800 bg-black/50 text-center">
+        <p class="text-slate-500 font-medium">HTML In-Depth — المحاضرة التانية &copy; 2026</p>
+    </footer>
+
+    <script>
+        // AOS Init
+        AOS.init({ duration: 800, once: true });
+
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Quiz Data
+        const quizData = [
+            { q: 'إيه أول سطر لازم يكون في أي ملف HTML5؟', a: '<!DOCTYPE html> — بيقول للـ browser إن الملف مكتوب بمعيار HTML5.' },
+            { q: 'إيه الفرق بين &lt;head&gt; و &lt;body&gt;؟', a: 'الـ <head> فيه metadata مش بتظهر للمستخدم (عنوان، وصف، CSS). الـ <body> فيه كل المحتوى المرئي.' },
+            { q: 'إيه الفرق بين Block و Inline elements؟', a: 'الـ Block بياخد الـ width كله وبيبدأ سطر جديد (زي div, p). الـ Inline بياخد مساحة محتواه بس (زي span, a).' },
+            { q: 'إيه هي الـ Void Elements؟ اذكر 3 أمثلة.', a: 'عناصر مش محتاجة closing tag: &lt;img&gt;, &lt;br&gt;, &lt;input&gt;, &lt;hr&gt;, &lt;meta&gt;, &lt;link&gt;' },
+            { q: 'إيه الفرق بين id و class؟', a: 'الـ id فريد — مش ينفع يتكرر في الصفحة. الـ class ينفع يتكرر ويتحط أكتر من واحد على نفس العنصر.' },
+            { q: 'ليه الـ alt attribute مهم في الصور؟', a: 'عشان الـ screen readers تقدر توصف الصورة للمكفوفين، وجوجل بيقراه للـ SEO، وبيظهر لو الصورة مش حملت.' },
+            { q: 'إيه الفرق بين &lt;strong&gt; و &lt;b&gt;؟', a: '&lt;strong&gt; ليه semantic meaning (أهمية) — الـ screen reader بيقراه بتأكيد. &lt;b&gt; مجرد شكل bold بدون معنى دلالي.' },
+            { q: 'اذكر 3 أنواع input في HTML5 مع فايدة كل واحد.', a: 'email: validation تلقائي + keyboard مناسب. number: يقبل أرقام بس. date: بيظهر date picker تلقائي.' },
+            { q: 'اذكر 4 semantic tags وفايدة كل واحد.', a: '&lt;header&gt;: رأس الصفحة. &lt;nav&gt;: قائمة التنقل. &lt;main&gt;: المحتوى الرئيسي. &lt;article&gt;: محتوى مستقل قابل للمشاركة.' },
+            { q: 'إيه هو الـ ARIA ومتى نستخدمه؟', a: 'ARIA attributes بتوصف العناصر للـ screen readers. بنستخدمه بس لما الـ semantic HTML مش كافي — زي زرار بأيقونة من غير نص.' }
+        ];
+
+        // Render Quiz
+        const grid = document.getElementById('quiz-grid');
+        quizData.forEach((item, i) => {
+            const card = document.createElement('div');
+            card.className = 'glass-card p-6 rounded-xl';
+            card.setAttribute('data-aos', 'fade-up');
+            card.setAttribute('data-aos-delay', String(i * 50));
+            card.innerHTML = `
+                <div class="flex items-start gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400 font-bold text-sm shrink-0">${i + 1}</span>
+                    <p class="text-white font-bold text-sm leading-relaxed">${item.q}</p>
+                </div>
+                <button onclick="toggleAnswer(this)" class="w-full py-2.5 rounded-lg text-sm font-bold border border-green-500/20 text-green-400 bg-green-500/5 hover:bg-green-500/10 transition cursor-pointer">
+                    <i class="fas fa-eye ml-1"></i> عرض الإجابة
+                </button>
+                <div class="answer-container">
+                    <p class="text-sm text-green-300 leading-relaxed" dir="rtl">${item.a}</p>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        function toggleAnswer(btn) {
+            const container = btn.nextElementSibling;
+            const isShown = container.classList.contains('show');
+            container.classList.toggle('show');
+            btn.innerHTML = isShown
+                ? '<i class="fas fa-eye ml-1"></i> عرض الإجابة'
+                : '<i class="fas fa-eye-slash ml-1"></i> إخفاء الإجابة';
+        }
+    </script>
+</body>
+
+</html>
