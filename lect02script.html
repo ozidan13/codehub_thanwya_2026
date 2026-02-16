@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script - Lecture 02: HTML In-Depth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            color: #e0e0e0;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: rgba(249, 115, 22, 0.4);
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #f97316;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: "🎬";
+        }
+
+        .section-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #f97316, #ef4444);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 28px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-left: 6px;
+        }
+
+        .script-text {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: #f5f5f5;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border-right: 4px solid #f97316;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #ffc107;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            border-right: 3px solid #ffc107;
+        }
+
+        .note::before {
+            content: "📌 ملاحظة: ";
+            font-weight: bold;
+        }
+
+        .action {
+            font-size: 0.9rem;
+            color: #10b981;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            border-right: 3px solid #10b981;
+        }
+
+        .action::before {
+            content: "🖥️ على الشاشة: ";
+            font-weight: bold;
+        }
+
+        .english {
+            direction: ltr;
+            text-align: left;
+            font-family: 'Segoe UI', 'Consolas', sans-serif;
+            color: #b3e5fc;
+        }
+
+        .highlight {
+            color: #69f0ae;
+            font-weight: 600;
+        }
+
+        .keyword {
+            color: #f97316;
+            font-weight: 700;
+        }
+
+        .pause {
+            color: #ff8a65;
+            font-size: 0.85rem;
+            display: block;
+            margin: 0.5rem 0;
+        }
+
+        a.back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(249, 115, 22, 0.2);
+            border: 1px solid rgba(249, 115, 22, 0.4);
+            border-radius: 8px;
+            color: #f97316;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        a.back-btn:hover {
+            background: rgba(249, 115, 22, 0.4);
+            color: #fff;
+        }
+
+        .toc {
+            background: rgba(249, 115, 22, 0.08);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc h2 {
+            color: #f97316;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .toc ol {
+            padding-right: 1.5rem;
+            line-height: 2.2;
+        }
+
+        .toc a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: #f97316;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← رجوع للصفحة الرئيسية</a>
+        <h1>📜 سكريبت الشرح — المحاضرة التانية</h1>
+        <p class="subtitle">HTML بالتفصيل الممل — من أول سطر لحد الاحتراف</p>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>📑 فهرس الأقسام</h2>
+            <ol>
+                <li><a href="#intro">المقدمة والترحيب</a></li>
+                <li><a href="#why-html">ليه HTML مهمة أصلاً؟</a></li>
+                <li><a href="#structure">هيكل صفحة HTML</a></li>
+                <li><a href="#elements">العناصر والتاجات والتداخل</a></li>
+                <li><a href="#attributes">الـ Attributes</a></li>
+                <li><a href="#text">النصوص والعناوين</a></li>
+                <li><a href="#links">الروابط والصور والميديا</a></li>
+                <li><a href="#lists">القوائم والجداول</a></li>
+                <li><a href="#forms">النماذج — Forms</a></li>
+                <li><a href="#semantic">Semantic HTML والـ Accessibility</a></li>
+                <li><a href="#closing">الخاتمة والكويز</a></li>
+            </ol>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 0. المقدمة -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="intro">
+            <div class="section-title">المقدمة والترحيب</div>
+            <div class="script-text">
+                السلام عليكم ورحمة الله وبركاته، أهلاً وسهلاً بيكم في <span class="highlight">المحاضرة التانية</span> من
+                مادة أساسيات تكنولوجيا المعلومات.
+                <span class="pause">[وقفة قصيرة]</span>
+                المحاضرة اللي فاتت اتكلمنا عن الـ IT بشكل عام — إيه هي، وبتأثر في حياتنا إزاي. وفي الآخر عملنا مقدمة
+                سريعة عن الويب: HTML و CSS و JavaScript.
+                <span class="pause">[وقفة]</span>
+                النهارده بقى هنعمل حاجة مختلفة. هنمسك الـ <span class="keyword">HTML</span> بالتفصيل الممل. هنفهمها من
+                جوه.
+                مش هنمشي على الوش — هندخل في كل حاجة. كل tag، كل attribute، كل حاجة. الفكرة إننا لما نخلص المحاضرة دي،
+                تكون مستعد تبني أي صفحة HTML من غير ما تحتاج تفتح جوجل.
+                <span class="pause">[وقفة]</span>
+                جاهزين؟ يلا بينا!
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 1. ليه HTML مهمة -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="why-html">
+            <div class="section-title"><span class="section-number">01</span>ليه HTML مهمة أصلاً؟</div>
+            <div class="script-text">
+                طيب قبل ما ندخل في الكود، خلينا نفهم الأول: <span class="highlight">ليه HTML مهمة لدرجة إننا نعمل محاضرة
+                    كاملة عليها لوحدها؟</span>
+                <span class="pause">[وقفة]</span>
+                الحقيقة إن HTML هي <span class="keyword">اللغة الأساسية</span> اللي كل صفحة ويب في العالم مبنية بيها.
+                مفيش
+                موقع واحد على الإنترنت — لا فيسبوك، ولا جوجل، ولا يوتيوب — إلا وبيستخدم HTML. يعني لو محدش كتب HTML،
+                مفيش إنترنت أصلاً!
+                <span class="pause">[وقفة]</span>
+                طيب إيه اللي بيحصل لما بتفتح أي صفحة ويب؟ خلينا نفهم ده خطوة خطوة:
+                <br><br>
+                <span class="highlight">الخطوة الأولى:</span> أنت بتكتب عنوان في الـ browser — يعني بتكتب URL.
+                <br><span class="highlight">الخطوة التانية:</span> الـ browser بيروح للـ server ويطلب منه الملف بتاع
+                الصفحة
+                دي.
+                <br><span class="highlight">الخطوة التالتة:</span> الـ server بيبعت ملف HTML.
+                <br><span class="highlight">الخطوة الرابعة:</span> الـ browser بتاعك بياخد الملف ده وبيحوله لصفحة بصرية
+                قدامك. بيقرا كل tag في الملف ويعرف: هنا عنوان، هنا فقرة، ده لينك، ودي صورة.
+                <span class="pause">[وقفة]</span>
+                فكر فيها كده: <span class="highlight">لو الموقع عمارة، HTML هي الخرسانة والطوب — الهيكل اللي كل حاجة
+                    بتتبني
+                    عليه.</span> CSS هي الدهان والديكور، و JavaScript هي الكهربا والأجهزة اللي بتخلي كل حاجة تتحرك
+                وتشتغل.
+                من غير HTML مفيش عمارة أصلاً.
+            </div>
+            <div class="action">وريهم رسم توضيحي لمسار الـ Request: Browser → Server → HTML File → Rendered Page</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 2. هيكل صفحة HTML -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="structure">
+            <div class="section-title"><span class="section-number">02</span>هيكل صفحة HTML الأساسي</div>
+            <div class="script-text">
+                طيب دلوقتي نيجي للجزء العملي. أي صفحة HTML في الدنيا — سواء صفحة بسيطة أو موقع ضخم — لازم تبدأ بنفس
+                الهيكل الأساسي. وهو خمس حاجات:
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">أولاً:</span> <span class="english">&lt;!DOCTYPE html&gt;</span>
+                <br>ده مش tag عادي، ده <span class="highlight">إعلان</span> — بيقول للـ browser: "أنا ملف HTML5". لازم
+                يكون
+                أول حاجة في أول سطر. لو مكتبتوش، الـ browser ممكن يتصرف بشكل غريب ويدخل في حاجة اسمها <span
+                    class="english">Quirks Mode</span> — يعني يشتغل بطريقة قديمة ومش متوقعة.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">ثانياً:</span> <span class="english">&lt;html lang="ar" dir="rtl"&gt;</span>
+                <br>ده الـ tag اللي بيحوي كل حاجة. بنحدد فيه لغة الصفحة بالـ <span class="english">lang</span> attribute
+                واتجاه الكتابة بالـ <span class="english">dir</span>. لو الصفحة عربي بنقول <span
+                    class="english">rtl</span> (يمين لشمال)، ولو إنجليزي بنقول <span class="english">ltr</span>.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">ثالثاً:</span> <span class="english">&lt;head&gt;</span>
+                <br>ده زي <span class="highlight">مخ الصفحة</span> — المستخدم مش بيشوفه، بس فيه معلومات مهمة جداً:
+                العنوان
+                اللي بيظهر في الـ tab بتاع الـ browser، الـ meta tags اللي جوجل بيقراها عشان يفهم الصفحة، والروابط
+                لملفات CSS
+                والخطوط.
+                <span class="pause">[وقفة]</span>
+                وجوه الـ head بنحط الـ <span class="english">&lt;meta charset="UTF-8"&gt;</span> ودي مهمة جداً عشان
+                الحروف
+                العربية تظهر صح. لو مكتبتهاش ممكن الحروف العربية تظهر رموز غريبة.
+                <span class="pause">[وقفة]</span>
+                وكمان <span class="english">&lt;meta name="viewport"...&gt;</span> ودي بتخلي الصفحة تشتغل كويس على
+                الموبايل.
+                من غيرها الصفحة هتظهر صغيرة أوي على الموبايل.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">رابعاً:</span> <span class="english">&lt;title&gt;</span>
+                <br>ده العنوان اللي بيظهر في الـ tab في أعلى الـ browser، ومهم جداً للـ SEO عشان جوجل بيعرضه في نتائج
+                البحث.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">خامساً:</span> <span class="english">&lt;body&gt;</span>
+                <br>وده <span class="highlight">كل حاجة الناس بتشوفها</span> — النصوص، الصور، الأزرار، كل حاجة. لو الـ
+                head
+                هو المخ، الـ body هو الجسم اللي الناس بيتعاملوا معاه.
+            </div>
+            <div class="action">اعرض الكود الأساسي لهيكل HTML على الشاشة وأشّر على كل جزء وأنت بتشرحه</div>
+            <div class="note">لو الطلاب سألوا عن الفرق بين HTML4 و HTML5 — قولهم HTML5 أبسط وأقوى وفيها عناصر جديدة زي
+                video و audio و semantic tags.</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 3. العناصر والتاجات -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="elements">
+            <div class="section-title"><span class="section-number">03</span>العناصر والتاجات والتداخل</div>
+            <div class="script-text">
+                طيب نيجي لسؤال مهم: <span class="highlight">إيه الفرق بين الـ Tag والـ Element؟</span>
+                <span class="pause">[وقفة]</span>
+                الـ <span class="keyword">Tag</span> هو الكود اللي بتكتبه — يعني الـ <span
+                    class="english">&lt;p&gt;</span> والـ <span class="english">&lt;/p&gt;</span>. في منهم فتح
+                <span class="english">(opening tag)</span> وقفل <span class="english">(closing tag)</span>.
+                <br><br>
+                الـ <span class="keyword">Element</span> هو الحاجة كلها مع بعض: الـ tag الفتح + المحتوى + الـ tag القفل.
+                <br>يعني <span class="english">&lt;p&gt;مرحباً&lt;/p&gt;</span> — ده element كامل.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">الـ Block vs Inline:</span>
+                <br><br>
+                النوع الأول: <span class="keyword">Block Elements</span> — ودي بتاخد السطر كله لوحدها. زي الـ <span
+                    class="english">&lt;div&gt;</span>، <span class="english">&lt;p&gt;</span>، <span
+                    class="english">&lt;h1&gt;</span>. كل واحد فيهم بينزل في سطر جديد.
+                <span class="pause">[وقفة]</span>
+                النوع التاني: <span class="keyword">Inline Elements</span> — ودي بتقعد جنب بعض في نفس السطر. زي الـ
+                <span class="english">&lt;span&gt;</span>، <span class="english">&lt;a&gt;</span>، <span
+                    class="english">&lt;strong&gt;</span>.
+                <span class="pause">[وقفة]</span>
+                وفيه نوع تالت مهم: <span class="keyword">Void Elements</span> — ودي tags مفيهاش محتوى ومش بتتقفل. زي الـ
+                <span class="english">&lt;img&gt;</span>، <span class="english">&lt;br&gt;</span>، <span
+                    class="english">&lt;input&gt;</span>، <span class="english">&lt;hr&gt;</span>.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">التداخل (Nesting):</span>
+                <br>
+                يعني تحط element جوه element. زي ما بتحط علب جوه بعض. بس القاعدة المهمة: <span class="keyword">اللي
+                    فتحته
+                    الآخر، اقفله الأول!</span>
+                <br>يعني الكود ده صح:
+                <br><span class="english">&lt;div&gt;&lt;p&gt;نص&lt;/p&gt;&lt;/div&gt;</span>
+                <br>بس ده غلط:
+                <br><span class="english">&lt;div&gt;&lt;p&gt;نص&lt;/div&gt;&lt;/p&gt;</span>
+                <br>فكر فيها زي الأقواس في الرياضيات — لازم تفتح وتقفل بالترتيب الصح.
+            </div>
+            <div class="action">اعرض مثال Block vs Inline على الشاشة — خلي الـ blocks ملونة عشان الطلاب يشوفوا الفرق
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 4. الـ Attributes -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="attributes">
+            <div class="section-title"><span class="section-number">04</span>الـ Attributes — خصائص العناصر</div>
+            <div class="script-text">
+                طيب الـ tag لوحده مش كفاية أحياناً. محتاجين نديه <span class="highlight">معلومات إضافية</span>. ودي
+                بنحطها
+                في الـ <span class="keyword">Attributes</span>.
+                <span class="pause">[وقفة]</span>
+                يعني مثلاً الـ <span class="english">&lt;a&gt;</span> tag لوحده مش بيعمل حاجة. محتاج يعرف: روح لأنهي
+                لينك؟
+                فبنحطله <span class="english">href</span> attribute. وده بيبقى جوه الـ opening tag:
+                <br><span class="english">&lt;a href="https://google.com"&gt;جوجل&lt;/a&gt;</span>
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">أهم الـ Attributes اللي لازم تعرفها:</span>
+                <br><br>
+                <span class="keyword">id</span> — معرف فريد لكل عنصر. يعني زي <span class="highlight">رقم البطاقة</span>
+                —
+                مفيش اتنين نفس الـ id في نفس الصفحة!
+                <br><span class="keyword">class</span> — تصنيف. زي <span class="highlight">اسم المدرسة</span> — ناس كتير
+                ممكن يكون عندهم نفس الـ class.
+                <br><span class="keyword">style</span> — بتحط CSS مباشرة على العنصر. بس مش أفضل طريقة في المشاريع
+                الكبيرة.
+                <br><span class="keyword">title</span> — tooltip بيظهر لما تحط الماوس فوق العنصر.
+                <span class="pause">[وقفة]</span>
+
+                وفيه حاجة اسمها <span class="keyword">Boolean Attributes</span> — ودي attributes مش محتاجة قيمة. لو
+                كاتبها
+                يبقى مفعّلة، لو مش كاتبها يبقى مش مفعّلة. زي <span class="english">required</span> و <span
+                    class="english">disabled</span> و <span class="english">hidden</span>.
+                <span class="pause">[وقفة]</span>
+
+                وفيه <span class="keyword">Data Attributes</span> — ودي بتبدأ بـ <span class="english">data-</span>
+                وبتخليك تخزن بيانات إضافية في الـ HTML تقراها من JavaScript بعدين. ودي
+                شائعة جداً في الشغل الحقيقي — مثلاً في مواقع التسوق بتخزن سعر المنتج والـ ID بتاعه في الـ HTML عشان
+                JavaScript يقدر يتعامل معاها.
+            </div>
+            <div class="action">اعرض مثال الـ data attributes بتاع الـ product card</div>
+            <div class="note">ركز على الفرق بين id و class — ده سؤال كلاسيكي في المقابلات!</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 5. النصوص والعناوين -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="text">
+            <div class="section-title"><span class="section-number">05</span>النصوص والعناوين</div>
+            <div class="script-text">
+                خلاص فهمنا الهيكل والعناصر. دلوقتي نيجي لأهم حاجة في أي صفحة: <span class="keyword">المحتوى</span> —
+                يعني
+                النصوص والعناوين.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">العناوين — Headings:</span>
+                <br>
+                HTML فيها 6 مستويات عناوين من <span class="english">&lt;h1&gt;</span> (الأكبر والأهم) لحد <span
+                    class="english">&lt;h6&gt;</span> (الأصغر). بس مش مسألة حجم خط — الموضوع أكبر من كده. ده <span
+                    class="keyword">hierarchy</span> — يعني هيكل بيوصف المحتوى.
+                <span class="pause">[وقفة]</span>
+                فكر فيها كده: الـ <span class="english">h1</span> ده زي عنوان الكتاب. الـ <span
+                    class="english">h2</span> ده زي عناوين الفصول. الـ <span class="english">h3</span> ده عنوان فرعي جوه
+                الفصل. وهكذا.
+                <span class="pause">[وقفة]</span>
+                <span class="keyword">قاعدة مهمة جداً للـ SEO:</span> متستخدمش <span class="english">&lt;h1&gt;</span>
+                أكتر
+                من مرة في الصفحة. لازم يكون فيه <span class="english">h1</span> واحد بس — ده العنوان الرئيسي اللي جوجل
+                بيقراه أول حاجة.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">تنسيق النصوص:</span>
+                <br>
+                فيه tags كتير لتنسيق النصوص. بس كل tag ليه <span class="keyword">معنى دلالي</span> مش مجرد شكل!
+                <br><br>
+                الـ <span class="english">&lt;strong&gt;</span> بيعمل bold — بس معناه إن ده <span class="highlight">كلام
+                    مهم</span>. الـ screen reader بيقراه بتركيز.
+                <br>الـ <span class="english">&lt;em&gt;</span> بيعمل italic — بس معناه <span
+                    class="highlight">تأكيد</span>.
+                <br>الـ <span class="english">&lt;mark&gt;</span> بيعمل highlight — زي الهايلايتر الأصفر.
+                <br>الـ <span class="english">&lt;del&gt;</span> بيشطب النص — زي لما بتشطب سعر قديم.
+                <br>الـ <span class="english">&lt;code&gt;</span> للكود البرمجي.
+                <span class="pause">[وقفة]</span>
+                وفيه فرق مهم: <span class="english">&lt;strong&gt;</span> مش زي <span class="english">&lt;b&gt;</span>!
+                الاتنين شكلهم bold بس <span class="english">&lt;strong&gt;</span>
+                بيقول للـ screen reader "ده كلام مهم". لكن <span class="english">&lt;b&gt;</span> مجرد شكل. دايماً
+                استخدم
+                الـ semantic tag.
+                <span class="pause">[وقفة]</span>
+
+                وکمان فيه <span class="english">&lt;blockquote&gt;</span> للاقتباسات الطويلة وفيه <span
+                    class="english">&lt;q&gt;</span> للاقتباسات القصيرة اللي جوه السطر.
+            </div>
+            <div class="action">اعرض الـ browser preview بتاع الـ headings عشان يشوفوا الأحجام</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 6. الروابط والصور والميديا -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="links">
+            <div class="section-title"><span class="section-number">06</span>الروابط والصور والميديا</div>
+            <div class="script-text">
+                دلوقتي نيجي لحاجة أساسية في الويب: <span class="keyword">الروابط</span>. كلمة "HyperText" في HTML معناها
+                "نص مرتبط بنصوص تانية". يعني الـ links هي أساس الويب كله!
+                <span class="pause">[وقفة]</span>
+
+                الـ <span class="english">&lt;a&gt;</span> tag هو اللي بيعمل الروابط. الـ attribute الأساسي هو <span
+                    class="highlight">href</span> — اللي هو Hypertext Reference. يعني بتقوله "روح على العنوان ده".
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">وأنواع الروابط كتير:</span>
+                <br>❶ لينك لموقع خارجي — زي <span class="english">href="https://google.com"</span>
+                <br>❷ لينك لصفحة تانية في نفس الموقع — زي <span class="english">href="about.html"</span>
+                <br>❸ لينك لقسم في نفس الصفحة — بنستخدم <span class="english">#</span> — زي <span
+                    class="english">href="#contact"</span>
+                <br>❹ لينك لإرسال إيميل — <span class="english">href="mailto:info@example.com"</span>
+                <br>❺ لينك لتحميل ملف — بنحط <span class="english">download</span> attribute
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">نصيحة أمان مهمة:</span> لما بتفتح لينك خارجي بـ <span
+                    class="english">target="_blank"</span>، دايماً حط <span class="english">rel="noopener"</span>. ده
+                بيمنع الصفحة الجديدة إنها تتحكم في صفحتك — ودي ثغرة أمنية معروفة.
+                <span class="pause">[وقفة — وقفة طويلة]</span>
+
+                <span class="highlight">الصور:</span>
+                <br>
+                الـ <span class="english">&lt;img&gt;</span> tag هو void element — يعني مش بيتقفل. وأهم اتنين attributes
+                فيه هما <span class="english">src</span> (مصدر الصورة) و <span class="english">alt</span> (وصف الصورة).
+                <span class="pause">[وقفة]</span>
+                <span class="keyword">الـ alt مش اختياري!</span> لو مكتبتوش، الناس اللي بتستخدم screen readers مش هتعرف
+                إيه
+                في الصورة. وكمان جوجل بيقرا الـ alt عشان يفهم الصورة. فلازم تكتب وصف دقيق ومفيد — مش مجرد "صورة".
+                <span class="pause">[وقفة]</span>
+
+                وكمان فيه الـ <span class="english">&lt;figure&gt;</span> و <span
+                    class="english">&lt;figcaption&gt;</span> لو عايز تحط caption تحت الصورة.
+                <br>وفيه <span class="english">&lt;picture&gt;</span> لو عايز صور مختلفة لأحجام شاشة مختلفة — ده اسمه
+                responsive images.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">الفيديو والصوت:</span>
+                <br>
+                من HTML5 بقى عندنا <span class="english">&lt;video&gt;</span> و <span
+                    class="english">&lt;audio&gt;</span> tags. قبل كده كنا محتاجين Flash عشان نشغل فيديو! الفرق إن
+                دلوقتي
+                الـ browser نفسه بيشغل الملفات مباشرة.
+                <br>
+                وممكن تعمل embed لفيديو يوتيوب بـ <span class="english">&lt;iframe&gt;</span>.
+            </div>
+            <div class="note">لو في طالب سأل عن lazy loading — اشرحله إن loading="lazy" بتخلي الصور متحملش غير لما تظهر
+                على الشاشة. ده بيحسن سرعة الصفحة جداً.</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 7. القوائم والجداول -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="lists">
+            <div class="section-title"><span class="section-number">07</span>القوائم والجداول</div>
+            <div class="script-text">
+                دلوقتي نيجي لتنظيم البيانات. فيه طريقتين أساسيتين: <span class="keyword">القوائم</span> و<span
+                    class="keyword">الجداول</span>.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">أنواع القوائم:</span>
+                <br><br>
+                <span class="keyword">أولاً: Unordered List</span> — <span class="english">&lt;ul&gt;</span> — ودي قائمة
+                بنقط (bullets). استخدمها لما الترتيب مش مهم — زي قائمة مشتريات.
+                <span class="pause">[وقفة]</span>
+                <span class="keyword">ثانياً: Ordered List</span> — <span class="english">&lt;ol&gt;</span> — ودي قائمة
+                بأرقام. استخدمها لما الترتيب مهم — زي خطوات وصفة أكل أو الـ setup steps.
+                <span class="pause">[وقفة]</span>
+                <span class="keyword">ثالثاً: Description List</span> — <span class="english">&lt;dl&gt;</span> — ودي لو
+                عندك مصطلح وعايز تعمله تعريف. فيها <span class="english">&lt;dt&gt;</span> للمصطلح و <span
+                    class="english">&lt;dd&gt;</span> للتعريف. ودي ناس كتير متعرفهاش بس هي مفيدة جداً — زي القاموس.
+                <span class="pause">[وقفة — وقفة طويلة]</span>
+
+                <span class="highlight">الجداول — Tables:</span>
+                <br>
+                الجداول للبيانات المنظمة — <span class="keyword">مش للـ layout!</span> زمان كان الناس بتستخدم tables
+                عشان
+                تعمل layout للصفحة. ده كان غلط كبير. النهارده بنستخدم CSS Grid و Flexbox للـ layout.
+                <span class="pause">[وقفة]</span>
+                الجدول بيتكون من:
+                <br><span class="english">&lt;table&gt;</span> — الحاوية
+                <br><span class="english">&lt;thead&gt;</span> — رأس الجدول (العناوين)
+                <br><span class="english">&lt;tbody&gt;</span> — جسم الجدول (البيانات)
+                <br><span class="english">&lt;tfoot&gt;</span> — ذيل الجدول (المجاميع)
+                <br><span class="english">&lt;tr&gt;</span> — صف
+                <br><span class="english">&lt;th&gt;</span> — خلية عنوان
+                <br><span class="english">&lt;td&gt;</span> — خلية بيانات
+                <span class="pause">[وقفة]</span>
+                وفيه <span class="english">&lt;caption&gt;</span> بتعمل عنوان للجدول كله. وفيه <span
+                    class="english">scope</span> attribute بيقول للـ screen reader إن الـ <span
+                    class="english">th</span> ده عنوان عمود (<span class="english">col</span>) ولا عنوان صف (<span
+                    class="english">row</span>). وفيه <span class="english">colspan</span> بيدمج خلايا مع بعض.
+            </div>
+            <div class="action">اعرض الـ browser preview بتاع الجدول عشان يشوفوا الشكل النهائي</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 8. النماذج — Forms -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="forms">
+            <div class="section-title"><span class="section-number">08</span>النماذج — Forms</div>
+            <div class="script-text">
+                دلوقتي نيجي لواحد من أهم الأجزاء في HTML: <span class="keyword">الـ Forms</span>. ليه؟ لأن الـ Forms هي
+                الطريقة الأساسية اللي المستخدم بيبعت بيها بيانات للـ server.
+                <span class="pause">[وقفة]</span>
+                كل مرة بتسجل في موقع، بتبحث في جوجل، أو بتكتب تعليق — أنت بتستخدم form.
+                <span class="pause">[وقفة]</span>
+
+                الـ <span class="english">&lt;form&gt;</span> tag بياخد attributeين أساسيين:
+                <br><span class="keyword">action</span> — الصفحة اللي هتستقبل البيانات. زي <span
+                    class="english">action="/api/register"</span>.
+                <br><span class="keyword">method</span> — طريقة الإرسال: <span class="english">GET</span> (البيانات
+                بتظهر
+                في الـ URL — للبحث مثلاً) أو <span class="english">POST</span> (البيانات مخفية — للتسجيل والبيانات
+                الحساسة).
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">عناصر الفورم المهمة:</span>
+                <br><br>
+                1️⃣ <span class="english">&lt;label&gt;</span> + <span class="english">&lt;input&gt;</span> — اللابل
+                بيوصف
+                الحقل. مهم جداً تربطهم ببعض بالـ <span class="english">for</span> و <span class="english">id</span> عشان
+                لما
+                تدوس على اللابل يروح للحقل. وده كمان مهم للـ accessibility.
+                <span class="pause">[وقفة]</span>
+
+                2️⃣ <span class="english">&lt;select&gt;</span> — dropdown قائمة اختيارات.
+                <br>3️⃣ <span class="english">&lt;textarea&gt;</span> — مربع نص كبير لكتابة رسائل طويلة.
+                <br>4️⃣ <span class="english">&lt;button type="submit"&gt;</span> — زرار الإرسال.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">ميزة جبارة من HTML5: الـ Validation!</span>
+                <br>
+                يعني الـ browser بيتحقق من البيانات تلقائياً من غير JavaScript:
+                <br>- <span class="english">required</span> — الحقل لازم يتملي.
+                <br>- <span class="english">minlength</span> و <span class="english">maxlength</span> — أقل وأكتر عدد
+                حروف.
+                <br>- <span class="english">type="email"</span> — بيتأكد إن الشكل إيميل صحيح.
+                <br>- <span class="english">pattern</span> — بتحط regex عشان تتحقق بنفسك.
+                <span class="pause">[وقفة]</span>
+                بس <span class="keyword">متعتمدش عليهم وبس!</span> لازم يكون فيه validation في الـ server كمان. ده اسمه
+                <span class="english">defense in depth</span> — يعني دفاع متعدد الطبقات.
+                <span class="pause">[وقفة]</span>
+
+                وكمان HTML5 جابت أنواع كتير من inputs: <span class="english">date</span>، <span
+                    class="english">color</span>، <span class="english">range</span>، <span class="english">url</span>،
+                <span class="english">tel</span>. والفايدة إن الموبايل بيغير الـ keyboard
+                تلقائياً حسب النوع. يعني <span class="english">type="email"</span> بيظهر @ على الـ keyboard، و <span
+                    class="english">type="tel"</span> بيظهر لوحة أرقام!
+            </div>
+            <div class="action">اعرض الـ browser preview بتاع الفورم عشان يشوفوا الشكل النهائي</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 9. Semantic HTML والـ Accessibility -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="semantic">
+            <div class="section-title"><span class="section-number">09</span>Semantic HTML والـ Accessibility</div>
+            <div class="script-text">
+                دلوقتي نيجي لقسم مهم جداً: <span class="keyword">Semantic HTML</span>. يعني إيه semantic؟ يعني تستخدم
+                tags
+                بتوصف <span class="highlight">معنى</span> المحتوى مش مجرد شكله.
+                <span class="pause">[وقفة]</span>
+                بدل ما تحط كل حاجة في <span class="english">&lt;div&gt;</span>، تستخدم tags معبرة:
+                <br><br>
+                <span class="english">&lt;header&gt;</span> — رأس الصفحة أو القسم
+                <br><span class="english">&lt;nav&gt;</span> — قائمة التنقل
+                <br><span class="english">&lt;main&gt;</span> — المحتوى الرئيسي (واحد بس في الصفحة)
+                <br><span class="english">&lt;article&gt;</span> — محتوى مستقل (ممكن يتقراه لوحده)
+                <br><span class="english">&lt;section&gt;</span> — قسم من المحتوى
+                <br><span class="english">&lt;aside&gt;</span> — محتوى جانبي (sidebar)
+                <br><span class="english">&lt;footer&gt;</span> — ذيل الصفحة
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">ليه ده مهم أصلاً؟ ثلاث أسباب:</span>
+                <br>
+                ① جوجل بيفهم صفحتك أحسن = <span class="keyword">SEO أحسن</span>.
+                <br>② الـ <span class="english">Screen readers</span> بتقدر تنقل المستخدمين للـ nav أو الـ main مباشرة.
+                <br>③ الكود بيكون أسهل في القراية والصيانة.
+                <br>الصفحة اللي كلها <span class="english">&lt;div&gt;</span> زي كتاب من غير فهرس!
+                <span class="pause">[وقفة — وقفة طويلة]</span>
+
+                <span class="highlight">الـ Accessibility (إتاحة الويب):</span>
+                <br>
+                ده موضوع مهم جداً. فيه ناس كتير بتستخدم الإنترنت وعندها إعاقات بصرية أو حركية. إحنا كمطورين مسؤولين إن
+                المواقع بتاعتنا تكون متاحة للكل.
+                <span class="pause">[وقفة]</span>
+                أهم الحاجات:
+                <br>- دايماً حط <span class="english">alt</span> على الصور.
+                <br>- اربط كل <span class="english">label</span> بالـ <span class="english">input</span> بتاعه.
+                <br>- استخدم العناوين بالترتيب (h1 → h2 → h3).
+                <br>- اعمل الصفحة تتنقل بالـ keyboard.
+                <span class="pause">[وقفة]</span>
+
+                وفيه حاجة اسمها <span class="keyword">ARIA</span> — <span class="english">Accessible Rich Internet
+                    Applications</span>. ودي attributes إضافية بتضيفها لما الـ semantic tags مش كفاية. زي:
+                <br>- <span class="english">role="navigation"</span> — بتقول للـ screen reader ده menu.
+                <br>- <span class="english">aria-label</span> — بتحط وصف لعنصر مالوش نص ظاهر.
+                <br>- <span class="english">aria-hidden="true"</span> — بتخفي عنصر من الـ screen reader.
+                <span class="pause">[وقفة]</span>
+                <span class="keyword">القاعدة الذهبية:</span> لو الـ semantic tag بيعمل الوظيفة — استخدمه بدل ARIA. يعني
+                استخدم <span class="english">&lt;nav&gt;</span> بدل <span class="english">&lt;div
+                    role="navigation"&gt;</span>.
+                <span class="pause">[وقفة]</span>
+
+                وكمان فيه عناصر ذكية في HTML5 — الـ <span class="english">&lt;details&gt;</span> و <span
+                    class="english">&lt;summary&gt;</span>. دول بيعملوا accordion تلقائي من غير JavaScript!
+            </div>
+            <div class="action">اعرض الـ browser preview بتاع الـ semantic layout. واعرض مقارنة بين كود div-soup وكود
+                semantic</div>
+            <div class="note">الـ accessibility مش optional — فيه دول فيها قوانين بتفرض إنك تخلي المواقع accessible. ده
+                الصح
+                أخلاقياً وعملياً.</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 10. الخاتمة -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="closing">
+            <div class="section-title">الخاتمة والكويز</div>
+            <div class="script-text">
+                كده إحنا خلصنا المحاضرة التانية — وكانت محاضرة مليانة!
+                <span class="pause">[وقفة]</span>
+                خلينا نلخص اللي اتعلمناه:
+                <br><br>
+                ✅ <span class="highlight">ليه HTML مهمة</span> وإزاي الـ browser بيشتغل.
+                <br>✅ <span class="highlight">هيكل الصفحة</span>: DOCTYPE, html, head, body.
+                <br>✅ <span class="highlight">العناصر</span>: Block vs Inline, Void elements, Nesting.
+                <br>✅ <span class="highlight">الـ Attributes</span>: id, class, data-*, boolean.
+                <br>✅ <span class="highlight">النصوص</span>: العناوين h1-h6 والتنسيق.
+                <br>✅ <span class="highlight">الروابط والصور</span>: anchor tags, images, video, audio.
+                <br>✅ <span class="highlight">القوائم والجداول</span>: ul, ol, dl, tables.
+                <br>✅ <span class="highlight">الـ Forms</span>: inputs, validation, أنواع الـ input.
+                <br>✅ <span class="highlight">Semantic HTML</span>: header, nav, main, article, footer.
+                <br>✅ <span class="highlight">الـ Accessibility</span>: alt, ARIA, keyboard navigation.
+                <span class="pause">[وقفة]</span>
+
+                في الـ Presentation فيه <span class="keyword">كويز من 10 أسئلة</span> — اختبر نفسك وشوف فهمت قد إيه.
+                الكويز
+                بيغطي كل الحاجات اللي اتكلمنا عنها.
+                <span class="pause">[وقفة]</span>
+
+                المحاضرة الجاية إن شاء الله هنتكلم عن <span class="highlight">CSS بالتفصيل</span> — هنتعلم إزاي نخلي
+                الصفحات بتاعتنا حلوة ومنظمة.
+                <br><br>
+                شكراً لمتابعتكم، وإلى اللقاء في المحاضرة الجاية إن شاء الله.
+                <br>السلام عليكم ورحمة الله وبركاته.
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
