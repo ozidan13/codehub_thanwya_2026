@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script - Lecture 04: JavaScript Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1c1917, #3f3f46, #44403c);
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            color: #e0e0e0;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #d6d3d1;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 8px 32px rgba(245, 158, 11, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: "🎬";
+        }
+
+        .section-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 28px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-left: 6px;
+        }
+
+        .script-text {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: #f5f5f5;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border-right: 4px solid #f59e0b;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #fbbf24;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(251, 191, 36, 0.1);
+            border-radius: 8px;
+            border-right: 3px solid #fbbf24;
+        }
+
+        .note::before {
+            content: "📌 ملاحظة: ";
+            font-weight: bold;
+        }
+
+        .action {
+            font-size: 0.9rem;
+            color: #34d399;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(52, 211, 153, 0.1);
+            border-radius: 8px;
+            border-right: 3px solid #34d399;
+        }
+
+        .action::before {
+            content: "🖥️ على الشاشة: ";
+            font-weight: bold;
+        }
+
+        .english {
+            direction: ltr;
+            text-align: left;
+            font-family: 'Segoe UI', 'Consolas', sans-serif;
+            color: #fca5a5;
+        }
+
+        .highlight {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .keyword {
+            color: #f87171;
+            font-weight: 700;
+        }
+
+        .pause {
+            color: #a8a29e;
+            font-size: 0.85rem;
+            display: block;
+            margin: 0.5rem 0;
+        }
+
+        a.back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: 8px;
+            color: #fbbf24;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        a.back-btn:hover {
+            background: rgba(245, 158, 11, 0.4);
+            color: #fff;
+        }
+
+        .toc {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc h2 {
+            color: #fbbf24;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .toc ol {
+            padding-right: 1.5rem;
+            line-height: 2.2;
+        }
+
+        .toc a {
+            color: #a8a29e;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← رجوع للصفحة الرئيسية</a>
+        <h1>📜 سكريبت الشرح — المحاضرة الرابعة</h1>
+        <p class="subtitle">JavaScript: روح الموقع ومحرك التفاعل</p>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>📑 فهرس الأقسام</h2>
+            <ol>
+                <li><a href="#intro">المقدمة والترحيب</a></li>
+                <li><a href="#why-js">ليه JavaScript؟ وإزاي بتشتغل</a></li>
+                <li><a href="#variables">Variables & Data Types — المتغيرات والأنواع</a></li>
+                <li><a href="#operators">Operators — العمليات الحسابية والمنطقية</a></li>
+                <li><a href="#conditionals">Conditionals — اتخاذ القرارات (لو... يبقى)</a></li>
+                <li><a href="#loops">Loops — التكرار (for / while)</a></li>
+                <li><a href="#functions">Functions — الدول (Reusability)</a></li>
+                <li><a href="#arrays">Arrays — القوائم والمصفوفات</a></li>
+                <li><a href="#objects">Objects — الكائنات (تخزين البيانات)</a></li>
+                <li><a href="#dom">DOM Manipulation — التحكم في الصفحة</a></li>
+                <li><a href="#events">Events — التفاعل مع المستخدم</a></li>
+                <li><a href="#closing">الخاتمة والكويز</a></li>
+            </ol>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 0. المقدمة -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="intro">
+            <div class="section-title">المقدمة والترحيب</div>
+            <div class="script-text">
+                السلام عليكم ورحمة الله وبركاته، أهلاً وسهلاً بيكم في <span class="highlight">المحاضرة الرابعة</span> من
+                مادة أساسيات تكنولوجيا المعلومات.
+                <span class="pause">[وقفة قصيرة]</span>
+                لحد دلوقتي اتعلمنا حاجتين أساسيتين:
+                <br>1- <span class="english">HTML</span>: وده الهيكل العظمي للموقع (المحتوى).
+                <br>2- <span class="english">CSS</span>: وده الجلد والملابس والديكور (الشكل).
+                <span class="pause">[وقفة]</span>
+                بس الموقع لسه "جامد" — مبيتحركش، مبيفكرش، مبيتفاعلش. تدوس على زرار مبيعملش حاجة.
+                <span class="pause">[وقفة]</span>
+                النهارده بقى هنركب <span class="keyword">المخ والعضلات!</span> هنتكلم عن <span
+                    class="highlight">JavaScript.</span>
+                <br>هي دي اللغة اللي بتخلي الموقع "حي". بتخليك تقدر تعمل آلة حاسبة، لعبة، شات، خريطة تفاعلية — أي حاجة
+                بتتحرك أو بتتغير بتحصل بـ JS.
+                <span class="pause">[وقفة]</span>
+                المحاضرة دي دسمة جداً ومهمة جداً — لأن JS هي <span class="keyword">أهم لغة برمجة في الويب</span> بلا
+                منازع.
+                <span class="pause">[وقفة]</span>
+                جاهزين؟ يلا بينا نبدأ! 🚀
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 1. ليه JavaScript -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="why-js">
+            <div class="section-title"><span class="section-number">01</span>ليه JavaScript؟ وإزاي بتشتغل</div>
+            <div class="script-text">
+                أول حاجة: <span class="highlight">ليه JavaScript؟</span>
+                <span class="pause">[وقفة]</span>
+                ببساطة لأنها <span class="keyword">اللغة الوحيدة</span> اللي بتشتغل جوه المتصفح (Browser). مفيش غيرها.
+                جوجل كروم، فايرفوكس، إيدج — كلهم بيفهموا JS.
+                <span class="pause">[وقفة]</span>
+                زمان كانت بتستخدم بس عشان تطلع رسالة ترحيب ولا ساعة. دلوقتي؟ فيسبوك، انستجرام، يوتيوب — كلهم مبنيين بـ
+                JS بالكامل قعلا.
+                <span class="pause">[وقفة]</span>
+
+                طيب <span class="highlight">بنكتبها فين؟</span>
+                <br>زي CSS بالظبط، عندنا 3 أماكن:
+                <br>1. <span class="english">Inline</span>: جوه الـ tag نفسه (زي <span
+                    class="english">onclick="..."</span>) — وده <span class="keyword">ممنوع</span> في الشغل النضيف.
+                <br>2. <span class="english">Internal</span>: جوه تاج <span class="english">&lt;script&gt;</span> في نفس
+                الصفحة. شغال للمشاريع الصغيرة.
+                <br>3. <span class="english">External</span>: في ملف منفصل <span class="english">.js</span> — وده <span
+                    class="highlight">الصح والاحترافي.</span>
+                <span class="pause">[وقفة]</span>
+
+                وأول برنامج بيكتبه أي مبرمج في الدنيا: <span class="english">console.log("Hello World");</span>
+                <br>الـ Console ده شاشة للمطورين بنشوف فيها نتايج الكود والأخطاء. (F12 في المتصفح).
+            </div>
+            <div class="action">اعرض طرق الكتابة التلاتة وركز على الـ External Script</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 2. Variables & Data Types -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="variables">
+            <div class="section-title"><span class="section-number">02</span>Variables & Data Types — المتغيرات والأنواع
+            </div>
+            <div class="script-text">
+                أي لغة برمجة لازم يبقى فيها <span class="keyword">Variables (متغيرات)</span>.
+                <span class="pause">[وقفة]</span>
+                المتغير ده زي "علبة" بتخزن فيها معلومة عشان تستخدمها بعدين.
+                <br>في JS الحديثة (ES6)، عندنا طريقتين أساسيتين عشان نعمل علبة:
+                <span class="pause">[وقفة]</span>
+                <br>1. <span class="keyword">let</span>: دي علبة "مفتوحة". تقدر تغير اللي جواها في أي وقت.
+                <br>مثلاً: <span class="english">let score = 10;</span> وبعدين <span class="english">score = 20;</span>
+                — عادي جداً.
+                <span class="pause">[وقفة]</span>
+                <br>2. <span class="keyword">const</span>: دي علبة "مقفولة ومبرشمة". بتحط القيمة مرة واحدة ومينفعش
+                تغيرها أبداً.
+                <br>مثلاً: <span class="english">const PI = 3.14;</span> — لو حاولت تغيرها هيديك Error.
+                <span class="pause">[وقفة]</span>
+                <br>كان فيه زمان حاجة اسمها <span class="english">var</span> — <span class="highlight">إوعى
+                    تستخدمها!</span> دي القديمة وكانت بتعمل مشاكل كتير. خليك دايماً في let و const.
+                <span class="pause">[وقفة]</span>
+
+                طيب إيه <span class="highlight">أنواع البيانات (Data Types)</span> اللي بنخزنها؟
+                <br>- <span class="english">String</span>: نص بين علامات تنصيص ("أحمد").
+                <br>- <span class="english">Number</span>: أرقام (10, 5.5, -20).
+                <br>- <span class="english">Boolean</span>: يا أبيض يا أسود (true / false).
+                <br>- <span class="english">Undefined</span>: متغير عملته بس لسه محطتش فيه قيمة.
+                <br>- <span class="english">Null</span>: قيمة فاضية "بمزاجنا".
+            </div>
+            <div class="action">وضح الفرق بين let و const بمثال عملي، واعرض أنواع البيانات المختلفة</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 3. Operators -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="operators">
+            <div class="section-title"><span class="section-number">03</span>Operators — العمليات الحسابية والمنطقية
+            </div>
+            <div class="script-text">
+                دلوقتي معانا بيانات، عايزين نعمل عليها عمليات. هنا بيجي دور الـ <span class="keyword">Operators</span>.
+                <span class="pause">[وقفة]</span>
+                عندنا عمليات حسابية عادية: جمع (+)، طرح (-)، ضرب (*)، قسمة (/).
+                <br>وفيه <span class="english">Modulus (%)</span> — ده باقي القسمة. (5 % 2 = 1).
+                <span class="pause">[وقفة]</span>
+
+                نيجي للمقارنة (Comparison):
+                <br>عايزين نشوف مين أكبر، أصغر، أو بيساوي.
+                <br>وهنا نقطة في غاية الأهمية: الفرق بين <span class="english">==</span> و <span
+                    class="english">===</span>.
+                <span class="pause">[وقفة]</span>
+                <br><span class="highlight">== (اتنين يساوي)</span>: بتقارن القيمة بس، ومش بتهتم بالنوع. يعني <span
+                    class="english">5 == "5"</span> (رقم ونص) هتقولك true! وده غلط وممكن يعمل كوارث.
+                <br><span class="highlight">=== (تلاتة يساوي)</span>: دي Strict (صارمة). بتقارن القيمة والنوع. <span
+                    class="english">5 === "5"</span> هتقولك false.
+                <br><span class="keyword">القاعدة الذهبية:</span> دايماً استخدم === وريح دماغك.
+                <span class="pause">[وقفة]</span>
+
+                وأخيراً عندنا الـ <span class="highlight">Template Literals</span> (علامة الـ Backtick ` `). دي سحر!
+                بتخليك تكتب نصوص وتدخل جواها متغيرات بسهولة بـ <span class="english">${variable}</span>.
+            </div>
+            <div class="action">اعرض مثال الفرق بين == و === ومثال للـ Template Literals</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 4. Conditionals -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="conditionals">
+            <div class="section-title"><span class="section-number">04</span>Conditionals — اتخاذ القرارات</div>
+            <div class="script-text">
+                البرمجة يعني "قرار". لو كذا حصل ← اعمل كذا.
+                <span class="pause">[وقفة]</span>
+                عندنا <span class="keyword">if / else</span>:
+                <br><span class="english">if (score >= 50)</span> ← "ناجح"
+                <br><span class="english">else</span> ← "راسب"
+                <span class="pause">[وقفة]</span>
+                سهلة جداً. ولو عندك شروط كتير ممكن تستخدم <span class="english">else if</span>.
+                <span class="pause">[وقفة]</span>
+
+                طيب لو بقارن قيمة واحدة بحالات كتير؟ (مثلاً أيام الأسبوع).
+                <br>هنا الـ <span class="english">switch</span> بتبقى أنضف وأسهل في القراية.
+                <br>بس متنساش كلمة <span class="keyword">break</span> بعد كل case، عشان الكود ميقعش على اللي بعده!
+                <span class="pause">[وقفة]</span>
+
+                وفيه كمان الـ <span class="highlight">Ternary Operator</span> — وده اختصار سريع للـ if/else في سطر واحد.
+                <br><span class="english">condition ? true : false</span>
+                <br>بنستخدمها كتير جداً في الـ React والـ Frameworks الحديثة.
+            </div>
+            <div class="action">اعرض مثال if/else ومثال switch لنفس المشكلة ووضح الفرق</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 5. Loops -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="loops">
+            <div class="section-title"><span class="section-number">05</span>Loops — التكرار</div>
+            <div class="script-text">
+                الكمبيوتر بيعشق التكرار، وإحنا كبشر بنكرهه. الـ <span class="keyword">Loops</span> معمولة عشان تخلي
+                الكمبيوتر يكرر الشغل بدالك.
+                <span class="pause">[وقفة]</span>
+                <br>1. <span class="keyword">for loop</span>: أشهر واحدة. (بداية؛ شرط؛ خطوة).
+                <br>مثال: عد من 1 لـ 100.
+                <span class="pause">[وقفة]</span>
+                <br>2. <span class="keyword">while loop</span>: طول ما الشرط لسه true ← كمل لف. (خلي بالك من الـ
+                Infinite Loop اللي بتهنج المتصفح!).
+                <span class="pause">[وقفة]</span>
+                <br>3. <span class="keyword">for...of</span>: دي الحبيبة بقى. بتلف على عناصر Array واحد واحد من غير وجع
+                دماغ العدادات.
+                <br><span class="english">for (let item of items)</span> — بسيطة ومباشرة.
+            </div>
+            <div class="action">اعرض for loop لطباعة أرقام، و for...of للمرور على قائمة أسماء</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 6. Functions -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="functions">
+            <div class="section-title"><span class="section-number">06</span>Functions — الدوال</div>
+            <div class="script-text">
+                الـ <span class="keyword">Function</span> هي "وحدة العمل" في البرمجة.
+                <span class="pause">[وقفة]</span>
+                تخيلها زي "خلاط". بتديله فاكهة (Input / Parameters) ← يخلطهم ← ويطلعلك عصير (Output / Return).
+                <span class="pause">[وقفة]</span>
+                بتكتب الكود مرة واحدة جوه الـ Function، وتناديلها (Call) 100 مرة في أماكن مختلفة. Reusability!
+                <span class="pause">[وقفة]</span>
+
+                عندنا طريقتين للكتابة:
+                <br>1. الطريقة العادية: <span class="english">function name() { ... }</span>
+                <br>2. الطريقة الحديثة (Shorter): <span class="highlight">Arrow Function</span> <span
+                    class="english">const name = () => { ... }</span>
+                <span class="pause">[وقفة]</span>
+                الـ Arrow Functions شكلها أشيك، أسرع في الكتابة، ودي اللي هتشوفها في كل الكود الحديث.
+            </div>
+            <div class="action">حول function عادية لـ arrow function أدامهم عشان يشوفوا الفرق</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 7. Arrays -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="arrays">
+            <div class="section-title"><span class="section-number">07</span>Arrays — المصفوفات</div>
+            <div class="script-text">
+                الـ <span class="keyword">Array</span> هي "قائمة". لستة خضار، لستة طلاب، لستة درجات.
+                <br>بتتكتب بين أقواس مربعة <span class="english">[ ]</span>.
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">أهم حاجة تعرفها:</span> العد بيبدأ من <span class="keyword">صفر</span>!
+                <br>أول عنصر رقمه 0، تاني عنصر رقمه 1.
+                <span class="pause">[وقفة]</span>
+
+                طيب إزاي نتحكم فيها؟
+                <br>- <span class="english">push()</span>: زود عنصر في الآخر.
+                <br>- <span class="english">pop()</span>: شيل آخر عنصر.
+                <span class="pause">[وقفة]</span>
+
+                بس القوة الحقيقية في الـ <span class="highlight">Methods الثلاثة الكبار</span>:
+                <br>1. <span class="keyword">map</span>: حول كل عنصر لحاجة تانية (مثلاً: اضرب كل الأرقام في 2).
+                <br>2. <span class="keyword">filter</span>: صفي القائمة وخد اللي ينطبق عليه الشرط (مثلاً: هات الناجحين
+                بس).
+                <br>3. <span class="keyword">reduce</span>: لم الليلة دي كلها في رقم واحد (مثلاً: هات مجموع الدرجات).
+                <span class="pause">[وقفة]</span>
+                دول أهم 3 دوال هتستخدمهم في حياتك كمبرمج JS.
+            </div>
+            <div class="action">اعرض مثال map و filter على مصفوفة أرقام</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 8. Objects -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="objects">
+            <div class="section-title"><span class="section-number">08</span>Objects — الكائنات</div>
+            <div class="script-text">
+                لو الـ Array قائمة، فالـ <span class="keyword">Object</span> هو "كيان".
+                <span class="pause">[وقفة]</span>
+                مثلاً "الطالب": عنده اسم (name)، سن (age)، درجات (grades). كل دول بيتحطوا في "شوال" واحد اسمه Object.
+                <br>بيتكتب بين أقواس معقوفة <span class="english">{ key: value }</span>.
+                <span class="pause">[وقفة]</span>
+                بنوصل للمعلومات بـ <span class="english">object.name</span> أو <span
+                    class="english">object["name"]</span>.
+                <span class="pause">[وقفة]</span>
+
+                وفيه خاصية سحرية اسمها <span class="highlight">Destructuring</span>:
+                <br>بدل ما تكتب <span class="english">user.name, user.age, user.email</span> — تقدر تفك الـ Object وتاخد
+                المتغيرات دي مباشرة في سطر واحد. بتوفر كتابة كتير جداً.
+                <span class="pause">[وقفة]</span>
+                وفي الواقع، البيانات بتجيلنا غالباً كـ <span class="highlight">Array of Objects</span> (قائمة منتجات وكل
+                منتج object). وهنا بنستخدم map و filter عليهم عشان نعمل شغل عالي!
+            </div>
+            <div class="action">اعرض مثال لـ Object طالب واعمل destructuring لبياناته</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 9. DOM Manipulation -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="dom">
+            <div class="section-title"><span class="section-number">09</span>DOM Manipulation — التحكم في الصفحة</div>
+            <div class="script-text">
+                وصلنا للحظة اللي الـ JavaScript بتلمس فيها الـ HTML.
+                <span class="pause">[وقفة]</span>
+                الـ <span class="keyword">DOM (Document Object Model)</span>: هو تمثيل الصفحة عند المتصفح. شجرة فيها كل
+                العناصر.
+                <span class="pause">[وقفة]</span>
+                عشان نغير حاجة في الصفحة، لازم الأول "نمسكها" (Select).
+                <br>أشهر طريقتين:
+                <br>1. <span class="english">document.getElementById()</span>: هات العنصر اللي الـ ID بتاعه كذا. سريع
+                ومباشر.
+                <br>2. <span class="english">document.querySelector()</span>: هات أول عنصر ينطبق عليه الـ CSS Selector
+                ده (سواء كلاس، تاج، أي حاجة). مرن جداً.
+                <span class="pause">[وقفة]</span>
+
+                بعد ما مسكنا العنصر، نقدر:
+                <br>- نغير الكلام: <span class="english">.textContent</span>
+                <br>- نغير الستايل: <span class="english">.style.color</span>
+                <br>- نغير الكلاسات: <span class="english">.classList.add / remove</span> (وده أفضل من تغيير الستايل
+                مباشرة).
+                <br>- حتى نخفي العنصر أو نمسحه خالص!
+            </div>
+            <div class="action">غير نص ولون عنصر في الصفحة مباشرة باستخدام JS</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 10. Events -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="events">
+            <div class="section-title"><span class="section-number">10</span>Events — التفاعل</div>
+            <div class="script-text">
+                آخر جزء وأهم جزء: <span class="keyword">Events (الأحداث)</span>.
+                <span class="pause">[وقفة]</span>
+                ده "الزناد" اللي بيشغل الكود.
+                <br>أنا مش عايز الكود يشتغل أول ما الصفحة تفتح. أنا عايزه يشتغل <span class="highlight">لما المستخدم
+                    يعمل حاجة.</span>
+                <span class="pause">[وقفة]</span>
+                بنستخدم <span class="english">addEventListener</span>.
+                <br>بنقول للعنصر: "خلي ودنك مفتوحة، ولما يحصل Event معين (زي click)، نفذ الدالة دي".
+                <span class="pause">[وقفة]</span>
+                أمثلة: <span class="english">click</span> (ضغط)، <span class="english">input</span> (كتابة)، <span
+                    class="english">submit</span> (إرسال فورم).
+                <br>باستخدام الـ Events مع الـ DOM، تقدر تبني تطبيقات كاملة (Task Manager, Calculator, Games).
+            </div>
+            <div class="action">اعرض مثال زرار لما تدوس عليه يغير لون الخلفية</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- الخاتمة -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="closing">
+            <div class="section-title">الخاتمة والكويز</div>
+            <div class="script-text">
+                كده إحنا غطينا أساسيات JavaScript كلها. رحلة طويلة بس ممتعة!
+                <span class="pause">[وقفة]</span>
+                لخصنا: Variables, Types, Operators, Logic, Loops, Functions, Arrays, Objects, DOM, Events.
+                <span class="pause">[وقفة]</span>
+                دي "حروف الهجاء" بتاعة البرمجة. عشان تكتب "شعر" (تطبيقات كبيرة)، لازم تتقن الحروف دي كويس جداً.
+                <span class="pause">[وقفة]</span>
+                تحت في الصفحة هتلاقي <span class="highlight">Quiz من 10 أسئلة</span>. جربه عشان تثبت المعلومة.
+                <br>وكمان مشروع <span class="english">Todo List</span> كامل موجود في الشرح — حاول تعمله بايدك من الصفر.
+                <span class="pause">[وقفة]</span>
+                شكراً ليكم، أشوفكم المحاضرة الجاية على خير.
+                <br>السلام عليكم! 👋
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

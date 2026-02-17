@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript In-Depth — المحاضرة الرابعة</title>
+    <meta name="description"
+        content="محاضرة JavaScript شاملة ومفصلة — من الألف للياء. شرح بالعامية المصرية مع أمثلة عملية حقيقية.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- AOS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+    <style>
+        body {
+            background: #020617;
+            font-family: 'Cairo', 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+        }
+
+        /* Code Block */
+        .code-block {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin: 1rem 0;
+        }
+
+        .code-block-header {
+            background: #1e293b;
+            padding: 0.6rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .code-block-header .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .code-block pre {
+            background: #0f172a;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.7;
+            direction: ltr;
+            text-align: left;
+            color: #e2e8f0;
+        }
+
+        /* Syntax Highlighting — JS Theme */
+        .syn-tag {
+            color: #7dd3fc;
+        }
+
+        .syn-attr {
+            color: #fbbf24;
+        }
+
+        .syn-val {
+            color: #34d399;
+        }
+
+        .syn-comment {
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .syn-keyword {
+            color: #c084fc;
+        }
+
+        .syn-func {
+            color: #fbbf24;
+        }
+
+        .syn-string {
+            color: #34d399;
+        }
+
+        .syn-number {
+            color: #f59e0b;
+        }
+
+        .syn-prop {
+            color: #7dd3fc;
+        }
+
+        .syn-bool {
+            color: #fb923c;
+        }
+
+        .syn-op {
+            color: #f472b6;
+        }
+
+        .syn-method {
+            color: #fbbf24;
+        }
+
+        .syn-dom {
+            color: #7dd3fc;
+        }
+
+        .syn-log {
+            color: #38bdf8;
+        }
+
+        /* Warning Explanation */
+        .warning-expl {
+            background: rgba(239, 68, 68, 0.05);
+            border-right: 3px solid #ef4444;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            color: #ef4444;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            line-height: 1.8;
+        }
+
+        /* Egyptian Explanation */
+        .egyptian-expl {
+            background: rgba(245, 158, 11, 0.05);
+            border-right: 3px solid #f59e0b;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            color: #fcd34d;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            line-height: 1.8;
+        }
+
+        /* Tip Explanation */
+        .tip-expl {
+            background: rgba(16, 185, 129, 0.05);
+            border-right: 3px solid #10B981;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            color: #6ee7b7;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            line-height: 1.8;
+        }
+
+        /* Browser Preview */
+        .browser-preview {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin: 1rem 0;
+        }
+
+        .browser-preview-bar {
+            background: #e2e8f0;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .browser-preview-bar .dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 4px;
+        }
+
+        .browser-preview-bar .url-bar {
+            background: white;
+            border-radius: 6px;
+            padding: 3px 12px;
+            font-size: 0.7rem;
+            color: #64748b;
+            flex: 1;
+            font-family: 'Inter', sans-serif;
+            direction: ltr;
+        }
+
+        .browser-preview-body {
+            background: #ffffff;
+            padding: 20px;
+            direction: ltr;
+            text-align: left;
+            color: #0f172a;
+            font-family: 'Inter', serif;
+        }
+
+        .browser-preview-label {
+            background: rgba(15, 23, 42, 0.8);
+            color: #94a3b8;
+            font-size: 0.7rem;
+            padding: 6px 12px;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+
+        /* Console Preview */
+        .console-preview {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin: 1rem 0;
+        }
+
+        .console-preview-bar {
+            background: #1e293b;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .console-preview-body {
+            background: #0f172a;
+            padding: 16px;
+            direction: ltr;
+            text-align: left;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.8;
+        }
+
+        .console-preview-body .log-line {
+            color: #e2e8f0;
+        }
+
+        .console-preview-body .log-line::before {
+            content: "▸ ";
+            color: #22d3ee;
+        }
+
+        .console-preview-body .log-string {
+            color: #34d399;
+        }
+
+        .console-preview-body .log-number {
+            color: #f59e0b;
+        }
+
+        .console-preview-body .log-bool {
+            color: #fb923c;
+        }
+
+        .console-preview-body .log-undefined {
+            color: #64748b;
+        }
+
+        .console-preview-label {
+            background: rgba(15, 23, 42, 0.8);
+            color: #94a3b8;
+            font-size: 0.7rem;
+            padding: 6px 12px;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+
+        /* Answer Container */
+        .answer-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 0.5rem;
+            margin-top: 0;
+        }
+
+        .answer-container.show {
+            max-height: 300px;
+            padding: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body class="text-slate-300">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-sm text-slate-400 hover:text-white transition"><i
+                    class="fas fa-arrow-right ml-1"></i> الرئيسية</a>
+            <span class="text-xs font-mono text-amber-400/60">LECTURE 04</span>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden pt-20">
+            <div class="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-slate-950 to-red-900/20"></div>
+            <div class="absolute top-20 left-1/4 w-72 h-72 bg-amber-600/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl"></div>
+            <div class="relative z-10 text-center px-6" data-aos="fade-up">
+                <div
+                    class="inline-flex items-center gap-2 py-1 px-4 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-mono mb-6">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> المحاضرة الرابعة
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black text-white mb-4 tracking-tight">
+                    JavaScript
+                    <span class="bg-gradient-to-l from-amber-400 to-red-400 bg-clip-text text-transparent">
+                        In-Depth</span>
+                </h1>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                    من الألف للياء — Variables · Functions · Arrays · Objects · DOM · Events
+                </p>
+            </div>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="py-12 px-6" data-aos="fade-up">
+            <div class="container mx-auto max-w-4xl">
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-lg font-bold text-white mb-4"><i class="fas fa-list-ol ml-2 text-amber-400"></i>
+                        فهرس المحاضرة</h3>
+                    <div class="grid md:grid-cols-2 gap-2 text-sm">
+                        <a href="#why-js"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">01</span> ليه JavaScript؟
+                        </a>
+                        <a href="#variables"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">02</span> Variables & Data Types
+                        </a>
+                        <a href="#operators"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">03</span> Operators
+                        </a>
+                        <a href="#conditions"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">04</span> Conditionals
+                        </a>
+                        <a href="#loops"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">05</span> Loops
+                        </a>
+                        <a href="#functions"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">06</span> Functions
+                        </a>
+                        <a href="#arrays"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">07</span> Arrays
+                        </a>
+                        <a href="#objects"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">08</span> Objects
+                        </a>
+                        <a href="#dom"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">09</span> DOM Manipulation
+                        </a>
+                        <a href="#events"
+                            class="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition p-2 rounded-lg hover:bg-slate-800/50">
+                            <span class="text-amber-400 font-mono w-6">10</span> Events
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 1: Why JavaScript                                         -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="why-js" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        01</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Why JavaScript?</h2>
+                        <p class="text-slate-400 text-sm">الحياة بتبدأ هنا</p>
+                    </div>
+                </div>
+
+                <!-- console.log Hello World -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">أول سطر كود — Hello World!</h3>
+                    <p class="text-slate-300 mb-3">JavaScript هي اللغة اللي بتحوّل الصفحة من ثابتة لتفاعلية. تعالوا نكتب
+                        أول كود:</p>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>hello.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// أول سطر JavaScript في حياتك!</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"Hello, World! 🌍"</span>);
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"أنا اتعلمت JavaScript!"</span>);
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-number">2</span> + <span class="syn-number">3</span>);
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">Hello, World! 🌍</span></div>
+                            <div class="log-line"><span class="log-string">أنا اتعلمت JavaScript!</span></div>
+                            <div class="log-line"><span class="log-number">5</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> console.log بيطبع حاجات في الـ
+                            Console — افتح F12 وشوف!</div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-lightbulb"></i>
+                        <div><strong>HTML</strong> = الهيكل (الطوب). <strong>CSS</strong> = الشكل (الدهان).
+                            <strong>JavaScript</strong> = الحياة (الكهربا والأجهزة). من غير JS الموقع بيبقى زي عربية
+                            شكلها حلو بس مفيهاش موتور!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Where to write JS -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">إزاي تكتب JavaScript في الصفحة؟</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>index.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="syn-tag">&lt;html&gt;</span>
+<span class="syn-tag">&lt;head&gt;</span>
+  <span class="syn-tag">&lt;title&gt;</span>My Page<span class="syn-tag">&lt;/title&gt;</span>
+<span class="syn-tag">&lt;/head&gt;</span>
+<span class="syn-tag">&lt;body&gt;</span>
+  <span class="syn-tag">&lt;h1&gt;</span>Hello!<span class="syn-tag">&lt;/h1&gt;</span>
+
+  <span class="syn-comment">&lt;!-- الطريقة الأولى: Internal JS --&gt;</span>
+  <span class="syn-tag">&lt;script&gt;</span>
+    <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"Internal JS!"</span>);
+  <span class="syn-tag">&lt;/script&gt;</span>
+
+  <span class="syn-comment">&lt;!-- الطريقة التانية: External JS (الأفضل) --&gt;</span>
+  <span class="syn-tag">&lt;script</span> <span class="syn-attr">src</span>=<span class="syn-string">"app.js"</span><span class="syn-tag">&gt;&lt;/script&gt;</span>
+<span class="syn-tag">&lt;/body&gt;</span>
+<span class="syn-tag">&lt;/html&gt;</span></code></pre>
+                    </div>
+
+                    <div class="browser-preview">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> localhost/index.html</div>
+                        </div>
+                        <div class="browser-preview-body" style="text-align:center;padding:30px">
+                            <h1 style="font-size:2em;margin:0;color:#0f172a">Hello!</h1>
+                            <p style="color:#64748b;font-size:0.85em;margin-top:12px;font-family:monospace">📌 افتح
+                                Console (F12) → هتلاقي "Internal JS!" مطبوع</p>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> دايماً حط الـ &lt;script&gt; قبل
+                            &lt;/body&gt; عشان الصفحة تحمّل الأول</div>
+                    </div>
+
+                    <div class="tip-expl">
+                        <i class="fas fa-gem"></i>
+                        <div>في الشغل الحقيقي <strong>دايماً External JS</strong> — ملف منفصل. نفس فكرة External CSS:
+                            كتابة مرة واحدة، استخدام في كل مكان، وتنظيم أحسن للكود.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 2: Variables & Data Types                                 -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="variables" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        02</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Variables & Data Types</h2>
+                        <p class="text-slate-400 text-sm">let · const · string · number · boolean</p>
+                    </div>
+                </div>
+
+                <!-- let vs const vs var -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">let, const, var — إيه الفرق؟</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>variables.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// let — متغير ممكن يتغير</span>
+  <span class="syn-keyword">let</span> age = <span class="syn-number">20</span>;
+  age = <span class="syn-number">21</span>;  <span class="syn-comment">// ✅ عادي — let بيقبل التغيير</span>
+
+  <span class="syn-comment">// const — ثابت. مش هيتغير أبداً</span>
+  <span class="syn-keyword">const</span> name = <span class="syn-string">"Ahmed"</span>;
+  <span class="syn-comment">// name = "Ali"; ❌ Error! const مش بيتغير</span>
+
+  <span class="syn-comment">// var — القديمة. متستخدمهاش! 🚫</span>
+  <span class="syn-keyword">var</span> score = <span class="syn-number">100</span>;
+
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(name, age); <span class="syn-comment">// Ahmed 21</span>
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">Ahmed</span> <span
+                                    class="log-number">21</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> استخدم let لو القيمة هتتغير، و
+                            const لو مش هتتغير — ده الـ best practice</div>
+                    </div>
+
+                    <div class="warning-expl">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div><strong>var</strong> قديمة وبتعمل مشاكل! فيها حاجة اسمها hoisting وبتتسرب من الـ blocks.
+                            القاعدة: <strong>const أولاً</strong>، ولو محتاج تغيّر → <strong>let</strong>. متستخدمش var
+                            خالص.</div>
+                    </div>
+                </div>
+
+                <!-- Data Types -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">أنواع البيانات — Data Types</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>data-types.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// String — نص</span>
+  <span class="syn-keyword">let</span> greeting = <span class="syn-string">"أهلاً بيكم"</span>;
+
+  <span class="syn-comment">// Number — رقم (مفيش فرق بين int و float)</span>
+  <span class="syn-keyword">let</span> price = <span class="syn-number">99.5</span>;
+  <span class="syn-keyword">let</span> quantity = <span class="syn-number">3</span>;
+
+  <span class="syn-comment">// Boolean — true أو false</span>
+  <span class="syn-keyword">let</span> isLoggedIn = <span class="syn-bool">true</span>;
+  <span class="syn-keyword">let</span> isAdmin = <span class="syn-bool">false</span>;
+
+  <span class="syn-comment">// Undefined — متغير معلن بس مالوش قيمة</span>
+  <span class="syn-keyword">let</span> address;  <span class="syn-comment">// undefined</span>
+
+  <span class="syn-comment">// Null — قيمة فاضية عن قصد</span>
+  <span class="syn-keyword">let</span> selectedItem = <span class="syn-keyword">null</span>;
+
+  <span class="syn-comment">// typeof — بيقولك نوع البيانات</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-keyword">typeof</span> greeting);   <span class="syn-comment">// "string"</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-keyword">typeof</span> price);      <span class="syn-comment">// "number"</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-keyword">typeof</span> isLoggedIn); <span class="syn-comment">// "boolean"</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-keyword">typeof</span> address);    <span class="syn-comment">// "undefined"</span>
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">string</span></div>
+                            <div class="log-line"><span class="log-string">number</span></div>
+                            <div class="log-line"><span class="log-string">boolean</span></div>
+                            <div class="log-line"><span class="log-string">undefined</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> typeof بيساعدك تعرف نوع أي قيمة —
+                            مهم جداً في الـ debugging</div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-box-open"></i>
+                        <div>فكر في المتغير كـ <strong>صندوق عليه اسم</strong>. الـ <strong>let</strong> = صندوق تقدر
+                            تبدل اللي جواه. الـ <strong>const</strong> = صندوق مقفول — اللي جواه مش هيتغير. الـ
+                            <strong>null</strong> = صندوق فاضي عن قصد. الـ <strong>undefined</strong> = صندوق نسيت تحط
+                            فيه حاجة!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 3: Operators                                              -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="operators" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        03</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Operators</h2>
+                        <p class="text-slate-400 text-sm">العمليات الحسابية والمقارنة والمنطقية</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">العمليات الحسابية + Template Literals</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>operators.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// العمليات الحسابية</span>
+  <span class="syn-keyword">let</span> a = <span class="syn-number">10</span>, b = <span class="syn-number">3</span>;
+
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(a + b);   <span class="syn-comment">// 13  (جمع)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(a - b);   <span class="syn-comment">// 7   (طرح)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(a * b);   <span class="syn-comment">// 30  (ضرب)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(a / b);   <span class="syn-comment">// 3.33 (قسمة)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(a % b);   <span class="syn-comment">// 1   (باقي القسمة)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(a ** b);  <span class="syn-comment">// 1000 (أُس)</span>
+
+  <span class="syn-comment">// Template Literals — أحسن طريقة لدمج النصوص</span>
+  <span class="syn-keyword">let</span> name = <span class="syn-string">"Ahmed"</span>;
+  <span class="syn-keyword">let</span> age = <span class="syn-number">20</span>;
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">`اسمي ${</span>name<span class="syn-string">} وعندي ${</span>age<span class="syn-string">} سنة`</span>);
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-number">13</span></div>
+                            <div class="log-line"><span class="log-number">7</span></div>
+                            <div class="log-line"><span class="log-number">30</span></div>
+                            <div class="log-line"><span class="log-number">3.3333333333333335</span></div>
+                            <div class="log-line"><span class="log-number">1</span></div>
+                            <div class="log-line"><span class="log-number">1000</span></div>
+                            <div class="log-line"><span class="log-string">اسمي Ahmed وعندي 20 سنة</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> Template Literals بتستخدم backtick
+                            (`) مش علامة تنصيص عادية — مهمة جداً!</div>
+                    </div>
+                </div>
+
+                <!-- Comparison -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">المقارنة — == vs === (مهم جداً!)</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>comparison.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// == بيقارن القيمة بس (بيعمل تحويل تلقائي)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-number">5</span> == <span class="syn-string">"5"</span>);    <span class="syn-comment">// true  😱 خطير!</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-number">0</span> == <span class="syn-bool">false</span>);   <span class="syn-comment">// true  😱</span>
+
+  <span class="syn-comment">// === بيقارن القيمة + النوع (الصح)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-number">5</span> === <span class="syn-string">"5"</span>);   <span class="syn-comment">// false ✅ مختلفين</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-number">5</span> === <span class="syn-number">5</span>);     <span class="syn-comment">// true  ✅ متطابقين</span>
+
+  <span class="syn-comment">// العمليات المنطقية</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-bool">true</span> && <span class="syn-bool">false</span>);  <span class="syn-comment">// false (AND — الاتنين لازم true)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-bool">true</span> || <span class="syn-bool">false</span>);  <span class="syn-comment">// true  (OR — واحد يكفي)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(!<span class="syn-bool">true</span>);           <span class="syn-comment">// false (NOT — عكس)</span>
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-bool">true</span> <span style="color:#64748b">// ==
+                                    loose</span></div>
+                            <div class="log-line"><span class="log-bool">true</span> <span style="color:#64748b">// ==
+                                    loose</span></div>
+                            <div class="log-line"><span class="log-bool">false</span> <span style="color:#64748b">// ===
+                                    strict ✅</span></div>
+                            <div class="log-line"><span class="log-bool">true</span> <span style="color:#64748b">// ===
+                                    strict ✅</span></div>
+                            <div class="log-line"><span class="log-bool">false</span> <span style="color:#64748b">//
+                                    AND</span></div>
+                            <div class="log-line"><span class="log-bool">true</span> <span style="color:#64748b">//
+                                    OR</span></div>
+                            <div class="log-line"><span class="log-bool">false</span> <span style="color:#64748b">//
+                                    NOT</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> 🎯 دايماً استخدم === مش == — ده
+                            سؤال كلاسيكي في أي interview!</div>
+                    </div>
+
+                    <div class="warning-expl">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div><strong>=== (Strict Equality)</strong> دايماً هي الصح. الـ == بيعمل type coercion — يعني
+                            بيحوّل الأنواع عشان يقارن. ده بيعمل مفاجآت وحشة في الكود. القاعدة: <strong>دايماً
+                                ===</strong>.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 4: Conditionals                                           -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="conditions" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        04</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Conditionals</h2>
+                        <p class="text-slate-400 text-sm">if · else · else if · switch · ternary</p>
+                    </div>
+                </div>
+
+                <!-- if / else -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">if / else — لو الشرط اتحقق</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>conditions.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-keyword">let</span> grade = <span class="syn-number">85</span>;
+
+  <span class="syn-keyword">if</span> (grade >= <span class="syn-number">90</span>) {
+    <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"ممتاز! 🌟"</span>);
+  } <span class="syn-keyword">else if</span> (grade >= <span class="syn-number">80</span>) {
+    <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"جيد جداً! 👍"</span>);
+  } <span class="syn-keyword">else if</span> (grade >= <span class="syn-number">60</span>) {
+    <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"مقبول 📖"</span>);
+  } <span class="syn-keyword">else</span> {
+    <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"للأسف رسبت 😢"</span>);
+  }
+
+  <span class="syn-comment">// الـ Ternary Operator — if/else في سطر واحد!</span>
+  <span class="syn-keyword">let</span> age = <span class="syn-number">18</span>;
+  <span class="syn-keyword">let</span> status = age >= <span class="syn-number">18</span> ? <span class="syn-string">"بالغ ✅"</span> : <span class="syn-string">"قاصر ❌"</span>;
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(status);
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">جيد جداً! 👍</span></div>
+                            <div class="log-line"><span class="log-string">بالغ ✅</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> الكود بيشيك من فوق لتحت — أول شرط
+                            يتحقق بيتنفذ والباقي بيتجاهل</div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-traffic-light"></i>
+                        <div>الـ <strong>if/else</strong> زي إشارة المرور: لو <strong>أخضر</strong> → امشي. لو
+                            <strong>أحمر</strong> → قف. ولو أي حالة تانية → else. والـ <strong>Ternary</strong> ده
+                            اختصار للحالات البسيطة — شرط ? نتيجة لو true : نتيجة لو false.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- switch -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">switch — لو عندك حالات كتير</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>switch.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-keyword">let</span> day = <span class="syn-string">"الأربعاء"</span>;
+
+  <span class="syn-keyword">switch</span> (day) {
+    <span class="syn-keyword">case</span> <span class="syn-string">"السبت"</span>:
+    <span class="syn-keyword">case</span> <span class="syn-string">"الأحد"</span>:
+    <span class="syn-keyword">case</span> <span class="syn-string">"الاتنين"</span>:
+    <span class="syn-keyword">case</span> <span class="syn-string">"التلات"</span>:
+    <span class="syn-keyword">case</span> <span class="syn-string">"الأربعاء"</span>:
+      <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"يوم شغل! 💼"</span>);
+      <span class="syn-keyword">break</span>;
+    <span class="syn-keyword">case</span> <span class="syn-string">"الخميس"</span>:
+      <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"نص يوم شغل 😄"</span>);
+      <span class="syn-keyword">break</span>;
+    <span class="syn-keyword">case</span> <span class="syn-string">"الجمعة"</span>:
+      <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"إجازة! 🎉"</span>);
+      <span class="syn-keyword">break</span>;
+    <span class="syn-keyword">default</span>:
+      <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"يوم مش معروف! 🤔"</span>);
+  }
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">يوم شغل! 💼</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> متنساش الـ break! لو نسيته — الكود
+                            هيكمل ينفذ الـ cases اللي بعدها</div>
+                    </div>
+
+                    <div class="tip-expl">
+                        <i class="fas fa-gem"></i>
+                        <div>استخدم <strong>switch</strong> لما يكون عندك قيمة واحدة بتقارنها بحالات كتير (5+). لو عندك
+                            شرط أو اتنين → <strong>if/else</strong> أنسب وأوضح.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 5: Loops                                                  -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="loops" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        05</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Loops</h2>
+                        <p class="text-slate-400 text-sm">for · while · for...of — التكرار</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">for Loop — العدّاد الكلاسيكي</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>for-loop.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// for (بداية; شرط; خطوة)</span>
+  <span class="syn-keyword">for</span> (<span class="syn-keyword">let</span> i = <span class="syn-number">1</span>; i <= <span class="syn-number">5</span>; i++) {
+    <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">`⭐ العدد: ${</span>i<span class="syn-string">}`</span>);
+  }
+
+  <span class="syn-comment">// مثال عملي — جدول الضرب!</span>
+  <span class="syn-keyword">let</span> num = <span class="syn-number">7</span>;
+  <span class="syn-keyword">for</span> (<span class="syn-keyword">let</span> i = <span class="syn-number">1</span>; i <= <span class="syn-number">5</span>; i++) {
+    <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">`${</span>num<span class="syn-string">} × ${</span>i<span class="syn-string">} = ${</span>num * i<span class="syn-string">}`</span>);
+  }
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">⭐ العدد: 1</span></div>
+                            <div class="log-line"><span class="log-string">⭐ العدد: 2</span></div>
+                            <div class="log-line"><span class="log-string">⭐ العدد: 3</span></div>
+                            <div class="log-line"><span class="log-string">⭐ العدد: 4</span></div>
+                            <div class="log-line"><span class="log-string">⭐ العدد: 5</span></div>
+                            <div class="log-line"><span class="log-string">7 × 1 = 7</span></div>
+                            <div class="log-line"><span class="log-string">7 × 2 = 14</span></div>
+                            <div class="log-line"><span class="log-string">7 × 3 = 21</span></div>
+                            <div class="log-line"><span class="log-string">7 × 4 = 28</span></div>
+                            <div class="log-line"><span class="log-string">7 × 5 = 35</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> for Loop بيعيد الكود عدد مرات محدد
+                            — ده أشهر نوع loops</div>
+                    </div>
+                </div>
+
+                <!-- while + for...of -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">while Loop + for...of</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>while-forof.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// while — بيكرر طول ما الشرط true</span>
+  <span class="syn-keyword">let</span> countdown = <span class="syn-number">5</span>;
+  <span class="syn-keyword">while</span> (countdown > <span class="syn-number">0</span>) {
+    <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">`🚀 العد التنازلي: ${</span>countdown<span class="syn-string">}`</span>);
+    countdown--;
+  }
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">"🔥 انطلاق!"</span>);
+
+  <span class="syn-comment">// for...of — بيلف على عناصر Array واحد واحد</span>
+  <span class="syn-keyword">let</span> fruits = [<span class="syn-string">"🍎 تفاح"</span>, <span class="syn-string">"🍌 موز"</span>, <span class="syn-string">"🍊 برتقال"</span>];
+  <span class="syn-keyword">for</span> (<span class="syn-keyword">let</span> fruit <span class="syn-keyword">of</span> fruits) {
+    <span class="syn-dom">console</span>.<span class="syn-method">log</span>(fruit);
+  }
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">🚀 العد التنازلي: 5</span></div>
+                            <div class="log-line"><span class="log-string">🚀 العد التنازلي: 4</span></div>
+                            <div class="log-line"><span class="log-string">🚀 العد التنازلي: 3</span></div>
+                            <div class="log-line"><span class="log-string">🚀 العد التنازلي: 2</span></div>
+                            <div class="log-line"><span class="log-string">🚀 العد التنازلي: 1</span></div>
+                            <div class="log-line"><span class="log-string">🔥 انطلاق!</span></div>
+                            <div class="log-line"><span class="log-string">🍎 تفاح</span></div>
+                            <div class="log-line"><span class="log-string">🍌 موز</span></div>
+                            <div class="log-line"><span class="log-string">🍊 برتقال</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> while بتكرر طالما الشرط صحيح — خلي
+                            بالك تعمل تحديث عشان متدخلش في infinite loop!</div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-sync-alt"></i>
+                        <div><strong>for</strong> = "كرر مني لحد ما". <strong>while</strong> = "كرر طول ما الشرط صح".
+                            <strong>for...of</strong> = "لف على كل عنصر في الليستة". في الشغل اليومي:
+                            <strong>for...of</strong> هو الأكتر استخداماً! أبسط وأوضح.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 6: Functions                                              -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="functions" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        06</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Functions</h2>
+                        <p class="text-slate-400 text-sm">function · arrow function · parameters · return</p>
+                    </div>
+                </div>
+
+                <!-- Regular Functions -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">الـ Function — علبة كود بتعيد استخدامها</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>functions.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// تعريف Function عادية</span>
+  <span class="syn-keyword">function</span> <span class="syn-func">greet</span>(name) {
+    <span class="syn-keyword">return</span> <span class="syn-string">`أهلاً يا ${</span>name<span class="syn-string">}! 👋`</span>;
+  }
+
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-func">greet</span>(<span class="syn-string">"أحمد"</span>));
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-func">greet</span>(<span class="syn-string">"نورهان"</span>));
+
+  <span class="syn-comment">// Function بأكتر من parameter + قيمة افتراضية</span>
+  <span class="syn-keyword">function</span> <span class="syn-func">calcTotal</span>(price, quantity = <span class="syn-number">1</span>, discount = <span class="syn-number">0</span>) {
+    <span class="syn-keyword">let</span> total = price * quantity;
+    total = total - (total * discount / <span class="syn-number">100</span>);
+    <span class="syn-keyword">return</span> total;
+  }
+
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-func">calcTotal</span>(<span class="syn-number">100</span>, <span class="syn-number">3</span>));       <span class="syn-comment">// 300</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-func">calcTotal</span>(<span class="syn-number">100</span>, <span class="syn-number">3</span>, <span class="syn-number">10</span>));   <span class="syn-comment">// 270 (خصم 10%)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-func">calcTotal</span>(<span class="syn-number">50</span>));            <span class="syn-comment">// 50 (quantity=1 default)</span>
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">أهلاً يا أحمد! 👋</span></div>
+                            <div class="log-line"><span class="log-string">أهلاً يا نورهان! 👋</span></div>
+                            <div class="log-line"><span class="log-number">300</span></div>
+                            <div class="log-line"><span class="log-number">270</span></div>
+                            <div class="log-line"><span class="log-number">50</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> الـ return بيرجع قيمة من الـ
+                            function — من غيرها بترجع undefined</div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-blender"></i>
+                        <div>الـ <strong>Function</strong> زي الخلاط: بتحط فيه فاكهة (parameters) → بيعمل عصير (return).
+                            بتستخدمه كل مرة عايز عصير جديد — ومش محتاج تشتري خلاط جديد كل مرة!</div>
+                    </div>
+                </div>
+
+                <!-- Arrow Functions -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">Arrow Functions — الطريقة الحديثة</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>arrow-functions.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// Arrow Function — اختصار جميل!</span>
+  <span class="syn-keyword">const</span> <span class="syn-func">add</span> = (a, b) <span class="syn-op">=></span> a + b;
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-func">add</span>(<span class="syn-number">5</span>, <span class="syn-number">3</span>));   <span class="syn-comment">// 8</span>
+
+  <span class="syn-comment">// لو سطر واحد — مفيش {}  ولا return</span>
+  <span class="syn-keyword">const</span> <span class="syn-func">double</span> = (n) <span class="syn-op">=></span> n * <span class="syn-number">2</span>;
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-func">double</span>(<span class="syn-number">7</span>)); <span class="syn-comment">// 14</span>
+
+  <span class="syn-comment">// لو parameter واحد — مش محتاج أقواس</span>
+  <span class="syn-keyword">const</span> <span class="syn-func">square</span> = n <span class="syn-op">=></span> n * n;
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-func">square</span>(<span class="syn-number">5</span>)); <span class="syn-comment">// 25</span>
+
+  <span class="syn-comment">// لو أكتر من سطر — محتاج {} و return</span>
+  <span class="syn-keyword">const</span> <span class="syn-func">greetFormal</span> = (name, title) <span class="syn-op">=></span> {
+    <span class="syn-keyword">let</span> greeting = <span class="syn-string">`السيد/${</span>title<span class="syn-string">} ${</span>name<span class="syn-string">}`</span>;
+    <span class="syn-keyword">return</span> <span class="syn-string">`مرحباً بحضرتك، ${</span>greeting<span class="syn-string">} 🎩`</span>;
+  };
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-func">greetFormal</span>(<span class="syn-string">"محمد"</span>, <span class="syn-string">"دكتور"</span>));
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-number">8</span></div>
+                            <div class="log-line"><span class="log-number">14</span></div>
+                            <div class="log-line"><span class="log-number">25</span></div>
+                            <div class="log-line"><span class="log-string">مرحباً بحضرتك، السيد/دكتور محمد 🎩</span>
+                            </div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> Arrow Functions أقصر وأنظف — وده
+                            اللي بتشوفه في الكود الحديث في كل مكان</div>
+                    </div>
+
+                    <div class="tip-expl">
+                        <i class="fas fa-gem"></i>
+                        <div><strong>القاعدة:</strong> لو الـ function بسيطة (سطر واحد) → <strong>arrow بدون
+                                {}</strong>. لو معقدة (أكتر من سطر) → <strong>arrow مع {} و return</strong>. في الشغل
+                            بنستخدم arrow functions في 90% من الوقت!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 7: Arrays                                                 -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="arrays" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        07</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Arrays</h2>
+                        <p class="text-slate-400 text-sm">push · pop · map · filter · reduce</p>
+                    </div>
+                </div>
+
+                <!-- Array Basics -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">الأساسيات — إنشاء Array والتعامل معاه</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>arrays.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// إنشاء Array</span>
+  <span class="syn-keyword">let</span> colors = [<span class="syn-string">"أحمر"</span>, <span class="syn-string">"أخضر"</span>, <span class="syn-string">"أزرق"</span>];
+
+  <span class="syn-comment">// الوصول لعنصر (بيبدأ من 0!)</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(colors[<span class="syn-number">0</span>]);  <span class="syn-comment">// أحمر</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(colors[<span class="syn-number">2</span>]);  <span class="syn-comment">// أزرق</span>
+
+  <span class="syn-comment">// إضافة عنصر للآخر</span>
+  colors.<span class="syn-method">push</span>(<span class="syn-string">"أصفر"</span>);
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(colors);  <span class="syn-comment">// ["أحمر", "أخضر", "أزرق", "أصفر"]</span>
+
+  <span class="syn-comment">// حذف آخر عنصر</span>
+  <span class="syn-keyword">let</span> removed = colors.<span class="syn-method">pop</span>();
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(removed);  <span class="syn-comment">// أصفر</span>
+
+  <span class="syn-comment">// length = عدد العناصر</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(colors.<span class="syn-prop">length</span>); <span class="syn-comment">// 3</span>
+
+  <span class="syn-comment">// includes — هل العنصر موجود؟</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(colors.<span class="syn-method">includes</span>(<span class="syn-string">"أخضر"</span>)); <span class="syn-comment">// true</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(colors.<span class="syn-method">includes</span>(<span class="syn-string">"بنفسجي"</span>)); <span class="syn-comment">// false</span>
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">أحمر</span></div>
+                            <div class="log-line"><span class="log-string">أزرق</span></div>
+                            <div class="log-line">[<span class="log-string">"أحمر"</span>, <span
+                                    class="log-string">"أخضر"</span>, <span class="log-string">"أزرق"</span>, <span
+                                    class="log-string">"أصفر"</span>]</div>
+                            <div class="log-line"><span class="log-string">أصفر</span></div>
+                            <div class="log-line"><span class="log-number">3</span></div>
+                            <div class="log-line"><span class="log-bool">true</span></div>
+                            <div class="log-line"><span class="log-bool">false</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> ⚠️ مهم: الـ Array بتبدأ من Index 0
+                            — مش 1! ده بيلخبط ناس كتير في الأول</div>
+                    </div>
+                </div>
+
+                <!-- Array Methods -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">map / filter / reduce — القوى الخارقة!</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>array-methods.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-keyword">const</span> numbers = [<span class="syn-number">1</span>, <span class="syn-number">2</span>, <span class="syn-number">3</span>, <span class="syn-number">4</span>, <span class="syn-number">5</span>];
+
+  <span class="syn-comment">// map — بيعمل Array جديد بتحويل كل عنصر</span>
+  <span class="syn-keyword">const</span> doubled = numbers.<span class="syn-method">map</span>(n <span class="syn-op">=></span> n * <span class="syn-number">2</span>);
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(doubled); <span class="syn-comment">// [2, 4, 6, 8, 10]</span>
+
+  <span class="syn-comment">// filter — بيفلتر حسب شرط</span>
+  <span class="syn-keyword">const</span> evens = numbers.<span class="syn-method">filter</span>(n <span class="syn-op">=></span> n % <span class="syn-number">2</span> === <span class="syn-number">0</span>);
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(evens);   <span class="syn-comment">// [2, 4]</span>
+
+  <span class="syn-comment">// reduce — بيلخص Array في قيمة واحدة</span>
+  <span class="syn-keyword">const</span> sum = numbers.<span class="syn-method">reduce</span>((total, n) <span class="syn-op">=></span> total + n, <span class="syn-number">0</span>);
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(sum);    <span class="syn-comment">// 15</span>
+
+  <span class="syn-comment">// مثال عملي — فلترة منتجات</span>
+  <span class="syn-keyword">const</span> products = [
+    { <span class="syn-prop">name</span>: <span class="syn-string">"هاتف"</span>,  <span class="syn-prop">price</span>: <span class="syn-number">5000</span> },
+    { <span class="syn-prop">name</span>: <span class="syn-string">"سماعة"</span>, <span class="syn-prop">price</span>: <span class="syn-number">200</span> },
+    { <span class="syn-prop">name</span>: <span class="syn-string">"لابتوب"</span>, <span class="syn-prop">price</span>: <span class="syn-number">15000</span> },
+    { <span class="syn-prop">name</span>: <span class="syn-string">"شاحن"</span>,  <span class="syn-prop">price</span>: <span class="syn-number">150</span> }
+  ];
+
+  <span class="syn-keyword">const</span> expensive = products
+    .<span class="syn-method">filter</span>(p <span class="syn-op">=></span> p.<span class="syn-prop">price</span> > <span class="syn-number">1000</span>)
+    .<span class="syn-method">map</span>(p <span class="syn-op">=></span> p.<span class="syn-prop">name</span>);
+
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(expensive); <span class="syn-comment">// ["هاتف", "لابتوب"]</span>
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line">[<span class="log-number">2</span>, <span class="log-number">4</span>,
+                                <span class="log-number">6</span>, <span class="log-number">8</span>, <span
+                                    class="log-number">10</span>]
+                            </div>
+                            <div class="log-line">[<span class="log-number">2</span>, <span class="log-number">4</span>]
+                            </div>
+                            <div class="log-line"><span class="log-number">15</span></div>
+                            <div class="log-line">[<span class="log-string">"هاتف"</span>, <span
+                                    class="log-string">"لابتوب"</span>]</div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> map + filter + reduce = تلاتة
+                            أبطال خارقين. اتعلمهم كويس — هتستخدمهم كل يوم!</div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-magic"></i>
+                        <div><strong>map</strong> = عندك درج فيه 5 كراسات → بتختم كل كراسة = <strong>درج جديد بكراسات
+                                مختومة</strong>. <strong>filter</strong> = عندك سلة فيها فاكهة → بتاخد بس
+                            <strong>التفاح</strong> = سلة جديدة فيها تفاح بس. <strong>reduce</strong> = عندك أرقام →
+                            بتجمعهم في <strong>رقم واحد</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 8: Objects                                                -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="objects" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        08</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Objects</h2>
+                        <p class="text-slate-400 text-sm">properties · methods · destructuring</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">Object — بطاقة تعريف لأي حاجة</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>objects.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-comment">// Object — مجموعة خصائص (key: value)</span>
+  <span class="syn-keyword">const</span> student = {
+    <span class="syn-prop">name</span>: <span class="syn-string">"أحمد محمد"</span>,
+    <span class="syn-prop">age</span>: <span class="syn-number">20</span>,
+    <span class="syn-prop">gpa</span>: <span class="syn-number">3.5</span>,
+    <span class="syn-prop">isActive</span>: <span class="syn-bool">true</span>,
+    <span class="syn-prop">courses</span>: [<span class="syn-string">"IT"</span>, <span class="syn-string">"Math"</span>, <span class="syn-string">"English"</span>],
+
+    <span class="syn-comment">// Method — function جوه Object</span>
+    <span class="syn-func">introduce</span>() {
+      <span class="syn-keyword">return</span> <span class="syn-string">`اسمي ${</span><span class="syn-keyword">this</span>.name<span class="syn-string">} وعمري ${</span><span class="syn-keyword">this</span>.age<span class="syn-string">} سنة`</span>;
+    }
+  };
+
+  <span class="syn-comment">// الوصول للخصائص</span>
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(student.<span class="syn-prop">name</span>);
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(student[<span class="syn-string">"gpa"</span>]);
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(student.<span class="syn-func">introduce</span>());
+
+  <span class="syn-comment">// Destructuring — استخراج القيم بسهولة!</span>
+  <span class="syn-keyword">const</span> { name, age, gpa } = student;
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">`${</span>name<span class="syn-string">} — GPA: ${</span>gpa<span class="syn-string">}`</span>);
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line"><span class="log-string">أحمد محمد</span></div>
+                            <div class="log-line"><span class="log-number">3.5</span></div>
+                            <div class="log-line"><span class="log-string">اسمي أحمد محمد وعمري 20 سنة</span></div>
+                            <div class="log-line"><span class="log-string">أحمد محمد — GPA: 3.5</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> Object بيجمع كل المعلومات المتعلقة
+                            بحاجة واحدة في مكان واحد</div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-id-card"></i>
+                        <div>الـ <strong>Object</strong> زي بطاقة الهوية: فيها اسمك (name)، عمرك (age)، عنوانك
+                            (address)... كل حاجة عنك في كارت واحد. والـ <strong>Destructuring</strong> ده زي ما تطلع
+                            المعلومة اللي عايزها من الكارت من غير ما تمسك الكارت كله.</div>
+                    </div>
+                </div>
+
+                <!-- Array of Objects -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">Array of Objects — قاعدة بيانات مصغرة</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>array-of-objects.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;script&gt;</span>
+  <span class="syn-keyword">const</span> students = [
+    { <span class="syn-prop">name</span>: <span class="syn-string">"أحمد"</span>,  <span class="syn-prop">grade</span>: <span class="syn-number">92</span> },
+    { <span class="syn-prop">name</span>: <span class="syn-string">"نورهان"</span>, <span class="syn-prop">grade</span>: <span class="syn-number">88</span> },
+    { <span class="syn-prop">name</span>: <span class="syn-string">"علي"</span>,   <span class="syn-prop">grade</span>: <span class="syn-number">75</span> },
+    { <span class="syn-prop">name</span>: <span class="syn-string">"ياسمين"</span>, <span class="syn-prop">grade</span>: <span class="syn-number">95</span> },
+    { <span class="syn-prop">name</span>: <span class="syn-string">"كريم"</span>,  <span class="syn-prop">grade</span>: <span class="syn-number">60</span> }
+  ];
+
+  <span class="syn-comment">// الطلاب المتفوقين (أكتر من 85)</span>
+  <span class="syn-keyword">const</span> topStudents = students
+    .<span class="syn-method">filter</span>(s <span class="syn-op">=></span> s.<span class="syn-prop">grade</span> > <span class="syn-number">85</span>)
+    .<span class="syn-method">map</span>(s <span class="syn-op">=></span> <span class="syn-string">`⭐ ${</span>s.name<span class="syn-string">} (${</span>s.grade<span class="syn-string">})`</span>);
+
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(topStudents);
+
+  <span class="syn-comment">// متوسط الدرجات</span>
+  <span class="syn-keyword">const</span> avg = students.<span class="syn-method">reduce</span>((sum, s) <span class="syn-op">=></span> sum + s.<span class="syn-prop">grade</span>, <span class="syn-number">0</span>) / students.<span class="syn-prop">length</span>;
+  <span class="syn-dom">console</span>.<span class="syn-method">log</span>(<span class="syn-string">`المتوسط: ${</span>avg<span class="syn-string">}`</span>);
+<span class="syn-tag">&lt;/script&gt;</span></code></pre>
+                    </div>
+
+                    <div class="console-preview">
+                        <div class="console-preview-bar">
+                            <i class="fas fa-terminal" style="color:#22d3ee"></i> <span>Console Output</span>
+                        </div>
+                        <div class="console-preview-body">
+                            <div class="log-line">[<span class="log-string">"⭐ أحمد (92)"</span>, <span
+                                    class="log-string">"⭐ نورهان (88)"</span>, <span class="log-string">"⭐ ياسمين
+                                    (95)"</span>]</div>
+                            <div class="log-line"><span class="log-string">المتوسط: 82</span></div>
+                        </div>
+                        <div class="console-preview-label"><i class="fas fa-eye"></i> ده نمط شائع جداً: Array of Objects
+                            + filter + map = سحر!</div>
+                    </div>
+
+                    <div class="tip-expl">
+                        <i class="fas fa-gem"></i>
+                        <div>في أي تطبيق حقيقي — البيانات بتيجي كـ <strong>Array of Objects</strong>: قائمة منتجات،
+                            قائمة طلاب، قائمة طلبات... التمكن من filter + map + reduce عليها = <strong>إنت بتشتغل زي
+                                المحترفين!</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 9: DOM Manipulation                                       -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="dom" class="py-20 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        09</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">DOM Manipulation</h2>
+                        <p class="text-slate-400 text-sm">التحكم في الصفحة من خلال الكود</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">إيه هو الـ DOM؟ وإزاي تتحكم فيه</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>dom.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="syn-tag">&lt;html&gt;</span>
+<span class="syn-tag">&lt;body&gt;</span>
+  <span class="syn-tag">&lt;h1</span> <span class="syn-attr">id</span>=<span class="syn-string">"title"</span><span class="syn-tag">&gt;</span>Welcome!<span class="syn-tag">&lt;/h1&gt;</span>
+  <span class="syn-tag">&lt;p</span> <span class="syn-attr">class</span>=<span class="syn-string">"info"</span><span class="syn-tag">&gt;</span>Original text<span class="syn-tag">&lt;/p&gt;</span>
+  <span class="syn-tag">&lt;ul</span> <span class="syn-attr">id</span>=<span class="syn-string">"list"</span><span class="syn-tag">&gt;&lt;/ul&gt;</span>
+
+  <span class="syn-tag">&lt;script&gt;</span>
+    <span class="syn-comment">// 1. اختيار عنصر بالـ ID</span>
+    <span class="syn-keyword">const</span> title = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"title"</span>);
+    title.<span class="syn-prop">textContent</span> = <span class="syn-string">"أهلاً بيكم! 🎉"</span>;
+    title.<span class="syn-prop">style</span>.<span class="syn-prop">color</span> = <span class="syn-string">"#f59e0b"</span>;
+
+    <span class="syn-comment">// 2. querySelector — أقوى طريقة (زي CSS selector)</span>
+    <span class="syn-keyword">const</span> info = <span class="syn-dom">document</span>.<span class="syn-method">querySelector</span>(<span class="syn-string">".info"</span>);
+    info.<span class="syn-prop">innerHTML</span> = <span class="syn-string">"تم التعديل بـ &lt;strong&gt;JavaScript&lt;/strong&gt;! 🚀"</span>;
+
+    <span class="syn-comment">// 3. إنشاء عناصر جديدة</span>
+    <span class="syn-keyword">const</span> fruits = [<span class="syn-string">"🍎 تفاح"</span>, <span class="syn-string">"🍌 موز"</span>, <span class="syn-string">"🍊 برتقال"</span>];
+    <span class="syn-keyword">const</span> list = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"list"</span>);
+
+    fruits.<span class="syn-method">forEach</span>(fruit <span class="syn-op">=></span> {
+      <span class="syn-keyword">const</span> li = <span class="syn-dom">document</span>.<span class="syn-method">createElement</span>(<span class="syn-string">"li"</span>);
+      li.<span class="syn-prop">textContent</span> = fruit;
+      list.<span class="syn-method">appendChild</span>(li);
+    });
+  <span class="syn-tag">&lt;/script&gt;</span>
+<span class="syn-tag">&lt;/body&gt;</span>
+<span class="syn-tag">&lt;/html&gt;</span></code></pre>
+                    </div>
+
+                    <div class="browser-preview">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> localhost/dom.html</div>
+                        </div>
+                        <div class="browser-preview-body">
+                            <h1 style="font-size:1.8em;margin:0 0 8px;color:#f59e0b">أهلاً بيكم! 🎉</h1>
+                            <p style="color:#334155;margin:0 0 12px">تم التعديل بـ <strong>JavaScript</strong>! 🚀</p>
+                            <ul style="color:#334155;padding-left:20px">
+                                <li>🍎 تفاح</li>
+                                <li>🍌 موز</li>
+                                <li>🍊 برتقال</li>
+                            </ul>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> JS غيّرت العنوان واللون والنص
+                            وأضافت عناصر — كل ده وإنت مش محتاج تحمّل الصفحة تاني!</div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-tree"></i>
+                        <div>الـ <strong>DOM</strong> = Document Object Model. فكر فيه كـ <strong>خريطة</strong> لكل
+                            حاجة في الصفحة. JavaScript بتقدر تمسك أي عنصر من الخريطة دي وتغيره — تغير نصه، لونه، حجمه،
+                            أو حتى تشيله خالص وتضيف عناصر جديدة!</div>
+                    </div>
+                </div>
+
+                <!-- classList & style -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">classList & Style — التحكم في الشكل</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>classList.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="syn-tag">&lt;html&gt;</span>
+<span class="syn-tag">&lt;head&gt;</span>
+  <span class="syn-tag">&lt;style&gt;</span>
+    .box { <span class="syn-prop">width</span>: <span class="syn-number">200</span><span class="syn-val">px</span>; <span class="syn-prop">height</span>: <span class="syn-number">200</span><span class="syn-val">px</span>; <span class="syn-prop">background</span>: <span class="syn-string">#3b82f6</span>; <span class="syn-prop">transition</span>: <span class="syn-val">all 0.3s</span>; }
+    .rounded { <span class="syn-prop">border-radius</span>: <span class="syn-number">50</span><span class="syn-val">%</span>; }
+    .big { <span class="syn-prop">transform</span>: <span class="syn-val">scale(1.3)</span>; }
+    .red { <span class="syn-prop">background</span>: <span class="syn-string">#ef4444</span>; }
+  <span class="syn-tag">&lt;/style&gt;</span>
+<span class="syn-tag">&lt;/head&gt;</span>
+<span class="syn-tag">&lt;body&gt;</span>
+  <span class="syn-tag">&lt;div</span> <span class="syn-attr">class</span>=<span class="syn-string">"box"</span> <span class="syn-attr">id</span>=<span class="syn-string">"myBox"</span><span class="syn-tag">&gt;&lt;/div&gt;</span>
+
+  <span class="syn-tag">&lt;script&gt;</span>
+    <span class="syn-keyword">const</span> box = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"myBox"</span>);
+
+    <span class="syn-comment">// classList.add — إضافة class</span>
+    box.<span class="syn-prop">classList</span>.<span class="syn-method">add</span>(<span class="syn-string">"rounded"</span>);  <span class="syn-comment">// ← بقى دايرة!</span>
+
+    <span class="syn-comment">// classList.toggle — لو موجود يشيله، لو مش موجود يضيفه</span>
+    box.<span class="syn-prop">classList</span>.<span class="syn-method">toggle</span>(<span class="syn-string">"big"</span>);    <span class="syn-comment">// ← كبّر!</span>
+
+    <span class="syn-comment">// classList.remove — شيل class</span>
+    <span class="syn-comment">// box.classList.remove("rounded");</span>
+
+    <span class="syn-comment">// التحكم في style مباشرة</span>
+    box.<span class="syn-prop">style</span>.<span class="syn-prop">background</span> = <span class="syn-string">"linear-gradient(135deg, #f59e0b, #ef4444)"</span>;
+    box.<span class="syn-prop">style</span>.<span class="syn-prop">boxShadow</span> = <span class="syn-string">"0 20px 60px rgba(245, 158, 11, 0.3)"</span>;
+  <span class="syn-tag">&lt;/script&gt;</span>
+<span class="syn-tag">&lt;/body&gt;</span>
+<span class="syn-tag">&lt;/html&gt;</span></code></pre>
+                    </div>
+
+                    <div class="browser-preview">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> localhost/classList.html</div>
+                        </div>
+                        <div class="browser-preview-body" style="display:flex;justify-content:center;padding:40px">
+                            <div
+                                style="width:200px;height:200px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#ef4444);transform:scale(1.3);box-shadow:0 20px 60px rgba(245,158,11,0.3)">
+                            </div>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> classList.add/remove/toggle +
+                            style = أقوى أدوات التحكم في الشكل بـ JS</div>
+                    </div>
+
+                    <div class="tip-expl">
+                        <i class="fas fa-gem"></i>
+                        <div><strong>Best Practice:</strong> استخدم <strong>classList</strong> لإضافة/إزالة classes بدل
+                            ما تغير الـ style مباشرة. ده أنظف وأسهل في الصيانة. الـ <strong>style</strong> المباشر
+                            استخدمه بس للقيم الديناميكية (زي تغيير لون حسب input المستخدم).</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION 10: Events                                                -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="events" class="py-20 px-6 bg-slate-900/30">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-amber-500/20">
+                        10</div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">Events</h2>
+                        <p class="text-slate-400 text-sm">click · input · submit — التفاعل مع المستخدم</p>
+                    </div>
+                </div>
+
+                <!-- Click Event -->
+                <div class="glass-card p-8 rounded-2xl mb-8" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-amber-400 mb-4">addEventListener — ده قلب JavaScript!</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>events.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="syn-tag">&lt;html&gt;</span>
+<span class="syn-tag">&lt;body&gt;</span>
+  <span class="syn-tag">&lt;button</span> <span class="syn-attr">id</span>=<span class="syn-string">"btn"</span><span class="syn-tag">&gt;</span>اضغطني! 🎯<span class="syn-tag">&lt;/button&gt;</span>
+  <span class="syn-tag">&lt;p</span> <span class="syn-attr">id</span>=<span class="syn-string">"counter"</span><span class="syn-tag">&gt;</span>الضغطات: 0<span class="syn-tag">&lt;/p&gt;</span>
+
+  <span class="syn-tag">&lt;input</span> <span class="syn-attr">type</span>=<span class="syn-string">"text"</span> <span class="syn-attr">id</span>=<span class="syn-string">"nameInput"</span> <span class="syn-attr">placeholder</span>=<span class="syn-string">"اكتب اسمك..."</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;p</span> <span class="syn-attr">id</span>=<span class="syn-string">"greeting"</span><span class="syn-tag">&gt;&lt;/p&gt;</span>
+
+  <span class="syn-tag">&lt;script&gt;</span>
+    <span class="syn-comment">// 1. Click Event — العد عند الضغط</span>
+    <span class="syn-keyword">let</span> count = <span class="syn-number">0</span>;
+    <span class="syn-keyword">const</span> btn = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"btn"</span>);
+    <span class="syn-keyword">const</span> counterEl = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"counter"</span>);
+
+    btn.<span class="syn-method">addEventListener</span>(<span class="syn-string">"click"</span>, () <span class="syn-op">=></span> {
+      count++;
+      counterEl.<span class="syn-prop">textContent</span> = <span class="syn-string">`الضغطات: ${</span>count<span class="syn-string">}`</span>;
+    });
+
+    <span class="syn-comment">// 2. Input Event — بيشتغل مع كل حرف!</span>
+    <span class="syn-keyword">const</span> input = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"nameInput"</span>);
+    <span class="syn-keyword">const</span> greetEl = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"greeting"</span>);
+
+    input.<span class="syn-method">addEventListener</span>(<span class="syn-string">"input"</span>, (e) <span class="syn-op">=></span> {
+      greetEl.<span class="syn-prop">textContent</span> = <span class="syn-string">`أهلاً يا ${</span>e.target.value<span class="syn-string">}! 👋`</span>;
+    });
+  <span class="syn-tag">&lt;/script&gt;</span>
+<span class="syn-tag">&lt;/body&gt;</span>
+<span class="syn-tag">&lt;/html&gt;</span></code></pre>
+                    </div>
+
+                    <div class="browser-preview">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> localhost/events.html</div>
+                        </div>
+                        <div class="browser-preview-body">
+                            <button
+                                style="background:#f59e0b;color:white;border:none;padding:10px 24px;border-radius:8px;font-size:1em;cursor:pointer;font-family:Cairo">اضغطني!
+                                🎯</button>
+                            <p style="color:#334155;margin:8px 0">الضغطات: 3</p>
+                            <hr style="border-color:#e5e7eb;margin:12px 0">
+                            <input type="text" value="أحمد" readonly
+                                style="border:1px solid #e5e7eb;padding:8px 12px;border-radius:6px;font-size:0.9em;margin:4px 0;width:200px">
+                            <p style="color:#f59e0b;margin:8px 0">أهلاً يا أحمد! 👋</p>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> addEventListener هو حلقة الوصل بين
+                            المستخدم والكود — أهم حاجة في JS!</div>
+                    </div>
+
+                    <div class="egyptian-expl">
+                        <i class="fas fa-bell"></i>
+                        <div>الـ <strong>Event</strong> زي جرس الباب: لما حد يدوس الجرس (click) → إنت بتفتح الباب
+                            (callback function). ممكن تحط جرس على أي حاجة: زرار (click)، input (input)، form (submit)،
+                            ماوس (mouseover). كل ده بـ <strong>addEventListener!</strong></div>
+                    </div>
+                </div>
+
+                <!-- Todo App -->
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-red-400 mb-4">مشروع عملي: Todo List مبسطة! ✅</h3>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                                    style="background:#febc2e"></span><span class="dot"
+                                    style="background:#28c840"></span></div><span>todo.html</span>
+                        </div>
+                        <pre><code><span class="syn-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="syn-tag">&lt;html&gt;</span>
+<span class="syn-tag">&lt;head&gt;</span>
+  <span class="syn-tag">&lt;style&gt;</span>
+    body { <span class="syn-prop">font-family</span>: <span class="syn-val">Arial</span>; <span class="syn-prop">max-width</span>: <span class="syn-number">400</span><span class="syn-val">px</span>; <span class="syn-prop">margin</span>: <span class="syn-number">50</span><span class="syn-val">px</span> <span class="syn-val">auto</span>; }
+    .done { <span class="syn-prop">text-decoration</span>: <span class="syn-val">line-through</span>; <span class="syn-prop">color</span>: <span class="syn-string">#9ca3af</span>; }
+  <span class="syn-tag">&lt;/style&gt;</span>
+<span class="syn-tag">&lt;/head&gt;</span>
+<span class="syn-tag">&lt;body&gt;</span>
+  <span class="syn-tag">&lt;h2&gt;</span>📝 My Todo List<span class="syn-tag">&lt;/h2&gt;</span>
+  <span class="syn-tag">&lt;input</span> <span class="syn-attr">id</span>=<span class="syn-string">"taskInput"</span> <span class="syn-attr">placeholder</span>=<span class="syn-string">"أضف مهمة..."</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;button</span> <span class="syn-attr">id</span>=<span class="syn-string">"addBtn"</span><span class="syn-tag">&gt;</span>إضافة<span class="syn-tag">&lt;/button&gt;</span>
+  <span class="syn-tag">&lt;ul</span> <span class="syn-attr">id</span>=<span class="syn-string">"todoList"</span><span class="syn-tag">&gt;&lt;/ul&gt;</span>
+
+  <span class="syn-tag">&lt;script&gt;</span>
+    <span class="syn-keyword">const</span> input  = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"taskInput"</span>);
+    <span class="syn-keyword">const</span> addBtn = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"addBtn"</span>);
+    <span class="syn-keyword">const</span> list   = <span class="syn-dom">document</span>.<span class="syn-method">getElementById</span>(<span class="syn-string">"todoList"</span>);
+
+    addBtn.<span class="syn-method">addEventListener</span>(<span class="syn-string">"click"</span>, () <span class="syn-op">=></span> {
+      <span class="syn-keyword">if</span> (input.<span class="syn-prop">value</span>.<span class="syn-method">trim</span>() === <span class="syn-string">""</span>) <span class="syn-keyword">return</span>;
+
+      <span class="syn-keyword">const</span> li = <span class="syn-dom">document</span>.<span class="syn-method">createElement</span>(<span class="syn-string">"li"</span>);
+      li.<span class="syn-prop">textContent</span> = input.<span class="syn-prop">value</span>;
+      li.<span class="syn-method">addEventListener</span>(<span class="syn-string">"click"</span>, () <span class="syn-op">=></span> {
+        li.<span class="syn-prop">classList</span>.<span class="syn-method">toggle</span>(<span class="syn-string">"done"</span>);
+      });
+      list.<span class="syn-method">appendChild</span>(li);
+      input.<span class="syn-prop">value</span> = <span class="syn-string">""</span>;
+    });
+  <span class="syn-tag">&lt;/script&gt;</span>
+<span class="syn-tag">&lt;/body&gt;</span>
+<span class="syn-tag">&lt;/html&gt;</span></code></pre>
+                    </div>
+
+                    <div class="browser-preview">
+                        <div class="browser-preview-bar">
+                            <div class="dots"><span style="background:#ff5f57"></span><span
+                                    style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                            <div class="url-bar"><i class="fas fa-lock"></i> localhost/todo.html</div>
+                        </div>
+                        <div class="browser-preview-body">
+                            <h2 style="font-size:1.3em;margin:0 0 12px;color:#0f172a">📝 My Todo List</h2>
+                            <div style="display:flex;gap:8px;margin-bottom:12px">
+                                <input type="text" placeholder="أضف مهمة..."
+                                    style="border:1px solid #e5e7eb;padding:6px 10px;border-radius:6px;flex:1;font-size:0.9em">
+                                <button
+                                    style="background:#3b82f6;color:white;border:none;padding:6px 16px;border-radius:6px;cursor:pointer">إضافة</button>
+                            </div>
+                            <ul style="list-style:none;padding:0;color:#334155;margin:0">
+                                <li style="padding:6px 0;border-bottom:1px solid #f1f5f9">✅ مذاكرة HTML</li>
+                                <li style="padding:6px 0;border-bottom:1px solid #f1f5f9">✅ مراجعة CSS</li>
+                                <li
+                                    style="padding:6px 0;border-bottom:1px solid #f1f5f9;text-decoration:line-through;color:#9ca3af">
+                                    حل الواجب</li>
+                                <li style="padding:6px 0">✅ تعلم JavaScript</li>
+                            </ul>
+                        </div>
+                        <div class="browser-preview-label"><i class="fas fa-eye"></i> مشروع كامل بـ JS بس! DOM + Events
+                            + classList كلهم شغالين مع بعض</div>
+                    </div>
+
+                    <div class="tip-expl">
+                        <i class="fas fa-rocket"></i>
+                        <div>ده أول مشروع عملي بـ JavaScript! بيجمع كل حاجة اتعلمتها: <strong>Variables + Functions +
+                                DOM + Events + classList</strong>. لو قدرت تعمله لوحدك من غير ما تبص على الكود —
+                            <strong>إنت فاهم JS كويس! 💪</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <!-- QUIZ                                                              -->
+        <!-- ══════════════════════════════════════════════════════════════════ -->
+        <section id="quiz" class="py-20 px-6">
+            <div class="container mx-auto max-w-4xl">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-white mb-2"><i class="fas fa-brain text-amber-400 ml-2"></i>
+                        اختبر نفسك!</h2>
+                    <p class="text-slate-400">10 أسئلة — قيس فهمك</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Q1 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">1. إيه الفرق بين let و const؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm"><strong>let</strong> = متغير بيقبل التغيير.
+                                <strong>const</strong> = ثابت مش بيتغير. القاعدة: استخدم const أولاً، ولو محتاج تغيّر →
+                                let.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">2. إيه الفرق بين == و ===؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm"><strong>==</strong> بيقارن القيمة بس (بيعمل type
+                                coercion). <strong>===</strong> بيقارن القيمة + النوع. دايماً استخدم ===!</p>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">3. إيه نتيجة: typeof null ؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm"><strong>"object"</strong> — وده bug مشهور في JavaScript!
+                                null مش object في الحقيقة، بس ده خطأ موجود من أول إصدار ومقدروش يغيروه عشان مش يكسروا
+                                المواقع القديمة.</p>
+                        </div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">4. إيه الفرق بين function عادية و arrow function؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm">Arrow function أقصر في الكتابة، ملهاش this بتاعها (بتورث
+                                من الأب)، ومش بتتعمل hoist. الـ function العادية عندها this بتاعها وبتتعمل hoist.</p>
+                        </div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">5. إيه الفرق بين map و filter؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm"><strong>map</strong> بيحوّل كل عنصر ويرجع Array جديد
+                                بنفس الطول. <strong>filter</strong> بيفلتر حسب شرط ويرجع Array جديد ممكن يكون أقصر.</p>
+                        </div>
+                    </div>
+
+                    <!-- Q6 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">6. إيه نتيجة: [1,2,3].push(4)؟ وإيه اللي بيرجع؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm">push بيضيف 4 للآخر وبيرجع <strong>الطول الجديد</strong>
+                                (4 في الحالة دي، مش الـ Array نفسه!). كتير ناس بتتلخبط في الحوار ده.</p>
+                        </div>
+                    </div>
+
+                    <!-- Q7 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">7. إيه الفرق بين getElementById و querySelector؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm"><strong>getElementById</strong> بيجيب عنصر بالـ ID بس.
+                                <strong>querySelector</strong> أقوى — بيقبل أي CSS selector (class, tag, id, أو حتى
+                                selectors معقدة). querySelector أكتر مرونة!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Q8 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">8. إيه الفرق بين textContent و innerHTML؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm"><strong>textContent</strong> بيتعامل مع نص عادي بس
+                                (أأمن). <strong>innerHTML</strong> بيقبل HTML tags (أقوى بس ممكن يكون خطر لو بتاخد input
+                                من المستخدم — XSS attack!).</p>
+                        </div>
+                    </div>
+
+                    <!-- Q9 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">9. ليه بنحط الـ &lt;script&gt; قبل &lt;/body&gt; مش في
+                            &lt;head&gt;؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm">عشان الـ HTML يحمّل الأول ويبقى الـ DOM جاهز. لو حطيت
+                                الـ script في الـ head، هيحاول يمسك عناصر لسه مش موجودة → error! (أو استخدم defer
+                                attribute).</p>
+                        </div>
+                    </div>
+
+                    <!-- Q10 -->
+                    <div class="glass-card p-6 rounded-2xl" data-aos="fade-up">
+                        <p class="text-white font-bold mb-3">10. إيه الفرق بين for loop و for...of؟</p>
+                        <button onclick="this.nextElementSibling.classList.toggle('show')"
+                            class="text-xs bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full hover:bg-amber-500/30 transition">اظهر
+                            الإجابة</button>
+                        <div class="answer-container">
+                            <p class="text-emerald-400 text-sm"><strong>for</strong> بيشتغل بعدّاد (i=0; i&lt;n; i++)
+                                ومحتاج تكتب كل حاجة بنفسك. <strong>for...of</strong> بيمشي على كل عنصر في Array تلقائياً
+                                — أبسط وأنظف.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-slate-800/50 bg-slate-950/50">
+        <div class="container mx-auto max-w-4xl text-center">
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <a href="lect03.html" class="text-sm text-slate-400 hover:text-amber-400 transition">
+                    <i class="fas fa-arrow-right ml-1"></i> المحاضرة السابقة: CSS
+                </a>
+                <span class="text-slate-600">|</span>
+                <a href="index.html" class="text-sm text-slate-400 hover:text-amber-400 transition">
+                    <i class="fas fa-home ml-1"></i> الرئيسية
+                </a>
+            </div>
+            <p class="text-slate-500 text-xs">CodeHub · JavaScript In-Depth · المحاضرة الرابعة</p>
+        </div>
+    </footer>
+
+    <script>
+        // AOS
+        AOS.init({ duration: 600, easing: 'ease-out', once: true });
+
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+    </script>
+</body>
+
+</html>
