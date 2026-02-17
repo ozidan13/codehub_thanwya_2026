@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script - Lecture 03: CSS In-Depth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            color: #e0e0e0;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #a78bfa;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: "🎬";
+        }
+
+        .section-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B5CF6, #06b6d4);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 28px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-left: 6px;
+        }
+
+        .script-text {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: #f5f5f5;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border-right: 4px solid #8B5CF6;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #ffc107;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            border-right: 3px solid #ffc107;
+        }
+
+        .note::before {
+            content: "📌 ملاحظة: ";
+            font-weight: bold;
+        }
+
+        .action {
+            font-size: 0.9rem;
+            color: #10b981;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            border-right: 3px solid #10b981;
+        }
+
+        .action::before {
+            content: "🖥️ على الشاشة: ";
+            font-weight: bold;
+        }
+
+        .english {
+            direction: ltr;
+            text-align: left;
+            font-family: 'Segoe UI', 'Consolas', sans-serif;
+            color: #b3e5fc;
+        }
+
+        .highlight {
+            color: #69f0ae;
+            font-weight: 600;
+        }
+
+        .keyword {
+            color: #a78bfa;
+            font-weight: 700;
+        }
+
+        .pause {
+            color: #ff8a65;
+            font-size: 0.85rem;
+            display: block;
+            margin: 0.5rem 0;
+        }
+
+        a.back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 8px;
+            color: #a78bfa;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        a.back-btn:hover {
+            background: rgba(139, 92, 246, 0.4);
+            color: #fff;
+        }
+
+        .toc {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc h2 {
+            color: #a78bfa;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .toc ol {
+            padding-right: 1.5rem;
+            line-height: 2.2;
+        }
+
+        .toc a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: #a78bfa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← رجوع للصفحة الرئيسية</a>
+        <h1>📜 سكريبت الشرح — المحاضرة التالتة</h1>
+        <p class="subtitle">CSS بالتفصيل الممل — من أول سطر لحد ما تعمل مواقع محترفة</p>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>📑 فهرس الأقسام</h2>
+            <ol>
+                <li><a href="#intro">المقدمة والترحيب</a></li>
+                <li><a href="#why-css">ليه CSS مهمة؟ وإزاي بتشتغل</a></li>
+                <li><a href="#selectors">الـ Selectors — إزاي تختار العناصر</a></li>
+                <li><a href="#box-model">الـ Box Model — كل عنصر عبارة عن صندوق</a></li>
+                <li><a href="#typography">Typography & Colors</a></li>
+                <li><a href="#display">Display & Position</a></li>
+                <li><a href="#flexbox">Flexbox — التوزيع المرن</a></li>
+                <li><a href="#grid">CSS Grid — الشبكة ثنائية الأبعاد</a></li>
+                <li><a href="#responsive">Responsive Design — التصميم المتجاوب</a></li>
+                <li><a href="#animations">Animations & Transitions — الحركة</a></li>
+                <li><a href="#variables">CSS Variables & Modern CSS</a></li>
+                <li><a href="#closing">الخاتمة والكويز</a></li>
+            </ol>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 0. المقدمة -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="intro">
+            <div class="section-title">المقدمة والترحيب</div>
+            <div class="script-text">
+                السلام عليكم ورحمة الله وبركاته، أهلاً وسهلاً بيكم في <span class="highlight">المحاضرة التالتة</span> من
+                مادة أساسيات تكنولوجيا المعلومات.
+                <span class="pause">[وقفة قصيرة]</span>
+                المحاضرة اللي فاتت كانت كلها عن الـ HTML — اتعلمنا إزاي نبني هيكل صفحة ويب كامل من الصفر. اتكلمنا عن الـ
+                tags والـ attributes والـ forms والـ semantic HTML وكل حاجة.
+                <span class="pause">[وقفة]</span>
+                بس لو فاكرين — الصفحة بتاعتنا كانت شكلها إيه؟ كانت أبيض وأسود، وحشة، ومملة. زي بيت اتبنى بس من غير أي
+                دهان ولا ديكور.
+                <span class="pause">[وقفة]</span>
+                النهارده بقى هنعمل الجزء اللي بيخلي الموقع <span class="keyword">يبقى شكله حلو!</span> هنمسك الـ
+                <span class="keyword">CSS</span> — Cascading Style Sheets — بالتفصيل الممل.
+                <br><br>
+                CSS هي اللي بتتحكم في <span class="highlight">كل حاجة شكلية</span>: الألوان، الخطوط، الأحجام، المسافات،
+                التوزيع، الحركات، التصميم المتجاوب — كل حاجة!
+                <span class="pause">[وقفة]</span>
+                يعني لو HTML هي الطوب والخرسانة بتاعة العمارة، <span class="highlight">CSS هي الدهان والديكور والأرضيات
+                    والإضاءة.</span> هي اللي بتحول بيت عادي لقصر فخم.
+                <span class="pause">[وقفة]</span>
+                جاهزين؟ يلا بيسم الله نبدأ!
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 1. ليه CSS مهمة -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="why-css">
+            <div class="section-title"><span class="section-number">01</span>ليه CSS مهمة؟ وإزاي بتشتغل</div>
+            <div class="script-text">
+                طيب أول سؤال: <span class="highlight">ليه CSS مهمة أصلاً ومنقدرش نبني مواقع من غيرها؟</span>
+                <span class="pause">[وقفة]</span>
+                تخيل كده إنك رحت تفتح فيسبوك بس من غير CSS. هتلاقي كل حاجة تحت بعض، مفيش ألوان، مفيش تنسيق
+                — حاجة مش ممكن تستخدمها. CSS هي اللي بتاخد هيكل HTML العادي وتحوله لتجربة بتبهر المستخدم.
+                <span class="pause">[وقفة]</span>
+
+                طيب فيه <span class="keyword">3 طرق</span> تكتب بيهم CSS:
+                <br><br>
+                <span class="keyword">أولاً: Inline CSS</span> — ده لما بتكتب الـ style جوه الـ tag نفسه.
+                <br>يعني: <span class="english">&lt;p style="color: red"&gt;أحمر&lt;/p&gt;</span>
+                <br>الطريقة دي بسيطة بس <span class="highlight">مش عملية خالص.</span> لأنك لو عندك 100 فقرة، هتكتب نفس
+                الـ style 100 مرة. بعدين لو عايز تغير اللون هتروح تعدل في 100 مكان! ده جنون.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">ثانياً: Internal CSS</span> — وده لما بتحط <span
+                    class="english">&lt;style&gt;</span>
+                tag جوه الـ <span class="english">&lt;head&gt;</span> وتكتب كل الـ CSS بتاعك جواه.
+                <br>ده أحسن من Inline لأنك بتكتب في مكان واحد. بس لسه المشكلة إن لو عندك 10 صفحات هتكرر نفس الـ CSS في
+                كل صفحة!
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">ثالثاً: External CSS</span> — وده <span class="highlight">الطريقة الصح
+                    والمحترفة.</span>
+                بتعمل ملف منفصل اسمه مثلاً <span class="english">style.css</span> وتربطه بالصفحة بتاعتك بـ
+                <span class="english">&lt;link&gt;</span> tag.
+                <br>كده اكتب مرة واحدة → يتطبق على كل الصفحات. تغيير واحد → كل حاجة تتغير.
+                <span class="pause">[وقفة]</span>
+
+                في الشغل الحقيقي، <span class="keyword">دايماً External CSS.</span> الـ Inline بنستخدمه في حالات نادرة
+                جداً زي إيميلات الـ HTML. والـ Internal بنستخدمه لو بنعمل صفحة واحدة بس.
+            </div>
+            <div class="action">اعرض مثال على الشاشة فيه الـ 3 طرق جنب بعض — Inline / Internal / External — وكل واحد
+                بيطلع نفس النتيجة</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 2. Selectors -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="selectors">
+            <div class="section-title"><span class="section-number">02</span>الـ Selectors — إزاي تختار العناصر</div>
+            <div class="script-text">
+                طيب إحنا قولنا CSS بتخلي الحاجات شكلها حلو. بس السؤال: <span class="highlight">إزاي CSS بتعرف تطبق الـ
+                    style على إنهي عنصر بالظبط؟</span>
+                <span class="pause">[وقفة]</span>
+                الإجابة: بالـ <span class="keyword">Selectors!</span> ودي أهم حاجة في CSS. لو مفهمتهاش — مش هتعرف تعمل
+                حاجة.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">أنواع الـ Selectors:</span>
+                <br><br>
+                <span class="keyword">أولاً: Element Selector</span> — بتختار كل العناصر من نوع معين. يعني لو كتبت
+                <span class="english">p { color: blue; }</span> — كل الفقرات في الصفحة هتبقى زرقا. بسيطة صح؟ بس خطيرة.
+                لو عندك 50 فقرة، كلهم وقعوا!
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">ثانياً: Class Selector</span> — وده بيبدأ بـ <span class="highlight">نقطة
+                    (.)</span>.
+                يعني <span class="english">.warning { color: red; }</span>. ده بيختار كل عنصر عليه
+                <span class="english">class="warning"</span>. الجميل إن الـ class ينفع يتكرر على أي عدد من العناصر.
+                <br>يعني ممكن 10 عناصر يكون عليهم نفس الـ class. ده بيخليه <span class="highlight">الأكتر
+                    استخداماً</span>
+                في الشغل.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">ثالثاً: ID Selector</span> — وده بيبدأ بـ <span class="highlight">هاش (#)</span>.
+                يعني <span class="english">#hero { background: black; }</span>. الـ ID <span class="keyword">لازم يكون
+                    فريد!</span> عنصر واحد بس في الصفحة يكون عنده الـ ID ده. لو كررته — هيحصل مشاكل.
+                <span class="pause">[وقفة]</span>
+
+                طيب سؤال مهم: <span class="highlight">لو عنصر عليه class بيقول لونه أحمر، وعليه ID بيقول لونه أزرق — مين
+                    اللي يكسب؟</span>
+                <span class="pause">[وقفة]</span>
+                الإجابة: <span class="keyword">الـ ID بيكسب!</span> ده اسمه <span class="keyword">Specificity</span> —
+                يعني
+                أولوية. CSS بتحسبها بالأرقام:
+                <br>- Inline style = <span class="highlight">1000</span> نقطة
+                <br>- ID = <span class="highlight">100</span> نقطة
+                <br>- Class = <span class="highlight">10</span> نقط
+                <br>- Element = <span class="highlight">1</span> نقطة
+                <br>اللي نقطه أكتر، يكسب. بسيطة.
+                <span class="pause">[وقفة]</span>
+
+                وفيه <span class="keyword">!important</span> — ده بيكسب الكل. بس <span class="highlight">متستخدموش
+                    أبداً!</span> ده زي ما تضرب الترابيزة عشان تكسب النقاش — بيعمل فوضى في الكود.
+            </div>
+            <div class="action">اعرض مثال Specificity على الشاشة — عنصر عليه element + class + id بألوان مختلفة وشوف مين
+                اللي كسب</div>
+            <div class="note">لو طالب سأل عن pseudo-classes زي :hover أو :nth-child — اديله مثال سريع بس قوله هنشرحهم
+                بالتفصيل بعدين.</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 3. Box Model -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="box-model">
+            <div class="section-title"><span class="section-number">03</span>الـ Box Model — كل عنصر عبارة عن صندوق
+            </div>
+            <div class="script-text">
+                دلوقتي نيجي لواحد من أهم المفاهيم في CSS كلها: <span class="keyword">الـ Box Model.</span>
+                <span class="pause">[وقفة]</span>
+                الفكرة بسيطة: <span class="highlight">كل عنصر في الصفحة — سواء فقرة، صورة، زرار — هو عبارة عن صندوق
+                    (box).</span> والصندوق ده بيتكون من 4 طبقات:
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">1. Content</span> — ده المحتوى نفسه. النص أو الصورة اللي جوه.
+                <br><span class="keyword">2. Padding</span> — ده مسافة بين المحتوى وحدود الصندوق. زي الحشوة اللي بتحطها
+                جوه الكرتونة عشان تحمي اللي جواها.
+                <br><span class="keyword">3. Border</span> — ده الإطار. الحد الخارجي للصندوق. ممكن يكون سميك أو رفيع أو
+                منقط أو كتير أشكال.
+                <br><span class="keyword">4. Margin</span> — ده مسافة بين الصندوق ده وأي صندوق تاني جنبه. زي المسافة بين
+                العمارات.
+                <span class="pause">[وقفة — وقفة طويلة]</span>
+
+                تخيل الموضوع كده:
+                <br><span class="highlight">Content</span> = التليفون اللي جوه الكرتونة.
+                <br><span class="highlight">Padding</span> = الفلين اللي حواليه عشان يحميه.
+                <br><span class="highlight">Border</span> = الكرتونة نفسها.
+                <br><span class="highlight">Margin</span> = المسافة بين الكرتونة ودي والكراتين التانية.
+                <span class="pause">[وقفة]</span>
+
+                طيب فيه مشكلة مشهورة جداً لازم تفهمها:
+                <br>لو عندك عنصر <span class="english">width: 200px</span> وحطيت <span class="english">padding:
+                    20px</span> من كل جانب —
+                العرض الفعلي هيبقى <span class="keyword">240px</span> مش 200! لأن الـ padding اتضاف على العرض.
+                <span class="pause">[وقفة]</span>
+                الحل؟ <span class="keyword">box-sizing: border-box</span> — ده بيخلي الـ padding يتحسب <span
+                    class="highlight">جوه</span> الـ width مش فوقه. يعني العرض يفضل 200 مهما حطيت padding.
+                <br>عشان كده <span class="highlight">كل مطور محترف</span> بيحط في أول ملف CSS:
+                <br><span class="english">* { box-sizing: border-box; }</span>
+                <br>ده بيوفر عليك صداع كتير!
+            </div>
+            <div class="action">اعرض رسم توضيحي للـ Box Model — Content / Padding / Border / Margin — كل طبقة بلون
+                مختلف</div>
+            <div class="note">ده سؤال كلاسيكي في الـ interviews: "إيه الفرق بين content-box و border-box؟" — تأكد إن
+                الطلاب فاهمينه كويس.</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 4. Typography & Colors -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="typography">
+            <div class="section-title"><span class="section-number">04</span>Typography & Colors — الخطوط والألوان</div>
+            <div class="script-text">
+                دلوقتي هنتكلم عن حاجة كل مصمم ومطور لازم يفهمها: <span class="keyword">الخطوط والألوان.</span>
+                <span class="pause">[وقفة]</span>
+                أول حاجة: <span class="highlight">الخطوط.</span>
+                <br>في CSS بتتحكم في الخط بـ <span class="english">font-family</span>. وعندك <span
+                    class="english">font-size</span>
+                للحجم و <span class="english">font-weight</span> للسُمك (bold / normal / 700).
+                <br>وفيه <span class="english">line-height</span> — ودي المسافة بين السطور. لو خليتها 1.6 أو 1.8 النص
+                بيبقى مريح جداً للقراية.
+                <span class="pause">[وقفة]</span>
+                وفيه <span class="english">text-align</span> — ده بيحدد النص يكون يمين ولا شمال ولا في النص ولا
+                <span class="english">justify</span> (موزع).
+                <br>وفيه <span class="english">text-decoration</span> — ده بيحط خط تحت النص أو خط فوقه أو يشيل الخط اللي
+                على الروابط.
+                <br>وفيه <span class="english">text-transform</span> — بيقدر يخلي النص كله <span
+                    class="english">uppercase</span>
+                أو <span class="english">lowercase</span> أو <span class="english">capitalize</span>.
+                <span class="pause">[وقفة — وقفة طويلة]</span>
+
+                تاني حاجة: <span class="highlight">الألوان.</span>
+                <br>CSS بتدعم ألوان بأشكال كتير:
+                <br><span class="keyword">1. Named Colors</span> — زي <span class="english">red</span>, <span
+                    class="english">blue</span>,
+                <span class="english">tomato</span>. سهلة بس محدودة.
+                <br><span class="keyword">2. HEX</span> — زي <span class="english">#FF5733</span>. أشهر طريقة في الشغل.
+                6
+                أرقام بتمثل الأحمر والأخضر والأزرق.
+                <br><span class="keyword">3. RGB</span> — زي <span class="english">rgb(255, 87, 51)</span>. نفس الفكرة
+                بس
+                بأرقام واضحة.
+                <br><span class="keyword">4. HSL</span> — زي <span class="english">hsl(14, 100%, 60%)</span>. ده بيشتغل
+                بالـ Hue (درجة اللون) والـ Saturation (التشبع) والـ Lightness (الإضاءة). <span class="highlight">ده
+                    الأحسن لو بتعمل Design System</span> لأنك بتقدر تتحكم في كل حاجة بسهولة.
+                <span class="pause">[وقفة]</span>
+                وكل نوع فيهم ينفع تضيفله شفافية: <span class="english">rgba()</span> أو <span
+                    class="english">hsla()</span>
+                أو <span class="english">#FF573380</span> (الآخر رقمين للشفافية).
+            </div>
+            <div class="action">اعرض مثال فيه نفس اللون مكتوب بالـ 4 طرق — Named, HEX, RGB, HSL — وجنبهم اللون بيبان
+                كـ بريفيو</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 5. Display & Position -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="display">
+            <div class="section-title"><span class="section-number">05</span>Display & Position — التنظيم والتمركز</div>
+            <div class="script-text">
+                طيب دلوقتي نيجي لحاجة مهمة جداً: <span class="keyword">Display</span> — يعني إزاي العنصر بيظهر ويتصرف.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">display: block</span> — العنصر بياخد السطر كله لوحده. مهما كان حجمه صغير. زي الـ
+                <span class="english">&lt;div&gt;</span> والـ <span class="english">&lt;p&gt;</span>. وبيقبل width
+                و height.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">display: inline</span> — العنصر بيقعد جنب عناصر تانية في نفس السطر. زي الـ
+                <span class="english">&lt;span&gt;</span> والـ <span class="english">&lt;a&gt;</span>. بس <span
+                    class="highlight">مش بيقبل width ولا height!</span> يعني مينفعش تدي span عرض 200px. مش هيشتغل!
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">display: inline-block</span> — ده أحسن حاجة! بيقعد في السطر زي inline، بس <span
+                    class="highlight">بيقبل width و height زي block!</span> يعني بياخد أحسن حاجة من الاتنين. بنستخدمه
+                كتير
+                جداً للأزرار والعناصر الصغيرة.
+                <span class="pause">[وقفة — وقفة طويلة]</span>
+
+                و <span class="keyword">display: none</span> — ده بيخفي العنصر خالص، كأنه مش موجود. مفيش مكان محجوز.
+                مختلف عن <span class="english">visibility: hidden</span> اللي بيخفي العنصر بس المكان يفضل محجوز.
+                <span class="pause">[وقفة]</span>
+
+                طيب نيجي للـ <span class="keyword">Position</span>:
+                <br><br>
+                <span class="keyword">static</span> — الافتراضي. كل عنصر في مكانه الطبيعي.
+                <br><span class="keyword">relative</span> — بيتحرك من مكانه <span class="highlight">بس المكان الأصلي
+                    يفضل
+                    محجوز</span>. يعني لو قولتله top: 20px هيتحرك 20 بكسل لتحت بس المكان اللي كان فيه لسه موجود.
+                <br><span class="keyword">absolute</span> — ده بيطلع من الـ flow خالص! يعني كأنه طاير فوق كل حاجة.
+                وبيتحط <span class="highlight">بالنسبة لأقرب أب عليه position: relative</span>. لو مفيش أب relative —
+                بيتحط
+                بالنسبة للصفحة كلها.
+                <br><span class="keyword">fixed</span> — زي absolute بس <span class="highlight">بيتثبت على الشاشة</span>
+                حتى لو الصفحة اتعملها scroll. زي الـ navbar اللي بتفضل ثابتة فوق.
+                <br><span class="keyword">sticky</span> — مزيج بين relative و fixed. بيفضل طبيعي لحد ما توصل لنقطة
+                معينة وبعدين يتثبت.
+            </div>
+            <div class="action">اعرض مثال block vs inline vs inline-block — 3 عناصر جنب بعض ووضح الفرق. وبعدها اعرض مثال
+                positioning</div>
+            <div class="note">absolute + relative هما أكتر combination بيتسأل عنها في الـ interviews. تأكد الطلاب فاهمين
+                الحوار ده كويس.</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 6. Flexbox -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="flexbox">
+            <div class="section-title"><span class="section-number">06</span>Flexbox — التوزيع المرن</div>
+            <div class="script-text">
+                دلوقتي نيجي لواحد من أقوى الابتكارات في CSS الحديثة: <span class="keyword">Flexbox!</span>
+                <span class="pause">[وقفة]</span>
+                قبل Flexbox — لو عايز توزع 3 عناصر جنب بعض كان عذاب. كنت بتستخدم float أو tables أو position وبتعمل
+                hacks — كل حاجة كانت وجع دماغ.
+                <span class="pause">[وقفة]</span>
+                Flexbox جت وحلت كل المشاكل دي. الفكرة ببساطة: <span class="highlight">حط display: flex على الأب،
+                    والأبناء
+                    يتوزعوا تلقائياً!</span>
+                <span class="pause">[وقفة]</span>
+
+                بس Flexbox بتشتغل في <span class="keyword">بُعد واحد</span> — يعني إما صف (row) أو عمود (column). مش
+                الاتنين مع بعض.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">أهم الخصائص بتاعة الأب (Flex Container):</span>
+                <br><br>
+                <span class="keyword">flex-direction</span> — بتحدد الاتجاه: <span class="english">row</span> (أفقي)
+                أو <span class="english">column</span> (رأسي). الافتراضي row.
+                <br><span class="keyword">justify-content</span> — بتوزع العناصر على <span class="highlight">المحور
+                    الرئيسي</span>.
+                <br>عندك خيارات كتير: <span class="english">flex-start</span> (كلهم في البداية) | <span
+                    class="english">center</span> (في النص) | <span class="english">space-between</span> (موزعين بمسافات
+                متساوية بينهم) | <span class="english">space-around</span> | <span class="english">space-evenly</span>.
+                <br><span class="keyword">align-items</span> — بتوزع العناصر على <span class="highlight">المحور
+                    العمودي</span>. يعني لو الصف أفقي، align-items بيوزعهم رأسياً: <span class="english">center</span> |
+                <span class="english">stretch</span> | <span class="english">flex-start</span> | <span
+                    class="english">flex-end</span>.
+                <br><span class="keyword">gap</span> — مسافة بين العناصر. أسهل من margin بكتير.
+                <span class="pause">[وقفة — وقفة طويلة]</span>
+
+                <span class="highlight">خصائص الأبناء (Flex Items):</span>
+                <br><span class="keyword">flex-grow</span> — هل العنصر ياخد مساحة أكتر لو فيه فراغ؟
+                <br><span class="keyword">flex-shrink</span> — هل العنصر يصغر لو المساحة مش كفاية؟
+                <br><span class="keyword">flex-basis</span> — الحجم الأساسي للعنصر.
+                <span class="pause">[وقفة]</span>
+                والـ shorthand بتاعهم: <span class="english">flex: 1</span> — يعني "خد المساحة المتاحة وقسمها بالتساوي".
+                ده بنستخدمه كل يوم في الشغل!
+            </div>
+            <div class="action">اعرض مثال عملي — 3 عناصر بـ justify-content: space-between ووضح التوزيع المتساوي. وبعدها
+                اعرض flex-direction: column</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 7. Grid -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="grid">
+            <div class="section-title"><span class="section-number">07</span>CSS Grid — الشبكة ثنائية الأبعاد</div>
+            <div class="script-text">
+                لو Flexbox شغالة في بُعد واحد — <span class="keyword">CSS Grid</span> بتشتغل في <span
+                    class="highlight">بُعدين!</span> يعني صفوف وأعمدة مع بعض.
+                <span class="pause">[وقفة]</span>
+                فكر فيها كده: Flexbox زي خط إنتاج — كل حاجة ورا بعض. Grid زي جدول Excel — عندك صفوف وأعمدة وبتحط
+                العناصر في أي خانة عايزها.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">إزاي تشتغل:</span>
+                <br><br>
+                أولاً: حط <span class="english">display: grid</span> على الأب.
+                <br>ثانياً: حدد الأعمدة بـ <span class="english">grid-template-columns</span>.
+                <br>مثلاً: <span class="english">grid-template-columns: 1fr 1fr 1fr</span> — ده بيعمل 3 أعمدة متساوية.
+                <br>الـ <span class="keyword">fr</span> وحدة جديدة — معناها "كسر من المساحة المتاحة". يعني 1fr 2fr 1fr
+                هيعمل 3 أعمدة — التاني ضعف حجم الأول والتالت.
+                <span class="pause">[وقفة]</span>
+                وفيه <span class="english">grid-template-rows</span> — نفس الفكرة بس للصفوف.
+                <br>و <span class="english">gap</span> للمسافات بين الخانات.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">الجميل في Grid:</span>
+                <br>تقدر تحدد لكل عنصر مكانه بالظبط بـ <span class="english">grid-column</span> و
+                <span class="english">grid-row</span>. يعني تقوله: "أنت ابدأ من العمود 1 وخلص عند العمود 3"
+                = العنصر هياخد عمودين!
+                <br>وفيه <span class="english">grid-template-areas</span> — ودي طريقة بصرية تكتب فيها الـ layout
+                بالكلمات!
+                زي كده:
+                <br><span class="english">"header header header"</span>
+                <br><span class="english">"sidebar main main"</span>
+                <br><span class="english">"footer footer footer"</span>
+                <span class="pause">[وقفة]</span>
+                ده أسهل وأوضح طريقة لتصميم layout صفحة كاملة!
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">السؤال المهم: أستخدم Flexbox ولا Grid؟</span>
+                <br><span class="highlight">القاعدة:</span> Grid للـ layout الكبير (الصفحة نفسها — header, sidebar,
+                main,
+                footer). Flexbox للتفاصيل جوه كل خانة (توزيع أزرار، عناصر navbar).
+                <br>في الواقع، بتستخدم الاتنين مع بعض!
+            </div>
+            <div class="action">اعرض مثال Grid layout لصفحة كاملة — header/sidebar/main/footer — واعرض الكود والنتيجة
+                جنب
+                بعض</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 8. Responsive Design -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="responsive">
+            <div class="section-title"><span class="section-number">08</span>Responsive Design — التصميم المتجاوب</div>
+            <div class="script-text">
+                دلوقتي نيجي لموضوع مهم جداً في عالم الويب: <span class="keyword">Responsive Design</span> — يعني التصميم
+                اللي بيشتغل كويس على <span class="highlight">كل الشاشات</span>: موبايل، تابلت، لابتوب، شاشة كبيرة.
+                <span class="pause">[وقفة]</span>
+                زمان كان الموقع بيتعمل لشاشة الكمبيوتر بس. لو فتحته على الموبايل — يبقى مبهدل. النهارده <span
+                    class="keyword">أكتر من 60% من زيارات الويب من الموبايل!</span> يعني لو الموقع بتاعك مش responsive،
+                خسرت أكتر من نص الزوار.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">الأداة الأساسية هنا:</span> <span class="keyword">Media Queries</span>
+                <br>ده بيقول للـ CSS: "لو الشاشة أكبر/أصغر من حجم معين → طبّق الـ styles دي."
+                <br>يعني بتحط شروط!
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">أهم المقاسات (Breakpoints):</span>
+                <br>- <span class="english">max-width: 480px</span> — موبايل صغير
+                <br>- <span class="english">max-width: 768px</span> — تابلت
+                <br>- <span class="english">min-width: 1024px</span> — لابتوب وديسكتوب
+                <span class="pause">[وقفة]</span>
+
+                بس في <span class="keyword">Mobile-First</span> approach — وده الطريقة الصح — بتبدأ بتصميم الموبايل
+                الأول (الافتراضي). وبعدين بتضيف <span class="english">@media (min-width)</span> عشان الشاشات الأكبر.
+                <br>ليه؟ لأن الموبايل هو الأصعب في التصميم. لما تبدأ بيه وتكبّر — بيبقى أسهل. بس لو بدأت بالشاشة
+                الكبيرة وصغرت — هيبقى كوابيس.
+                <span class="pause">[وقفة]</span>
+
+                وكمان فيه وحدات مهمة جداً في Responsive:
+                <br><span class="keyword">%</span> — نسبة من الأب.
+                <br><span class="keyword">vw / vh</span> — نسبة من عرض/ارتفاع الشاشة. <span class="english">100vw</span>
+                = عرض الشاشة كلها.
+                <br><span class="keyword">rem</span> — نسبة من حجم الخط الأساسي (root font-size). <span
+                    class="english">1rem</span> = 16px غالباً.
+                <br>استخدم rem للنصوص عشان لو المستخدم كبّر الخط — كل حاجة تكبر معاه.
+            </div>
+            <div class="action">اعرض مثال كارد بيتغير بين Mobile / Tablet / Desktop — 3 أحجام شاشة جنب بعض</div>
+            <div class="note">خليهم يستخدموا DevTools في Chrome (F12 → Toggle Device Toolbar) عشان يجربوا أحجام شاشة
+                مختلفة — ده أسهل من resize the window.</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 9. Animations & Transitions -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="animations">
+            <div class="section-title"><span class="section-number">09</span>Animations & Transitions — خلي الصفحة تتنفس
+            </div>
+            <div class="script-text">
+                دلوقتي نيجي لجزء ممتع أوي: <span class="keyword">الحركة!</span> مفيش موقع محترف في 2026 من غير
+                حركات وتأثيرات بصرية.
+                <span class="pause">[وقفة]</span>
+                فيه طريقتين للحركة في CSS:
+                <br><br>
+                <span class="keyword">أولاً: Transition</span> — ودي حركة بسيطة من <span class="highlight">حالة
+                    لحالة</span>. يعني لازم يحصل trigger — زي hover (لما الماوس يقف فوق العنصر).
+                <br>بتقول للعنصر: "لما حد يحط الماوس فوقك — غيّر لونك، أو حجمك، أو أي خاصية — بس غيرها <span
+                    class="highlight">بسلاسة</span> مش مرة واحدة."
+                <span class="pause">[وقفة]</span>
+                مثال: زرار لما بتحط الماوس فوقه بيكبر شوية وبيظل عليه. ده بـ <span class="english">transition: all 0.3s
+                    ease</span>. يعني كل الخصائص تتغير في 0.3 ثانية بحركة ناعمة.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">ثانياً: @keyframes</span> — ودي حركة <span class="highlight">مستمرة ومعقدة</span>.
+                مش محتاجة trigger — بتشتغل لوحدها! وتقدر تحدد فيها كذا خطوة.
+                <br>يعني تقول: "عند 0% من الحركة اعمل كذا، عند 50% اعمل كذا، عند 100% ارجع لمكانك."
+                <span class="pause">[وقفة]</span>
+                مثال: كرة بتنطط فوق وتحت. من غير ما حد يدوس على حاجة — شغالة لوحدها <span
+                    class="english">infinite</span>.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">الفرق ببساطة:</span>
+                <br><span class="keyword">transition</span> = حركة بسيطة، من A لـ B، لازم trigger.
+                <br><span class="keyword">@keyframes</span> = حركة معقدة، كذا خطوة، بتشتغل لوحدها.
+                <span class="pause">[وقفة]</span>
+
+                <span class="keyword">نصيحة مهمة:</span> متبالغش في الحركات! موقع مليان animations بيبقى مهرجان ومزعج.
+                استخدم الحركات <span class="highlight">بذكاء</span> — عشان تلفت نظر المستخدم لحاجة مهمة أو تخلي التجربة
+                مريحة. مش عشان تستعرض.
+            </div>
+            <div class="action">اعرض مثال الـ hover button وبعدها مثال الكرة اللي بتنطط بـ @keyframes — خلي الطلاب
+                يشوفوا
+                الفرق عملي</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 10. CSS Variables & Modern CSS -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="variables">
+            <div class="section-title"><span class="section-number">10</span>CSS Variables & Modern CSS</div>
+            <div class="script-text">
+                آخر قسم النهارده — وده قسم مهم أوي عشان بيوديك من مستوى مبتدئ لـ <span class="keyword">مستوى
+                    احترافي</span>.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">CSS Variables (Custom Properties):</span>
+                <br>الفكرة ببساطة: بتحفظ قيم في متغيرات وتستخدمها في كل مكان. بدل ما تكتب نفس اللون 50 مرة — تكتبه مرة
+                واحدة في متغير وتستخدمه بالاسم.
+                <span class="pause">[وقفة]</span>
+                إزاي؟ بتحطهم في <span class="english">:root</span> (ده معناه الصفحة كلها):
+                <br><span class="english">:root { --primary: #8B5CF6; --radius: 12px; }</span>
+                <br>وبعدين تستخدمهم بـ <span class="english">var()</span>:
+                <br><span class="english">background: var(--primary);</span>
+                <span class="pause">[وقفة]</span>
+                <span class="highlight">الجميل:</span> لو غيرت <span class="english">--primary</span> في مكان واحد —
+                <span class="keyword">كل حاجة بتستخدمه هتتغير تلقائياً!</span> يعني عايز تغير لون البراند بتاعك من
+                بنفسجي
+                لأزرق؟ سطر واحد بس.
+                <span class="pause">[وقفة]</span>
+                ده بالظبط اللي كل Design System محترف بيعمله. شركات زي Google و Apple بتستخدم نفس المبدأ.
+                <span class="pause">[وقفة — وقفة طويلة]</span>
+
+                <span class="highlight">Gradients:</span>
+                <br><span class="english">linear-gradient()</span> — بيعمل تدرج لوني. زي <span
+                    class="english">linear-gradient(135deg,
+                    #667eea, #764ba2)</span>. ده بيخلي الخلفية بتتدرج من لون للون تاني — حاجة جميلة أوي!
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">Glassmorphism:</span>
+                <br>ده أحدث trend في التصميم. الفكرة: خلفية شفافة + <span class="english">backdrop-filter: blur()</span>
+                +
+                border خفيف = كأنك بتبص من ورا زُجاج مطفي!
+                <br>كل المواقع الحديثة بتستخدمه — وده بالظبط اللي إحنا مستخدمينه في الـ Presentation بتاعتنا!
+                <span class="pause">[وقفة]</span>
+                عشان كده لو عايز تعمل portfolio أو موقع شخصي — <span class="keyword">Glassmorphism + Gradient + CSS
+                    Variables</span> = موقع شكله 2026 ومحترف!
+            </div>
+            <div class="action">اعرض مثال CSS Variables وبعدها مثال Glassmorphism — خلي الطلاب يشوفوا إزاي السحر بيحصل
+                بكود بسيط</div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- الخاتمة -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="section" id="closing">
+            <div class="section-title">الخاتمة والكويز</div>
+            <div class="script-text">
+                كده إحنا خلصنا المحاضرة التالتة — وكانت محاضرة دسمة ومليانة!
+                <span class="pause">[وقفة]</span>
+                خلينا نلخص اللي اتعلمناه النهارده:
+                <br><br>
+                ✅ <span class="highlight">ليه CSS مهمة</span> والـ 3 طرق لكتابتها (Inline / Internal / External).
+                <br>✅ <span class="highlight">الـ Selectors</span>: Element, Class, ID, والـ Specificity.
+                <br>✅ <span class="highlight">الـ Box Model</span>: Content, Padding, Border, Margin, و border-box.
+                <br>✅ <span class="highlight">Typography & Colors</span>: الخطوط وطرق كتابة الألوان.
+                <br>✅ <span class="highlight">Display & Position</span>: block, inline, inline-block, relative,
+                absolute, fixed.
+                <br>✅ <span class="highlight">Flexbox</span>: التوزيع المرن في بُعد واحد.
+                <br>✅ <span class="highlight">CSS Grid</span>: التوزيع في بُعدين.
+                <br>✅ <span class="highlight">Responsive Design</span>: Media Queries و Mobile-First.
+                <br>✅ <span class="highlight">Animations</span>: Transition و @keyframes.
+                <br>✅ <span class="highlight">CSS Variables</span>: Custom Properties و Gradients و Glassmorphism.
+                <span class="pause">[وقفة]</span>
+
+                في الـ Presentation فيه <span class="keyword">كويز من 10 أسئلة</span> — اختبر نفسك وشوف فهمت قد إيه. كل
+                سؤال عليه إجابة تفصيلية عشان تفهم أكتر.
+                <span class="pause">[وقفة]</span>
+
+                <span class="highlight">نصيحة أخيرة:</span> CSS مش حاجة بتتحفظ — <span class="keyword">CSS بتتفهم
+                    وبتتمرن
+                    عليها.</span> أحسن طريقة تتعلمها: افتح أي موقع، افتح الـ DevTools (F12)، وابدأ غير في الـ CSS وشوف
+                إيه
+                اللي بيحصل. التجربة خير معلم!
+                <span class="pause">[وقفة]</span>
+
+                المحاضرة الجاية إن شاء الله هنتكلم عن <span class="highlight">JavaScript</span> — وهنبدأ نخلي الصفحات
+                بتاعتنا تتحرك وتتفاعل مع المستخدم.
+                <br><br>
+                شكراً لمتابعتكم، وإلى اللقاء في المحاضرة الجاية إن شاء الله.
+                <br>السلام عليكم ورحمة الله وبركاته.
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
